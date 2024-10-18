@@ -25,6 +25,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                     .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                             .requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("api/auth/forgot-password/**").permitAll()
+                            .requestMatchers("api/in/products/addProduct").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/getProducts").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/getProduct/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/deleteProduct").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/updateProduct").hasAuthority("ADMIN")
                             .anyRequest().authenticated()  // Orice alt request trebuie autentificat
                     )
                     .sessionManagement(sessionManagement ->
