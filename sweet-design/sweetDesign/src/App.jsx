@@ -1,24 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css'
-import Home from './pages/homePage';
-{/*import HomeAdmin from './pages/adminPage/index.jsx';*/}
-
-import SignIn from "./pages/loginPage/index.jsx";
-import Register from "./pages/registerPage/index.jsx";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./pages/homePage/index";
+import SignIn from "./pages/loginPage/index";
+import Register from "./pages/registerPage/index";
+import VerificationOtp from "./pages/verificationOtp/index";
 
 const App = () => {
     return (
-        <Router >
+        <Router>
             <Routes>
+                {/*<Route path='/PatientMainPage' element={<PatientRoute><PatientMainPage/></PatientRoute>}/><Route path='/PatientMainPage' element={<PatientRoute><PatientMainPage/></PatientRoute>}/>*/}
                 <Route path="/" element={<Home />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/verify-otp" element={<VerificationOtp />} />
             </Routes>
         </Router>
     );
 };
 
-export default App
+export default App;
