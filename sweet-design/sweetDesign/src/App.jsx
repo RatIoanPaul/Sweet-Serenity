@@ -13,11 +13,13 @@ import Services from "./pages/servicesPage/index.jsx";
 import Tasting from "./pages/tastingsPage/index.jsx";
 import Events from "./pages/eventsPage/index.jsx";
 import CheckoutPage from "./pages/checkoutPage/index.jsx";
+import VerificationOtp from "./pages/verificationOtp/index";
 
 const App = () => {
     return (
-        <Router >
+        <Router>
             <Routes>
+                {/*<Route path='/PatientMainPage' element={<PatientRoute><PatientMainPage/></PatientRoute>}/><Route path='/PatientMainPage' element={<PatientRoute><PatientMainPage/></PatientRoute>}/>*/}
                 <Route path="/" element={<Home />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/register" element={<Register />} />
@@ -26,10 +28,10 @@ const App = () => {
                 <Route path="/tastings" element={<Tasting />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/cart" element={<CheckoutPage />} />
-
+                <Route path="/verify-otp" element={<VerificationOtp />} />
             </Routes>
         </Router>
     );
 };
 
-export default App
+export default App;
