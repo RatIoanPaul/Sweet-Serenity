@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.css';
 import Navbar from '../../components/navbar/index.jsx';
+
 import i1 from './elegance.jpeg';
 import i2 from './diversity.jpeg';
 import i3 from './quality.jpeg';
@@ -19,7 +20,24 @@ import st5 from './star5.jpeg';
 import f from './facebook.png';
 import i from './instagram.png';
 import y from './youtube.png';
+import {isTokenValid, parseJwt} from "../../utils/authService.jsx";
 
+
+
+const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+    return token && isTokenValid(token);
+};
+
+const getUserRole = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        const decodedToken = parseJwt(token);
+        return decodedToken.role;
+    }
+    return null;
+};
+const userRole=getUserRole();
 const Home = () => {
     return (
         <>
@@ -47,7 +65,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
             <div className="history-section">
                 <h2 className="history-title">Our history</h2>
                 <div className="history-content">
@@ -141,7 +158,13 @@ const Home = () => {
                     <a href="#"><img src={y} alt="YouTube"/></a>
                 </div>
             </footer>
+            {(userRole === "CUSTOMER") && (
+                <div id="options-section">
+                    <p>Salut!</p>
+                </div>
+            )}
         </>
+
     );
 };
 
