@@ -21,9 +21,9 @@ const Navbar = () => {
 
             <div className="navbar-bottom">
                 <ul className="nav-links">
-                    <li className="nav-item active"><a href="#">Home</a></li>
-                    <li className="nav-item"><a href="#">Shop</a></li>
-                    <li className="nav-item"><a href="#">Services</a></li>
+                    <li className="nav-item active"><a href="/">Home</a></li>
+                    <li className="nav-item"><a href="/shop">Shop</a></li>
+                    <li className="nav-item"><a href="/services">Services</a></li>
                 </ul>
             </div>
         </nav>
