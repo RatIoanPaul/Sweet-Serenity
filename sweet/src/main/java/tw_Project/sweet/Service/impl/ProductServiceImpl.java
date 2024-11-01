@@ -1,11 +1,11 @@
 package tw_Project.sweet.Service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tw_Project.sweet.Dto.ProductDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.Product;
-import tw_Project.sweet.Model.ProductCategory;
+import tw_Project.sweet.Model.enums.ProductCategory;
+import tw_Project.sweet.Model.enums.ProductStatus;
 import tw_Project.sweet.Repository.ProductRepository;
 import tw_Project.sweet.Service.ProductService;
 
@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(productDto.getPrice());
         product.setName(productDto.getName());
         product.setIngredients(productDto.getIngredients());
+        product.setProductStatus(ProductStatus.ACTIVE);
         productRepository.save(product);
     }
 
