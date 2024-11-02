@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tw_Project.sweet.Model.enums.ProductCategory;
+import tw_Project.sweet.Model.enums.ProductStatus;
+import tw_Project.sweet.Model.enums.ProductType;
 
 @Entity
 @Table (name ="products")
@@ -24,4 +27,11 @@ public class Product {
     private Double price;
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus productStatus;
+
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
+
 }

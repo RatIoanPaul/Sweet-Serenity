@@ -25,6 +25,7 @@ const App = () => {
     return (
         <Router>
             <Routes>
+
                 {/*<Route path='/PatientMainPage' element={<PatientRoute><PatientMainPage/></PatientRoute>}/><Route path='/PatientMainPage' element={<PatientRoute><PatientMainPage/></PatientRoute>}/>*/}
                 <Route path="/" element={<Home />} />
                 <Route path="/signin" element={<SignIn />} />
@@ -41,7 +42,6 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/sendOrder" element={<SendOrder />} />
                 <Route path="/sendPreorder" element={<SendPreorder />} />
-
 
 
             </Routes>

@@ -1,5 +1,4 @@
 package tw_Project.sweet.Service.impl;
-
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,8 @@ import tw_Project.sweet.Service.LoginRegisterService;
 import tw_Project.sweet.Service.VerificationService;
 import tw_Project.sweet.config.JwtService;
 import tw_Project.sweet.utils.AuthenticationResponse;
-import tw_Project.sweet.Model.UserRole;
+import tw_Project.sweet.Model.enums.UserRole;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -106,5 +102,4 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
                 .token(jwtToken)
                 .build();
     }
-
 }
