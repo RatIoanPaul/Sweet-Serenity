@@ -1,0 +1,88 @@
+.order-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../../images/background.png');
+    background-size: cover;
+    background-position: center;
+    margin-top: 0;
+}
+
+.order-form-box {
+    background-color: rgba(255, 228, 196, 0.95);
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 530px;
+    padding: 40px;
+    margin: 20px auto;
+    border: 2px solid #fdc18b;
+}
+
+.order-form-header {
+    font-family: 'Pacifico', cursive;
+    font-size: 30px;
+    color: #ebaa6c;
+    margin-bottom: 20px;
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-form div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.order-form label {
+    font-size: 20px;
+    color: #ebaa6c;
+    font-weight: bold;
+}
+
+.order-form select,
+.order-form input {
+    padding: 10px;
+    border: 1px solid #ebaa6c;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    color: #8a4d15;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.order-delivery-cost {
+    font-size: 20px;
+    color: #ebaa6c;
+    text-align: left;
+}
+
+.order-address-display {
+    font-size: 20px;
+    color: #ebaa6c;
+    text-align: left;
+}
+
+.order-submit-button {
+    background-color: #f4a460;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 250px;
+    margin: 20px auto 0;
+    display: block;
+}
+
+.order-submit-button:hover {
+    background-color: #d2691e;
+}

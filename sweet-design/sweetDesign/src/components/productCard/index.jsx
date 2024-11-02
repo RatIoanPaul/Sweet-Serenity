@@ -1,6 +1,6 @@
 import React from 'react';
 import './styleProduct.css';
-
+/*aceasta componenta reprezinta fiecare produs disponibil*/
 const ProductCard = ({ image, price, name, ingredients, onClick }) => {
     return (
         <div className="product-card" onClick={onClick}>

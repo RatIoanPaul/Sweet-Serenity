@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import './styles.css';
-import cakeImage from './cake-image.jpeg';
-import cupcakeImage from './cupcake-image.jpeg';
-import cookieImage from './cookie-image.jpeg';
-import sweetsImage from './sweets-image.jpeg';
-import NavbarCart from '../../components/navbar-cart/index.jsx';
+import cakeImage from '../../images/cake-image.jpeg';
+import cupcakeImage from '../../images/cupcake-image.jpeg';
+import cookieImage from '../../images/cookie-image.jpeg';
+import sweetsImage from '../../images/sweets-image.jpeg';
+import Navbar from "../../components/navbar/index.jsx";
 import ProductCard from "../../components/productCard/index.jsx";
 import DescriptionCard from "../../components/descriptionCard/index.jsx";
 
 const allProducts = {
-    cakes: [
-        { name: 'Chocolate Cake', imgSrc: cakeImage, price: '$10', ingredients: 'Chocolate, Flour, Sugar', description: 'Delicious chocolate cake with rich flavor' },
-        { name: 'Vanilla Cake', imgSrc: cakeImage, price: '$12', ingredients: 'Vanilla, Flour, Sugar', description: 'Classic vanilla cake with a soft texture' },
-    ],
     cupcakes: [
         { name: 'Red Velvet Cupcake', imgSrc: cupcakeImage, price: '$5', ingredients: 'Cocoa, Sugar, Butter', description: 'Moist red velvet cupcakes with cream cheese frosting' },
         { name: 'Chocolate Cupcake', imgSrc: cupcakeImage, price: '$6', ingredients: 'Chocolate, Sugar, Flour', description: 'Rich chocolate cupcakes with a smooth texture' },
@@ -32,7 +28,6 @@ const Shop = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const categories = [
-        { name: 'Cakes', value: 'cakes', imgSrc: cakeImage },
         { name: 'Cupcakes', value: 'cupcakes', imgSrc: cupcakeImage },
         { name: 'Cookies', value: 'cookies', imgSrc: cookieImage },
         { name: 'Sweets', value: 'sweets', imgSrc: sweetsImage }
@@ -49,8 +44,13 @@ const Shop = () => {
 
     return (
         <>
-            <NavbarCart />
+            <Navbar/>
+            <div className="delivery-notice">
+                <p>All products are delivered within 24 hours. If you'd like a different delivery date, please place
+                    a preorder.</p>
+            </div>
             <div className="shop-layout">
+
                 {currentCategory && (
                     <div className="shop-sidebar">
                         {categories.map((category, index) => (
@@ -69,7 +69,7 @@ const Shop = () => {
                             {categories.map((category, index) => (
                                 <div className="shop-item" key={index}>
                                     <button className="shop-button" onClick={() => handleCategoryClick(category.value)}>
-                                        <img src={category.imgSrc} alt={category.name} className="shop-image" />
+                                        <img src={category.imgSrc} alt={category.name} className="shop-image"/>
                                         <div className="shop-caption">{category.name}</div>
                                     </button>
                                 </div>

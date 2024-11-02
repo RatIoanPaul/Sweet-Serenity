@@ -88,3 +88,54 @@ body {
     background-color: #ebaa6c;
     color: #fff;
 }
+.description-card-preorder-btn {
+    background-color: #fdf0e1;
+    border: 2px solid #ebaa6c;
+    border-radius: 5px;
+    color: #ebaa6c;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.description-card-preorder-btn:hover {
+    background-color: #ebaa6c;
+    color: #fff;
+}
+
+.description-card-add-to-cart-btn:hover {
+    background-color: #ebaa6c;
+    color: #fff;
+}
+.description-card-preorder-btn {
+    background-color: #fdf0e1;
+    border: 2px solid #ebaa6c;
+    border-radius: 5px;
+    color: #ebaa6c;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.description-card-preorder-btn:hover {
+    background-color: #ebaa6c;
+    color: #fff;
+}
+
+.description-card-book-event-btn {
+    background-color: #fdf0e1;
+    border: 2px solid #ebaa6c;
+    border-radius: 5px;
+    color: #ebaa6c;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.description-card-book-event-btn:hover {
+    background-color: #ebaa6c;
+    color: #fff;
+}

@@ -1,0 +1,170 @@
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    background: #f8ecde;
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Pacifico', cursive;
+}
+
+.cart-notification {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cart-notification img {
+    width: 30px;
+    height: 30px;
+}
+
+.cart-notification:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+.logo {
+    color: #ebaa6c;
+    font-family: 'Pacifico', cursive;
+    font-size: 30px;
+    white-space: nowrap;
+}
+
+.user-actions {
+    display: flex;
+    gap: 3px;
+    margin-left: auto;
+}
+
+
+button {
+    padding: 8px 15px;
+    font-size: 14px;
+    border: 2px solid #ebaa6c;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Pacifico', cursive;
+}
+
+.sign-in {
+    background-color: #fae7fd;
+    color: #ebaa6c;
+    width: 100px;
+    height: 40px;
+}
+
+.sign-in:hover {
+    background-color: #fad7d4;
+    color: white;
+
+}
+
+.register {
+    background-color: #fae7fd;
+    color: #ebaa6c;
+    width: 100px;
+    height: 40px;
+}
+
+.register:hover {
+    background-color:  #fad7d4;
+    color: white;
+}
+
+.navbar-bottom {
+    display: flex;
+    background-color: transparent;
+    padding: 0px 0;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-item {
+    margin: 0 0px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: #ebaa6c;
+    font-weight: bold;
+    font-size: 22px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 5px 20px;
+    border-radius: 5px;
+}
+
+.nav-item a:hover {
+    color: #6c3e23;
+}
+
+.command-list {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.command-list img {
+    width: 33px;
+    height: 33px;
+}
+
+.command-list:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.favourites {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.favourites img {
+    width: 29px;
+    height: 29px;
+}
+
+.favourites:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.profile {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile img {
+    width: 29px;
+    height: 29px;
+}
+
+.profile:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}

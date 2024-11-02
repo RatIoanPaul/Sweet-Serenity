@@ -53,7 +53,7 @@ body {
 }
 
 .shop-grid {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
     padding: 20px;
@@ -84,57 +84,14 @@ body {
     width: 100%;
 }
 
-.product-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 220px;
-    background-color: #fff;
+.delivery-notice {
+    background-color: transparent;
     padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    margin: 20px auto;
     text-align: center;
+    font-size: 25px;
+    color: #e9a96b;
+    max-width: 800px;
+    border-radius: 5px;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-image-container {
-    position: relative;
-}
-
-.product-image {
-    width: 100%;
-    height: 155px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.product-price {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background-color: #ff7b7b;
-    color: white;
-    font-size: 14px;
-    padding: 5px 10px;
-    border-radius: 50%;
-}
-
-.product-info {
-    margin-top: 10px;
-}
-
-.product-name {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-.product-ingredients {
-    font-size: 12px;
-    color: #666;
-    margin-top: 5px;
-}
