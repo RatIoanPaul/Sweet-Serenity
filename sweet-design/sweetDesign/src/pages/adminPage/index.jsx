@@ -1,10 +1,10 @@
 import React from 'react';
 import './styles.css';
-import cakeImage from './cake-image.jpeg';
-import cupcakeImage from './cupcake-image.jpeg';
-import cookieImage from './cookie-image.jpeg';
-import sweetsImage from './sweets-image.jpeg';
-import NavbarAdmin from '../../components/navbar-admin/index.jsx';
+import cakeImage from '../../images/cake-image.jpeg';
+import cupcakeImage from '../../images/cupcake-image.jpeg';
+import cookieImage from '../../images/cookie-image.jpeg';
+import sweetsImage from '../../images/sweets-image.jpeg';
+import Navbar from "../../components/navbar/index.jsx";
 
 const HomeAdmin = () => {
     const items = [
@@ -20,7 +20,7 @@ const HomeAdmin = () => {
 
     return (
         <>
-            <NavbarAdmin />
+            <Navbar />
             <div className="home-admin-container">
                 <div className="grid-container">
                     {items.map((item, index) => (

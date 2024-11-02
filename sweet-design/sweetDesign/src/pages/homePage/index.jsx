@@ -1,27 +1,17 @@
 import React from 'react';
 import './styles.css';
 import Navbar from '../../components/navbar/index.jsx';
-
-import i1 from './elegance.jpeg';
-import i2 from './diversity.jpeg';
-import i3 from './quality.jpeg';
-
-import h1 from './h1.jpeg';
-import h2 from './h2.jpeg';
-import h3 from './h3.jpeg';
-import h4 from './h4.jpeg';
-
-import st1 from './star1.jpeg';
-import st2 from './star2.jpeg';
-import st3 from './star3.jpeg';
-import st4 from './star4.jpeg';
-import st5 from './star5.jpeg';
-
-import f from './facebook.png';
-import i from './instagram.png';
-import y from './youtube.png';
+import { useNavigate } from 'react-router-dom';
+import h1 from '../../images/h1.jpeg';
+import h2 from '../../images/h2.jpeg';
+import h3 from '../../images/h3.jpeg';
+import h4 from '../../images/h4.jpeg';
+import shop from '../../images/shop.jpeg';
+import preorder from '../../images/preorder.jpeg';
+import f from '../../images/facebook.png';
+import i from '../../images/instagram.png';
 import {isTokenValid, parseJwt} from "../../utils/authService.jsx";
-
+import c from "../../images/calendar.png";
 
 
 const isAuthenticated = () => {
@@ -39,32 +29,18 @@ const getUserRole = () => {
 };
 const userRole=getUserRole();
 const Home = () => {
+    const navigate = useNavigate();
     return (
         <>
             <Navbar/>
-
-            <div className="hero-section">
-                <h1 className="hero-title">Indulge in the Art of Sweetness</h1>
-                <p className="hero-text">
+            <div className="home-section"><h1 className="hero-title">Indulge in the Art of Sweetness</h1>
+                <div className="welcome"><p className="hero-text">
                     Welcome to our bakery, where passion meets pastry! We create delightful treats using the finest
                     ingredients and innovative techniques, all while upholding our commitment to quality and
                     sustainability. Savor the love in every bite and celebrate the art of baking with us!
-                </p>
-                <div className="hero-images">
-                    <div className="image-container">
-                        <img src={i1} alt="Elegance"/>
-                        <p className="writing">elegance</p>
-                    </div>
-                    <div className="image-container">
-                        <img src={i2} alt="Diversity"/>
-                        <p className="writing">diversity</p>
-                    </div>
-                    <div className="image-container">
-                        <img src={i3} alt="Quality"/>
-                        <p className="writing">quality</p>
-                    </div>
-                </div>
+                </p></div>
             </div>
+
             <div className="history-section">
                 <h2 className="history-title">Our history</h2>
                 <div className="history-content">
@@ -124,28 +100,23 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="most-wanted-section">
-                <h2 className="wanted-title">Our most wanted</h2>
-                <div className="product-gallery">
-                    <div className="product-item">
-                        <img src={st1} alt="Product 1"/>
-                        <div className="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div className="product-item">
-                        <img src={st2} alt="Product 2"/>
-                        <div className="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div className="product-item">
-                        <img src={st3} alt="Product 3"/>
-                        <div className="stars">⭐⭐⭐⭐</div>
-                    </div>
-                    <div className="product-item">
-                        <img src={st4} alt="Product 4"/>
-                        <div className="stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div className="product-item">
-                        <img src={st5} alt="Product 5"/>
-                        <div className="stars">⭐⭐⭐⭐⭐</div>
+            <div className="hero-section">
+                <div className="most-wanted-section">
+                    <h2 className="wanted-title">Here you can ... </h2>
+                    <div className="product-gallery">
+                        <div className="product-item" onClick={() => navigate('/shop')}>
+                            <img src={shop} alt="Product 1"/>
+                            <div className="stars">shop the desired sweets now</div>
+                        </div>
+                        <div className="product-item" onClick={() => navigate('/command')}>
+                            <img src={preorder} alt="Product 2"/>
+                            <div className="stars">preorder the products for a specific day in the future</div>
+                        </div>
+                        <div className="product-item" onClick={() => navigate('/events')}>
+                            <img src={c} alt="Product 1"/>
+                            <div className="stars">organize your event</div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -155,17 +126,19 @@ const Home = () => {
                 <div className="social-icons">
                     <a href="#"><img src={f} alt="Facebook"/></a>
                     <a href="#"><img src={i} alt="Instagram"/></a>
-                    <a href="#"><img src={y} alt="YouTube"/></a>
-                </div>
-            </footer>
-            {(userRole === "CUSTOMER") && (
-                <div id="options-section">
-                    <p>Salut!</p>
-                </div>
-            )}
-        </>
+                    </div>
+                    <div className="footer-details">
+                        <p>Visit us or follow us on social media for the latest updates!</p>
+                    </div>
+                </footer>
+                {(userRole === "CUSTOMER") && (
+                    <div id="options-section">
+                        <p>Salut!</p>
+                    </div>
+                )}
+            </>
 
-    );
-};
+            );
+            };
 
-export default Home;
+            export default Home;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styless.css';
-import NavbarLogin from "../../components/navbar-login/index.jsx";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -42,14 +41,16 @@ const Register = () => {
                 password: formData.password,
                 dob: formData.birthdate
             });
+            console.log('Response data:', response.data);
 
-            if (response.data.success) {
-                setSuccessMessage("Registration initiated! Please check your email for the OTP.");
+            if (response.status===200) {
                 navigate('/verify-otp', { state: { email: formData.email, name: formData.name, password: formData.password, dob: formData.birthdate } });
             }
+
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
                 setErrorMessage(error.response.data.message);
+
             } else {
                 setErrorMessage("An error occurred. Please try again later.");
             }
@@ -58,7 +59,6 @@ const Register = () => {
 
     return (
         <>
-            <NavbarLogin />
             <div className="register-container">
                 <div className="register-box">
                     <h2 className="register-header">Register</h2>

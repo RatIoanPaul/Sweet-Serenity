@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './st.css';
-import NavbarLogin from "../../components/navbar-login/index.jsx";
 import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
@@ -35,7 +34,6 @@ const SignIn = () => {
 
     return (
         <>
-            <NavbarLogin />
             <div className="sign-in-container">
                 <div className="sign-in-box">
                     <h2 className="sign-in-header">Sign in</h2>
