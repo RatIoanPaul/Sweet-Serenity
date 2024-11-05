@@ -46,23 +46,4 @@ body {
     margin-right: 40px;
 }
 
-.checkout-products {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 60vh; /* Ajustează această valoare pentru centrul vertical */
-}
-
-.no-items-message {
-    text-align: center;
-    color: #333; /* Ajustează culoarea textului */
-    font-size: 1.5em; /* Dimensiunea textului */
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
-}
-
-
 

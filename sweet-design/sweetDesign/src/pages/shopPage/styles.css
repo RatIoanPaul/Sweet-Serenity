@@ -95,28 +95,3 @@ body {
     border-radius: 5px;
 }
 
-.shop-main {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 400px; /* Înălțime minimă, ajustează în funcție de layout */
-}
-
-/* Containerul mesajului */
-.no-products-message-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #333;
-}
-
-.no-products-message {
-    font-size: 1.5em;
-    color: #333; /* Poți schimba culoarea */
-}
-
-
-
