@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import './styleDescription.css';
 import Popup from "../popUp/pop.jsx";
+import axios from 'axios';
 import { isTokenValid, parseJwt } from "../../utils/authService.jsx";
 
-/* aceasta componenta se afla pe paginile de comanda,
-* de precomanda si de evenimente pt a descrie produsele existente pe paginile respective si are
-* buton diferit in functie de pagina pe care se afla*/
 const isAuthenticated = () => {
     const token = localStorage.getItem('token');
     return token && isTokenValid(token);
@@ -21,7 +19,16 @@ const getUserRole = () => {
     return null;
 };
 
-const DescriptionCard = ({ image, productName, description, ingredients, allergy, price }) => {
+const getUserEmail = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        const decodedToken = parseJwt(token);
+        return decodedToken.email; // Presupunem că email-ul este stocat în token
+    }
+    return null;
+};
+
+const DescriptionCard = ({ image, productName, description, ingredients, allergy, price, productId }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const isCommandPage = location.pathname === '/command';
@@ -30,16 +37,33 @@ const DescriptionCard = ({ image, productName, description, ingredients, allergy
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const userRole = getUserRole();
+    const userEmail = getUserEmail();
+
+    const addToCart = async () => {
+        if (isAuthenticated() && userRole === 'CUSTOMER') {
+            try {
+                await axios.post('http://localhost:8080/api/in/user/cart/addProductToCart', {
+                    productId: productId,
+                    quantity: 1, // Cantitatea implicită este 1
+                    userEmail: userEmail
+                });
+                setPopupMessage("Product added to cart successfully!");
+            } catch (error) {
+                console.error("Error adding product to cart:", error);
+                setPopupMessage("Failed to add product to cart. Please try again.");
+            }
+            setIsPopupVisible(true);
+        } else {
+            setPopupMessage("Sign in to your account to add products to the cart!");
+            setIsPopupVisible(true);
+        }
+    };
 
     const handleButtonClick = (message, path) => {
-        if (isAuthenticated() && userRole === 'CUSTOMER') {
+        if (isCommandPage) {
             navigate(path);
-            {/*aici se va trimite o componenta productShow cu parametrii sai pe pagina corespunzatoare
-            paginii pe care se afla butonul; deci daca butonul se afla de ex pe pagina de comanda(shop),
-            componenta va fi trimisa pe pagina cosului*/}
         } else {
-            setPopupMessage(message);
-            setIsPopupVisible(true);
+            addToCart();
         }
     };
 
@@ -61,13 +85,13 @@ const DescriptionCard = ({ image, productName, description, ingredients, allergy
                 ) : isEventsPage ? (
                     <button
                         className="description-card-book-event-btn"
-                        onClick={() => handleButtonClick("Sing in to your account to add products to favourites!", "/favourites")}>
+                        onClick={() => handleButtonClick("Sign in to your account to add products to favourites!", "/favourites")}>
                         Add to favourites
                     </button>
                 ) : (
                     <button
                         className="description-card-add-to-cart-btn"
-                        onClick={() => handleButtonClick("Sign in to your account to add products to the cart!", "/cart")}>
+                        onClick={addToCart}>
                         Add to cart
                     </button>
                 )}
