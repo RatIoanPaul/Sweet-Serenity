@@ -8,6 +8,8 @@
     background-size: cover;
     background-position: center;
     margin-top: 0px;
+    color: #ebaa6c;
+    font-size: 20px;
 }
 
 .sign-in-box {
@@ -20,7 +22,7 @@
     padding: 40px;
     margin: 20px auto;
     border: 2px solid #fdc18b;
-    height: 320px;
+    height: 380px;
 }
 
 .app-title {
@@ -36,6 +38,7 @@
     font-size: 30px;
     color: #ebaa6c;
     margin-bottom: 20px;
+    margin-top: 5px;
 }
 
 
@@ -49,7 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
 }
 
 .sign-in-form label {
@@ -74,7 +77,7 @@
     background-color: #f4a460;
     color: white;
     font-size: 18px;
-    padding: 10px;
+    padding: 6px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -86,3 +89,21 @@
 .sign-in-button:hover {
     background-color: #d2691e;
 }
+
+.link-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password-link, .create {
+    color: #9f693c;
+    cursor: pointer;
+    font-size: 0.8em;
+
+}
+
+.forgot-password-link:hover, .create:hover {
+    color: #ebaa6c;
+}
+

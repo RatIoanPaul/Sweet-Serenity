@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 120vh;
     background-image: url('../../images/background.png');
     background-size: cover;
     background-position: center;
@@ -24,7 +24,7 @@
     font-family: 'Pacifico', sans-serif;
     font-size: 30px;
     color: #ebaa6c;
-    margin-bottom: 20px;
+    margin-bottom: 2px;
 }
 
 .send-preorder-form, .send-order-form, .other-form {
@@ -33,7 +33,9 @@
     gap: 15px;
 }
 
-.send-preorder-form div, .send-order-form div, .other-form div {
+.send-preorder-form > .form-group,
+.send-order-form > .form-group,
+.other-form > .form-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -55,15 +57,15 @@
     font-size: 16px;
     width: 100%;
     color: #8a4d15;
-    margin-top: 5px;
     box-sizing: border-box;
 }
 
 .delivery-cost, .address-display {
-    font-size: 20px;
+    font-size: 15px;
     color: #ebaa6c;
     text-align: left;
-
+    margin-bottom: 10px;
+    margin-top: 2px;
 }
 
 .send-preorder-button, .send-order-button, .other-form-button {
@@ -81,4 +83,30 @@
 
 .send-preorder-button:hover, .send-order-button:hover, .other-form-button:hover {
     background-color: #d2691e;
+}
+
+.date-restriction-message {
+    color: #ebaa6c;
+}
+
+.existing-addresses {
+    margin-top: 10px;
+}
+
+.address-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.address-option input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.address-label {
+    margin: 0;
+    font-size: 1em;
+    line-height: 1.5;
 }
