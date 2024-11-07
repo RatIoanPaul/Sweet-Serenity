@@ -20,7 +20,7 @@ const SignIn = () => {
                 password: password
             });
             // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
-            if (response.status===200) {
+            if (response.status === 200) {
                 localStorage.setItem('token', response.data.data.token);
                 navigate('/');
             } else {
@@ -62,8 +62,20 @@ const SignIn = () => {
                             />
                         </div>
 
+                        <div className="link-container">
+                            <p className="create" onClick={() => navigate('/register')}>
+                            I don't have an account.
+                        </p>
+                            <p className="forgot-password-link" onClick={() => navigate('/forgot-password')}>
+                                I forgot my password.
+                            </p>
+
+                        </div>
+
+
                         <button type="submit" className="sign-in-button">Sign in</button>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
+
                     </form>
                 </div>
             </div>

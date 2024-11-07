@@ -44,6 +44,7 @@ const VerificationOtp = () => {
             <div className="otp-verification-box">
                 <h2 className="otp-verification-header">Verify OTP</h2>
                 <p className="otp-instructions">Please enter the OTP sent to your email: {email}</p>
+                <p className="otp-instructions">The OTP code is valid for only 10 minutes.</p>
                 <input
                     type="text"
                     placeholder="Enter OTP"

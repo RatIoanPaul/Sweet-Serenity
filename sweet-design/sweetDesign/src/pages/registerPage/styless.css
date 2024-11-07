@@ -3,11 +3,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 120vh;
     background-image: url('../../images/background.png');
     background-size: cover;
     background-position: center;
     margin-top: 0px;
+    color: #ebaa6c;
 }
 
 .register-box {
@@ -20,7 +21,7 @@
     padding: 40px;
     margin: 20px auto;
     border: 2px solid #fdc18b;
-    height: 520px;
+    height: 600px;
 }
 
 .register-header {
@@ -28,12 +29,13 @@
     font-size: 30px;
     color: #ebaa6c;
     margin-bottom: 20px;
+    margin-top: 1px;
 }
 
 .register-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
 .register-form div {
@@ -76,3 +78,12 @@
 .register-button:hover {
     background-color: #d2691e;
 }
+
+.error-message {
+    color: #8a4d15;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+

@@ -96,3 +96,24 @@
     cursor: pointer;
     text-align: center;
 }
+
+.ps-notes {
+    margin-top: 10px;
+}
+
+.ps-notes label {
+    font-size: 24px;
+    color: #8a4d15;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.ps-notes textarea {
+    width: 800px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #f9e2d3;
+    resize: vertical;
+    height: 20px;
+}
+

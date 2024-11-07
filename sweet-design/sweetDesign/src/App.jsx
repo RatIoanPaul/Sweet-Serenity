@@ -1,11 +1,7 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
 import Home from './pages/homePage';
-{/*import HomeAdmin from './pages/adminPage/index.jsx';*/}
-
+import HomeAdmin from './pages/adminPage/index.jsx';
 import SignIn from "./pages/loginPage/index.jsx";
 import Register from "./pages/registerPage/index.jsx";
 import Shop from "./pages/shopPage/index.jsx";
@@ -42,6 +38,7 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/sendOrder" element={<SendOrder />} />
                 <Route path="/sendPreorder" element={<SendPreorder />} />
+                <Route path="/admin" element={<HomeAdmin />} />
 
 
             </Routes>

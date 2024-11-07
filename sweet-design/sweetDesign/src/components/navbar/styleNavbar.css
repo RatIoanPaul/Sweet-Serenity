@@ -26,6 +26,7 @@
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
 }
+
 .logo {
     color: #ebaa6c;
     font-family: 'Pacifico', cursive;
@@ -168,3 +169,21 @@ button {
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
 }
+
+.notification {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+}
+
+.notification:hover {
+    transform: scale(1.1);
+}
+
+.notification img {
+    width: 40px;
+    height: 40px;
+}
+

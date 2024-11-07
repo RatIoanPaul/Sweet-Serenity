@@ -8,20 +8,39 @@ const SendPreorder = () => {
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [preorderDate, setPreorderDate] = useState("");
     const [addressType, setAddressType] = useState("existing");
-    const [existingAddress, setExistingAddress] = useState("123 Main St, City, Country");
+    const [selectedAddress, setSelectedAddress] = useState("");
     const [newAddress, setNewAddress] = useState("");
+
+    const navigate = useNavigate();
+
+    const existingAddresses = [
+        "Timisoara",
+        "Arad",
+        "Honolulu"
+    ];
 
     const handleDeliveryMethodChange = (event) => {
         const method = event.target.value;
         setDeliveryMethod(method);
         setDeliveryCost(method === "delivery" ? 10 : 0);
     };
-    const navigate = useNavigate();
+
+    const handleAddressSelect = (address) => {
+        setSelectedAddress(address);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert("Preorder submitted!");
+        alert(`Preorder submitted to address: ${addressType === "new" ? newAddress : selectedAddress}`);
         navigate("/");
     };
+
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setMonth(today.getMonth() + 1);
+
+    const formattedToday = today.toISOString().split("T")[0];
+    const formattedMaxDate = maxDate.toISOString().split("T")[0];
 
     return (
         <>
@@ -30,7 +49,7 @@ const SendPreorder = () => {
                 <div className="send-preorder-box">
                     <h2 className="send-preorder-header">Preorder Details</h2>
                     <form className="send-preorder-form" onSubmit={handleSubmit}>
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="deliveryMethod">Delivery Method:</label>
                             <select
                                 id="deliveryMethod"
@@ -46,17 +65,22 @@ const SendPreorder = () => {
                             <p className="delivery-cost">Delivery Cost: ${deliveryCost}</p>
                         )}
 
-                        <div>
+                        <div className="form-group">
                             <label htmlFor="preorderDate">Preorder Date:</label>
                             <input
                                 type="date"
                                 id="preorderDate"
                                 value={preorderDate}
                                 onChange={(e) => setPreorderDate(e.target.value)}
+                                min={formattedToday}
+                                max={formattedMaxDate}
                             />
+                            <p className="date-restriction-message">
+                                You can only select a date within one month from today.
+                            </p>
                         </div>
 
-                        <div>
+                        <div className="form-group">
                             <label>Address:</label>
                             <select
                                 value={addressType}
@@ -68,11 +92,22 @@ const SendPreorder = () => {
                         </div>
 
                         {addressType === "existing" && (
-                            <p className="address-display">Address: {existingAddress}</p>
+                            <div className="existing-addresses">
+                                {existingAddresses.map((address, index) => (
+                                    <div key={index} className="address-option">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedAddress === address}
+                                            onChange={() => handleAddressSelect(address)}
+                                        />
+                                        <label className="address-label">{address}</label>
+                                    </div>
+                                ))}
+                            </div>
                         )}
 
                         {addressType === "new" && (
-                            <div>
+                            <div className="form-group">
                                 <label htmlFor="newAddress">New Address:</label>
                                 <input
                                     type="text"

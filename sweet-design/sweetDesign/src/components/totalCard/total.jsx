@@ -38,7 +38,9 @@ const Total = ({ productCost, totalPrice, page }) => {
             <p className="text">Products cost: {productCost}</p>
             <p className="text2">{message}</p>
             <p className="total">Total: {totalPrice}</p>
-            <button className="button" onClick={handleButtonClick}>{buttonText}</button>
+            {page !== 'favourites' && (
+                <button className="button" onClick={handleButtonClick}>{buttonText}</button>
+            )}
         </div>
     );
 };
