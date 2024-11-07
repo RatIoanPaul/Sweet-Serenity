@@ -131,11 +131,6 @@ const Home = () => {
                         <p>Visit us or follow us on social media for the latest updates!</p>
                     </div>
                 </footer>
-                {(userRole === "CUSTOMER") && (
-                    <div id="options-section">
-                        <p>Salut!</p>
-                    </div>
-                )}
             </>
 
             );
