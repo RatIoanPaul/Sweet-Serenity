@@ -15,12 +15,10 @@ import lombok.Setter;
 public class StockProducts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idProductReservation;
+    Long idProductStock;
 
     @OneToOne
     @JoinColumn(name="fk_product_id")
     private Product product;
-
     int realQuantity;
-    int availableQuantity;
 }

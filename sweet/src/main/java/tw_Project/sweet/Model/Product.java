@@ -20,11 +20,14 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String ingredients;
     private String descriptions;
     private String calories;
     private Double price;
+    private String productImgUrl;
+
     @Enumerated(EnumType.STRING)
     private ProductCategory productCategory;
 

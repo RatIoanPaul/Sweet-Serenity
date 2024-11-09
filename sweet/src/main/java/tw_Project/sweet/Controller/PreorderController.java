@@ -42,7 +42,7 @@ public class PreorderController {
                 existing_intems = true;
             }
             }
-        if(existing_intems == false){
+        if(!existing_intems){
             preorderService.deletePreorder(preorderId);
             throw new BadRequestException("The preorder list is empty");
         }
