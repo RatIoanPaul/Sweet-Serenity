@@ -24,27 +24,48 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                     .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                             .requestMatchers("/api/auth/**").permitAll()
-                            .requestMatchers("api/auth/forgot-password/**").permitAll()
-                            .requestMatchers("api/in/products/addProduct").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/getProducts").permitAll()
-                            .requestMatchers("/api/in/products/getProduct/**").permitAll()
-                            .requestMatchers("/api/in/products/deleteProduct").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/updateProduct").hasAuthority("ADMIN")
+
+                            .requestMatchers("/api/in/products/addProduct").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/getProducts").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/getProduct/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/deleteProduct/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/updateProduct/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/archiveProduct/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/activateProduct/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/changeProductType/**").hasAuthority("ADMIN")
+
                             .requestMatchers("/api/in/user/cart/addProductToCart").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/cart/deleteProductFromCart/**").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/cart/updateProductQuantity/**").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/cart/get_user_cart_products/**").hasAuthority("CUSTOMER")
+                            .requestMatchers("/api/in/user/cart/verifyCartItemStatus/**").hasAuthority("CUSTOMER")
+
                             .requestMatchers("/api/in/user/preorder_item/updateProductQuantity/**").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/preorder_item/add_item_to_preorder_list").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/preorder_item/deleteProductFromPreoderList/**").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/preorder_item/get_user_preorder_products/**").hasAuthority("CUSTOMER")
+
                             .requestMatchers("/api/in/address/addNewAddress").permitAll()
                             .requestMatchers("/api/in/address/deleteAddress/**").permitAll()
                             .requestMatchers("/api/in/address/getAddressById/**").permitAll()
                             .requestMatchers("/api/in/address/getAllClientAddresses/**").permitAll()
+
                             .requestMatchers("/api/in/user/preorder/addPreorder").hasAuthority("CUSTOMER")
                             .requestMatchers("/api/in/user/preorder/addPreorder/**").hasAuthority("CUSTOMER")
-                            .anyRequest().authenticated()  // Orice alt request trebuie autentificat
+
+                            .requestMatchers("/api/in/user/order/addOrder/**").hasAuthority("CUSTOMER")
+                            .requestMatchers("/api/in/user/order/change_order_status/**").hasAuthority("ADMIN")
+
+                            .requestMatchers("/api/in/user/cart/addProductToCart/**").hasAuthority("CUSTOMER")
+                            .requestMatchers("/api/in/user/cart/updateProductQuantity/**").hasAuthority("CUSTOMER")
+                            .requestMatchers("/api/in/user/cart/deleteProductFromCart/**").hasAuthority("CUSTOMER")
+                            .requestMatchers("/api/in/user/cart/get_user_cart_products/**").hasAuthority("CUSTOMER")
+                            .requestMatchers("/api/in/user/cart/verifyCartItemStatus/**").hasAuthority("CUSTOMER")
+
+                            .requestMatchers("/api/in/stock_products/changeProductStock/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/stock_products/gelAllStockProducts").hasAuthority("ADMIN")
+
+                            .anyRequest().authenticated()
                     )
                     .sessionManagement(sessionManagement ->
                             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

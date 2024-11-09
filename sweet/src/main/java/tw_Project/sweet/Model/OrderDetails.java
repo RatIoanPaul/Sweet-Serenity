@@ -6,18 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name="stock_reservations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Reservation {
+@Entity
+@Table(name="order-details")
+public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long idReservations;
-    Long idProductStock;
-    String userEmail;
-    int quantity;
-    String dateAndHour;
+    Long idOrderDetails;
+
+    @ManyToOne
+    @JoinColumn(name="fk_order_id")
+    private Order order;
+
+    @OneToOne
+    @JoinColumn(name="fk_cart_item")
+    private CartItem cartItem;
 }

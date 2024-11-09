@@ -52,4 +52,13 @@ public class CartController {
         return ResponseEntity.ok(ApiResponse.success("User cart products extracted successfully", userCartProductDto));
     }
 
+
+    @GetMapping("/verifyCartItemStatus/{cartItemId}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
+
+    public ResponseEntity<ApiResponse> verifyCartItemStatus(@PathVariable Long cartItemId){
+        boolean availableCartItem = cartService.verifyCartItemStatus(cartItemId);
+        return ResponseEntity.ok(ApiResponse.success("Cart product availability checked",availableCartItem));
+    }
+
 }
