@@ -33,6 +33,7 @@ const DescriptionCard = ({ image, productName, description, ingredients, allergy
     const navigate = useNavigate();
     const isCommandPage = location.pathname === '/command';
     const isEventsPage = location.pathname === '/events';
+    const isShopPage = location.pathname === '/shop';
 
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");

@@ -52,7 +52,7 @@ body {
 }
 
 .preorder-grid {
-    display: flex;
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
     padding: 20px;
@@ -82,3 +82,13 @@ body {
     justify-content: flex-start;
     width: 100%;
 }
+
+@media (max-width: 480px) {
+    .preorder-grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 40px;
+        padding: 20px;
+    }
+}
+

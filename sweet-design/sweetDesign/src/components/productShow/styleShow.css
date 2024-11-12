@@ -117,3 +117,69 @@
     height: 20px;
 }
 
+@media (max-width: 768px) {
+    .ps-container {
+        flex-direction: column;
+        align-items: center;
+        width: 320px;
+    }
+
+    .ps-image img {
+        width: 80px;
+        height: 100px;
+    }
+
+    .ps-details {
+        padding-left: 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ps-price-section {
+        width: 100%;
+        align-items: center;
+        margin-top: 16px;
+    }
+
+    .ps-quantity {
+        margin-top: 12px;
+    }
+
+    .ps-notes textarea {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .ps-container {
+        flex-direction: column;
+        align-items: center;
+        width: 150px;
+    }
+
+    .ps-name {
+        font-size: 18px;
+    }
+
+    .ps-description {
+        font-size: 14px;
+    }
+
+    .ps-price {
+        font-size: 20px;
+    }
+
+    .ps-quantity button,
+    .ps-quantity span {
+        font-size: 16px;
+    }
+
+    .ps-remove {
+        font-size: 12px;
+    }
+
+    .ps-notes textarea {
+        height: 50px;
+    }
+}
