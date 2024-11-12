@@ -10,14 +10,14 @@ const SendPreorder = () => {
     const [addressType, setAddressType] = useState("existing");
     const [selectedAddress, setSelectedAddress] = useState("");
     const [newAddress, setNewAddress] = useState("");
-
-    const navigate = useNavigate();
-
-    const existingAddresses = [
+    const [phoneNumber, setPhoneNumber] = useState(""); // State pentru numărul de telefon
+    const [addresses, setAddresses] = useState([
         "Timisoara",
         "Arad",
         "Honolulu"
-    ];
+    ]);
+
+    const navigate = useNavigate();
 
     const handleDeliveryMethodChange = (event) => {
         const method = event.target.value;
@@ -29,9 +29,17 @@ const SendPreorder = () => {
         setSelectedAddress(address);
     };
 
+    const handleSaveNewAddress = () => {
+        if (newAddress && !addresses.includes(newAddress)) {
+            setAddresses([...addresses, newAddress]);
+            setNewAddress("");
+            setAddressType("existing");
+        }
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        alert(`Preorder submitted to address: ${addressType === "new" ? newAddress : selectedAddress}`);
+        alert(`Preorder submitted to address: ${addressType === "new" ? newAddress : selectedAddress}, Phone: ${phoneNumber}`);
         navigate("/");
     };
 
@@ -81,42 +89,64 @@ const SendPreorder = () => {
                         </div>
 
                         <div className="form-group">
-                            <label>Address:</label>
-                            <select
-                                value={addressType}
-                                onChange={(e) => setAddressType(e.target.value)}
-                            >
-                                <option value="existing">Use Existing Address</option>
-                                <option value="new">Enter New Address</option>
-                            </select>
+                            <label htmlFor="phoneNumber">Phone Number:</label>
+                            <input
+                                type="tel"
+                                id="phoneNumber"
+                                placeholder="Enter your phone number"
+                                value={phoneNumber}
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                            />
                         </div>
 
-                        {addressType === "existing" && (
-                            <div className="existing-addresses">
-                                {existingAddresses.map((address, index) => (
-                                    <div key={index} className="address-option">
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedAddress === address}
-                                            onChange={() => handleAddressSelect(address)}
-                                        />
-                                        <label className="address-label">{address}</label>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                        {deliveryMethod === "delivery" && (
+                            <>
+                                <div className="form-group">
+                                    <label>Address:</label>
+                                    <select
+                                        value={addressType}
+                                        onChange={(e) => setAddressType(e.target.value)}
+                                    >
+                                        <option value="existing">Use Existing Address</option>
+                                        <option value="new">Enter New Address</option>
+                                    </select>
+                                </div>
 
-                        {addressType === "new" && (
-                            <div className="form-group">
-                                <label htmlFor="newAddress">New Address:</label>
-                                <input
-                                    type="text"
-                                    id="newAddress"
-                                    placeholder="Enter your new address"
-                                    value={newAddress}
-                                    onChange={(e) => setNewAddress(e.target.value)}
-                                />
-                            </div>
+                                {addressType === "existing" && (
+                                    <div className="existing-addresses">
+                                        {addresses.map((address, index) => (
+                                            <div key={index} className="address-option">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedAddress === address}
+                                                    onChange={() => handleAddressSelect(address)}
+                                                />
+                                                <label className="address-label">{address}</label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {addressType === "new" && (
+                                    <div className="form-group">
+                                        <label htmlFor="newAddress">New Address:</label>
+                                        <input
+                                            type="text"
+                                            id="newAddress"
+                                            placeholder="Enter your new address"
+                                            value={newAddress}
+                                            onChange={(e) => setNewAddress(e.target.value)}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="save-address-button"
+                                            onClick={handleSaveNewAddress}
+                                        >
+                                            Save Address
+                                        </button>
+                                    </div>
+                                )}
+                            </>
                         )}
 
                         <button type="submit" className="send-preorder-button">Submit Preorder</button>
