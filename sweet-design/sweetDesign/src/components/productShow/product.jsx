@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import './styleShow.css';
+import React from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import "./styleShow.css";
 
-const ProductShow = ({ name, description, price, image }) => {
-    const [quantity, setQuantity] = useState(1);
+const ProductShow = ({
+                         productCart,
+                         name,
+                         description,
+                         price,
+                         image,
+                         quantity,
+                         onDelete,
+                         onIncrement,
+                         onDecrement,
+                     }) => {
     const location = useLocation();
-
-    const increaseQuantity = () => setQuantity(quantity + 1);
-    const decreaseQuantity = () => {
-        if (quantity > 1) setQuantity(quantity - 1);
-    };
 
     return (
         <div className="ps-container">
@@ -19,8 +25,7 @@ const ProductShow = ({ name, description, price, image }) => {
             <div className="ps-details">
                 <h2 className="ps-name">{name}</h2>
                 <p className="ps-description">{description}</p>
-
-                {location.pathname !== '/favourites' && (
+                {location.pathname !== "/favourites" && (
                     <div className="ps-notes">
                         <textarea
                             id="notes"
@@ -31,18 +36,33 @@ const ProductShow = ({ name, description, price, image }) => {
                 )}
             </div>
             <div className="ps-price-section">
-                <p className="ps-price">{price} Lei</p>
+                <p className="ps-price">{(price * quantity).toFixed(2)} Lei</p>
                 <div className="ps-quantity">
-                    <button onClick={decreaseQuantity}>-</button>
+                    <button onClick={() => onDecrement(productCart)} disabled={quantity <= 1}>
+                        -
+                    </button>
                     <span>{quantity}</span>
-                    <button onClick={increaseQuantity}>+</button>
+                    <button onClick={() => onIncrement(productCart)}>+</button>
                 </div>
                 <div className="ps-buttons">
-                    <a href="#" className="ps-remove">Delete product</a>
+                    <button className="ps-remove" onClick={() => onDelete(productCart.productCartId)}>
+                        Delete product
+                    </button>
                 </div>
             </div>
         </div>
     );
+};
+
+ProductShow.propTypes = {
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onIncrement: PropTypes.func.isRequired,
+    onDecrement: PropTypes.func.isRequired,
 };
 
 export default ProductShow;

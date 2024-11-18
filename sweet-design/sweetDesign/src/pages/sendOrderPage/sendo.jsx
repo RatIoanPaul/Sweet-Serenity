@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styleSendO.css';
 import Navbar from "../../components/navbar/index.jsx";
 import { useNavigate } from 'react-router-dom';
+import {parseJwt} from "../../utils/authService.jsx";
+import axios from "axios";
+
 
 const SendOrder = () => {
     const [deliveryMethod, setDeliveryMethod] = useState("pickup");
@@ -9,14 +12,44 @@ const SendOrder = () => {
     const [addressType, setAddressType] = useState("existing");
     const [selectedAddress, setSelectedAddress] = useState("");
     const [newAddress, setNewAddress] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState(""); // Adăugăm state pentru numărul de telefon
-    const [addresses, setAddresses] = useState([
-        "Timisoara",
-        "Arad",
-        "Honolulu"
-    ]);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+
+    const token = localStorage.getItem("token")
+    const decodeToken = parseJwt(token)
+    const clientEmail = decodeToken.email;
+    const fetchAdresses = async () => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/api/in/address/getAllClientAddresses/${clientEmail}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                // Extrage adresele din răspunsul API
+                const addressList = response.data.data.map((item) => ({
+                    id: item.id,
+                    address: item.address,
+                }));
+                setAddresses(addressList);
+            }
+        } catch (error) {
+            console.error("Error fetching addresses:", error);
+        }
+    };
+
+    // ======= API: GET ADDRESSES =======
+    useEffect(() => {
+        fetchAdresses()
+
+    }, []);
 
     const handleDeliveryMethodChange = (event) => {
         const method = event.target.value;
@@ -28,18 +61,68 @@ const SendOrder = () => {
         setSelectedAddress(address);
     };
 
-    const handleSaveNewAddress = () => {
-        if (newAddress && !addresses.includes(newAddress)) {
-            setAddresses([...addresses, newAddress]);
-            setNewAddress("");
-            setAddressType("existing");
+    // ======= API: POST NEW ADDRESS =======
+    const fetchAddNewAdress = async () => {
+        try {
+            const response = await axios.post(
+
+                `http://localhost:8080/api/in/address/addNewAddress`, {
+                       address: newAddress,
+                       userEmail: clientEmail,
+                       phoneNumber: phoneNumber
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                alert("Your new address was saved!")
+                fetchAdresses()
+                setAddressType("existing");
+            }
+        } catch (error) {
+            console.error("Error fetching addresses:", error);
         }
     };
 
-    const handleSubmit = (event) => {
+
+    // ======= API: POST ORDER =======
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert(`Order submitted to address: ${addressType === "new" ? newAddress : selectedAddress}, Phone: ${phoneNumber}`);
-        navigate("/");
+
+        const orderData = {
+            deliveryMethod,
+            deliveryCost,
+            address: addressType === "new" ? newAddress : selectedAddress,
+            phoneNumber,
+        };
+
+        setLoading(true);
+        try {
+            const response = await axios.post(
+
+                `http://localhost:8080/api/in/user/order/addOrder/${clientEmail}`, {
+                     addressId: 7,
+                     deliveryMessage: "",
+                     deliveryMethod: "COURIER",
+                     dateAndTime: ""
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                alert("Your order was sent!")
+            }
+        } catch (error) {
+            console.error("Error fetching addresses:", error);
+        }
     };
 
     return (
@@ -48,6 +131,7 @@ const SendOrder = () => {
             <div className="send-order-container">
                 <div className="send-order-box">
                     <h2 className="send-order-header">Order Details</h2>
+                    {loading && <p>Loading...</p>}
                     <form className="send-order-form" onSubmit={handleSubmit}>
                         <div className="order-form-group">
                             <label htmlFor="deliveryMethod">Delivery Method:</label>
@@ -91,14 +175,16 @@ const SendOrder = () => {
 
                                 {addressType === "existing" && (
                                     <div className="order-existing-addresses">
-                                        {addresses.map((address, index) => (
-                                            <div key={index} className="order-address-option">
+                                        {addresses.map((addressItem) => (
+                                            <div key={addressItem.id} className="order-address-option">
                                                 <input
-                                                    type="checkbox"
-                                                    checked={selectedAddress === address}
-                                                    onChange={() => handleAddressSelect(address)}
+                                                    type="radio"
+                                                    name="address"
+                                                    value={addressItem.id}
+                                                    checked={selectedAddress === addressItem.id}
+                                                    onChange={() => handleAddressSelect(addressItem.id)}
                                                 />
-                                                <label className="order-address-label">{address}</label>
+                                                <label className="order-address-label">{addressItem.address}</label>
                                             </div>
                                         ))}
                                     </div>
@@ -117,7 +203,7 @@ const SendOrder = () => {
                                         <button
                                             type="button"
                                             className="order-save-address-button"
-                                            onClick={handleSaveNewAddress}
+                                            onClick={fetchAddNewAdress}
                                         >
                                             Save Address
                                         </button>
@@ -126,7 +212,9 @@ const SendOrder = () => {
                             </>
                         )}
 
-                        <button type="submit" className="order-submit-button">Submit Order</button>
+                        <button type="submit" className="order-submit-button" disabled={loading}>
+                            Submit Order
+                        </button>
                     </form>
                 </div>
             </div>

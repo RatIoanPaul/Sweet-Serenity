@@ -66,6 +66,7 @@ const Shop = () => {
     // Selectarea unui produs specific
     const handleProductClick = (product) => {
         setSelectedProduct(product);   // Setează produsul selectat
+        console.log(product)
     };
 
     return (
@@ -131,6 +132,7 @@ const Shop = () => {
                     {selectedProduct && (
                         <DescriptionCard
                             image={getImageForCategory(selectedProduct.productCategory)}
+                            productId={selectedProduct.id}
                             productName={selectedProduct.name}
                             description={selectedProduct.descriptions}
                             ingredients={selectedProduct.ingredients}

@@ -28,7 +28,6 @@ public class OrderController {
     }
 
     @PostMapping("/addOrder/{userEmail}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> AddOrder(@RequestBody OrderDto orderDto, @PathVariable String userEmail){
         Order order = orderService.addNewOrder(orderDto);
         Long orderId = order.getIdOrder();

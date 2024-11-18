@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './st.css';
 import { useNavigate } from 'react-router-dom';
+import {parseJwt} from "../../utils/authService.jsx";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
 
     // Funcția de autentificare
     const handleLogIn = async (e) => {
@@ -19,16 +21,23 @@ const SignIn = () => {
                 email: email,
                 password: password
             });
+            console.log(response)
             // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.data.token);
-                navigate('/');
-            } else {
-                setErrorMessage("Login failed. Please check your credentials.");
+                const decodedToken = parseJwt(response.data.data.token);
+                const role = decodedToken.role;
+
+                if (role === "ADMIN") {
+                    navigate('/admin');
+                }
+                else {
+                    navigate('/');
+                }
             }
         } catch (error) {
             console.error("Error during login:", error);
-            setErrorMessage("An error occurred. Please try again.");
+            setErrorMessage(error.message);
         }
     };
 

@@ -66,7 +66,6 @@ public class ProductController {
     }
 
     @GetMapping("/getProducts")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> getProducts(){
         List<Product> products = productService.getProducts();
         return ResponseEntity.ok(ApiResponse.success("Get all products successfully", products));

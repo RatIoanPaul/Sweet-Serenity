@@ -22,28 +22,24 @@ public class PreorderItemController {
     }
 
     @PostMapping("/add_item_to_preorder_list")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> addItemToPreorderList(@RequestBody PreorderItemDto preorderItemDto){
         preorderItemService.addProductToPreorderList(preorderItemDto);
         return ResponseEntity.ok(ApiResponse.success("", null));
     }
 
     @PutMapping("/updateProductQuantity/{productPreorderId}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> updateProductQuantityInPreorderList(@RequestBody PreorderItemDto preorderItemDto, @PathVariable Long productPreorderId) {
         preorderItemService.changeProductQuantityInPreorderList(productPreorderId, preorderItemDto);
         return ResponseEntity.ok(ApiResponse.success("Product quantity changed successfully", null));
     }
 
     @DeleteMapping("/deleteProductFromPreoderList/{productPreorderId}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> deleteProductFromPreorderList(@PathVariable Long productPreorderId) {
         preorderItemService.deleteProductFromPreorderList(productPreorderId);
         return ResponseEntity.ok(ApiResponse.success("Product deleted from preorder list successfully", null));
     }
 
     @GetMapping("/get_user_preorder_products/{userEmail}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> getUserCartProducts(@PathVariable  String userEmail){
         List<PreorderItemList> preorderItemsList = preorderItemService.getUserProductsPreorderList(userEmail);
         List<UserPreorderItemInListDto> userCartProductDto = preorderItemService.createListPreorderList(preorderItemsList);
