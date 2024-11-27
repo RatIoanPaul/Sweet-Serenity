@@ -100,12 +100,20 @@ body {
         flex-direction: column;
         align-items: center;
         padding: 15px;
-        width: 100%;
+        width: 200px;
     }
+
+    .description-card-product-image {
+        width: 180px; 
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
 
     .description-card-image-background {
         width: 100%;
-        max-width: 350px;
+        max-width: 170px;
         margin-bottom: 20px;
     }
 
@@ -140,6 +148,13 @@ body {
 @media (max-width: 480px) {
     .description-card-product-name {
         font-size: 28px;
+    }
+
+    .description-card-product-image {
+        width: 180px; 
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
     }
 
     .description-card-product-description,
