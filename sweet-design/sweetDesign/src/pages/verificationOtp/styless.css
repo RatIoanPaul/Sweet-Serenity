@@ -64,3 +64,24 @@
     font-size: 16px;
     color: #8a4d15;
 }
+
+@media (max-width: 480px) {
+    .otp-verification-box {
+        padding: 3rem;
+    }
+
+    .otp-verification-header {
+        font-size: 1.8rem;
+    }
+
+    .otp-input,
+    .verify-otp-button {
+        font-size: 0.9rem;
+        padding: 0.rem; 
+        width: 180px;
+    }
+
+    .otp-message {
+        font-size: 0.9rem;
+    }
+}

@@ -2,12 +2,15 @@ body {
     background: linear-gradient(to bottom, #f4ebdf, #fae7fc);
     background-attachment: fixed;
     font-family: 'Pacifico', cursive;
+    margin: 0;
 }
 
 .checkout-container {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    max-width: 1200px;  
+    box-sizing: border-box;
 }
 
 .checkout-title {
@@ -19,9 +22,10 @@ body {
 
 .checkout-items {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; 
     align-items: flex-start;
     gap: 20px;
+    flex-wrap: wrap; 
     margin-top: 20px;
 }
 
@@ -29,8 +33,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center; 
     flex: 2;
-    width: 190px;
+    min-height: 60vh; 
 }
 
 .checkout-products > * {
@@ -38,25 +43,22 @@ body {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 190px; 
+    box-sizing: border-box;
 }
 
 .total-card {
     max-width: 300px;
     flex: 1;
     margin-right: 40px;
-}
-
-.checkout-products {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 60vh; /* Ajustează această valoare pentru centrul vertical */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .no-items-message {
     text-align: center;
-    color: #333; /* Ajustează culoarea textului */
-    font-size: 1.5em; /* Dimensiunea textului */
+    color: #333; 
+    font-size: 1.5em; 
     margin: 0;
     padding: 0;
     border: none;
@@ -65,4 +67,45 @@ body {
 }
 
 
+@media (max-width: 768px) {
+    .checkout-title {
+        font-size: 1.5rem;
+    }
 
+    .checkout-items {
+        flex-direction: column; 
+        align-items: center;
+    }
+
+    .checkout-products {
+        width: 80%;
+        max-width: 500px; 
+        margin-right: 0;
+        align-items: center;
+    }
+
+    .checkout-products > * {
+        width: 100%;
+    }
+
+    .total-card {
+        max-width: 100%;
+        margin-right: 0;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .checkout-title {
+        font-size: 1.2rem;
+    }
+
+    .checkout-products > * {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .total-card {
+        padding: 10px;
+    }
+}
