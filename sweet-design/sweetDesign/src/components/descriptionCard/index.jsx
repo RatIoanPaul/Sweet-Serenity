@@ -2,18 +2,25 @@ import React, { useState } from "react";
 import "./styleDescription.css";
 import Popup from "../popUp/pop.jsx";
 import axios from "axios";
-import {parseJwt} from "../../utils/authService.jsx";
+import { parseJwt } from "../../utils/authService.jsx";
 
-const DescriptionCard = ({image, price, name, ingredients, description, allergy, productId,}) => {
+const DescriptionCard = ({
+                             image,
+                             price,
+                             name,
+                             ingredients,
+                             description,
+                             allergy,
+                             productId,
+                             isPreorder, // Noua prop pentru a decide între cart și preorder
+                         }) => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
 
     const addToCart = async () => {
-
-        const token = localStorage.getItem("token")
-        const decodeToken = parseJwt(token)
-        const userEmail = decodeToken.email
-        console.log(productId)
+        const token = localStorage.getItem("token");
+        const decodeToken = parseJwt(token);
+        const userEmail = decodeToken.email;
 
         try {
             const response = await axios.post(
@@ -26,15 +33,45 @@ const DescriptionCard = ({image, price, name, ingredients, description, allergy,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
                     },
-                    withCredentials: true, // Adaugă dacă backend-ul folosește cookie-uri
+                    withCredentials: true,
                 }
             );
             console.log("Response:", response.data);
-            if(response.status===200)setPopupMessage("Product added to cart successfully!");
+            if (response.status === 200) setPopupMessage("Product added to cart successfully!");
         } catch (error) {
             setPopupMessage("Failed to add product to cart. Please try again.");
+        }
+
+        setIsPopupVisible(true);
+    };
+
+    const addToPreorder = async () => {
+        const token = localStorage.getItem("token");
+        const decodeToken = parseJwt(token);
+        const userEmail = decodeToken.email;
+
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/api/in/user/preorder_item/add_item_to_preorder_list",
+                {
+                    productId: productId,
+                    quantity: 1,
+                    userEmail: userEmail,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+            console.log("Response:", response.data);
+            if (response.status === 200) setPopupMessage("Product added to preorder successfully!");
+        } catch (error) {
+            setPopupMessage("Failed to add product to preorder. Please try again.");
         }
 
         setIsPopupVisible(true);
@@ -48,8 +85,11 @@ const DescriptionCard = ({image, price, name, ingredients, description, allergy,
         <div className="description-card-container">
             <div className="description-card-image-background">
                 <img src={image} alt={name} className="description-card-product-image" />
-                <button className="description-card-add-to-cart-btn" onClick={addToCart}>
-                    Add to cart
+                <button
+                    className="description-card-add-to-cart-btn"
+                    onClick={isPreorder ? addToPreorder : addToCart} // Schimbă funcționalitatea butonului
+                >
+                    {isPreorder ? "Add to preorder" : "Add to cart"} {/* Text dinamic */}
                 </button>
             </div>
             <div className="description-card-details-section">

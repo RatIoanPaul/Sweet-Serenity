@@ -42,7 +42,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
                             .requestMatchers("/api/in/user/preorder_item/updateProductQuantity/**").permitAll()
                             .requestMatchers("/api/in/user/preorder_item/add_item_to_preorder_list").permitAll()
-                            .requestMatchers("/api/in/user/preorder_item/deleteProductFromPreoderList/**").permitAll()
+                            .requestMatchers("/api/in/user/preorder_item/deleteProductFromPreorderList/**").permitAll()
                             .requestMatchers("/api/in/user/preorder_item/get_user_preorder_products/**").permitAll()
 
                             .requestMatchers("/api/in/address/addNewAddress").permitAll()
