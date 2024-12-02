@@ -37,13 +37,20 @@ const Shop = () => {
         }
     };
 
-    // Funcția pentru a obține produsele de la API la montarea componentei
+    // Obținerea produselor de la API (filtrate după `productType = STOCK` și `productStatus = ACTIVE`)
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/in/products/getProducts`);
                 console.log("Produse obținute de la API:", response.data.data);
-                setProducts(response.data.data); // Stocăm toate produsele
+
+                // Filtrare pentru produsele de tip STOCK și ACTIVE
+                const stockProducts = response.data.data.filter(product =>
+                    product.productType?.trim().toUpperCase() === 'STOCK' &&
+                    product.productStatus?.trim().toUpperCase() === 'ACTIVE'
+                );
+                console.log("Produse filtrate (STOCK & ACTIVE):", stockProducts);
+                setProducts(stockProducts); // Setăm doar produsele filtrate
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -51,22 +58,28 @@ const Shop = () => {
         fetchProducts();
     }, []);
 
+    // Funcția pentru filtrarea produselor pe baza categoriei selectate
+    const filterProductsByCategory = (categoryValue) => {
+        return products.filter(product =>
+            product.productCategory?.trim().toUpperCase() === categoryValue
+        );
+    };
+
     // Când se selectează o categorie generală
     const handleCategoryClick = (categoryValue) => {
         setCurrentCategory(categoryValue);  // Setează categoria selectată
         setSelectedProduct(null);           // Resetează produsul selectat
 
-        // Filtrează produsele din baza de date pentru categoria selectată
-        const filtered = products.filter(product =>
-            product.productCategory?.trim().toUpperCase() === categoryValue
-        );
-        setFilteredProducts(filtered); // Stocăm produsele filtrate pentru afișare
+        // Filtrarea produselor pentru categoria selectată
+        const filtered = filterProductsByCategory(categoryValue);
+        console.log("Produse filtrate pentru categoria:", categoryValue, filtered);
+        setFilteredProducts(filtered); // Actualizăm lista de produse filtrate
     };
 
     // Selectarea unui produs specific
     const handleProductClick = (product) => {
         setSelectedProduct(product);   // Setează produsul selectat
-        console.log(product)
+        console.log("Produs selectat:", product);
     };
 
     return (
@@ -77,7 +90,7 @@ const Shop = () => {
             </div>
             <div className="shop-layout">
 
-                {/* Meniul lateral pentru selectarea categoriilor de filtre (vizibil doar dacă o categorie a fost selectată) */}
+                {/* Meniul lateral pentru selectarea categoriilor de filtre */}
                 {currentCategory && (
                     <div className="shop-sidebar">
                         {categories.map((category, index) => (

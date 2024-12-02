@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './stylePo.css';
 import Navbar from "../../components/navbar/index.jsx";
 import { useNavigate } from 'react-router-dom';
@@ -10,14 +10,34 @@ const SendPreorder = () => {
     const [addressType, setAddressType] = useState("existing");
     const [selectedAddress, setSelectedAddress] = useState("");
     const [newAddress, setNewAddress] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState(""); // State pentru numărul de telefon
-    const [addresses, setAddresses] = useState([
-        "Timisoara",
-        "Arad",
-        "Honolulu"
-    ]);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+
+    // ======= Simulare Fetch Adrese (useEffect) =======
+    useEffect(() => {
+        // Exemplu de fetch al adreselor utilizatorului:
+        // Înlocuiește cu API-ul real de fetch pentru adrese:
+        /*
+        const fetchAddresses = async () => {
+            try {
+                const response = await axios.get(`API_URL`, { headers: { Authorization: `Bearer TOKEN` } });
+                setAddresses(response.data); // Actualizează adresele pe baza răspunsului.
+            } catch (error) {
+                console.error("Error fetching addresses:", error);
+            }
+        };
+        fetchAddresses();
+        */
+        // Simulare locală:
+        setAddresses([
+            { id: 1, address: "Timisoara" },
+            { id: 2, address: "Arad" },
+            { id: 3, address: "Honolulu" },
+        ]);
+    }, []);
 
     const handleDeliveryMethodChange = (event) => {
         const method = event.target.value;
@@ -25,21 +45,67 @@ const SendPreorder = () => {
         setDeliveryCost(method === "delivery" ? 10 : 0);
     };
 
-    const handleAddressSelect = (address) => {
-        setSelectedAddress(address);
+    const handleAddressSelect = (addressId) => {
+        setSelectedAddress(addressId);
     };
 
+    // ======= Simulare Adăugare Adresă Nouă =======
     const handleSaveNewAddress = () => {
-        if (newAddress && !addresses.includes(newAddress)) {
-            setAddresses([...addresses, newAddress]);
+        if (newAddress && !addresses.find(addr => addr.address === newAddress)) {
+            // Simulare locală - Înlocuiește cu API de POST pentru adresă:
+            /*
+            const saveAddress = async () => {
+                try {
+                    const response = await axios.post(`API_URL`, { address: newAddress, phoneNumber }, { headers: { Authorization: `Bearer TOKEN` } });
+                    setAddresses([...addresses, response.data]); // Adaugă adresa nouă din răspuns.
+                    setNewAddress("");
+                    setAddressType("existing");
+                } catch (error) {
+                    console.error("Error saving address:", error);
+                }
+            };
+            saveAddress();
+            */
+            // Simulare locală:
+            const newId = addresses.length + 1;
+            setAddresses([...addresses, { id: newId, address: newAddress }]);
             setNewAddress("");
             setAddressType("existing");
         }
     };
 
-    const handleSubmit = (event) => {
+    // ======= Simulare Submisie Precomandă =======
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert(`Preorder submitted to address: ${addressType === "new" ? newAddress : selectedAddress}, Phone: ${phoneNumber}`);
+        setLoading(true);
+
+        // Datele comenzii:
+        const preorderData = {
+            deliveryMethod,
+            deliveryCost,
+            preorderDate,
+            address: addressType === "new" ? newAddress : selectedAddress,
+            phoneNumber,
+        };
+
+        // Exemplu de apel API pentru submisie:
+        /*
+        try {
+            const response = await axios.post(`API_URL`, preorderData, { headers: { Authorization: `Bearer TOKEN` } });
+            if (response.status === 200) {
+                alert("Preorder successfully submitted!");
+                navigate("/");
+            }
+        } catch (error) {
+            console.error("Error submitting preorder:", error);
+        } finally {
+            setLoading(false);
+        }
+        */
+
+        // Simulare locală:
+        alert(`Preorder submitted with data: ${JSON.stringify(preorderData)}`);
+        setLoading(false);
         navigate("/");
     };
 
@@ -56,6 +122,7 @@ const SendPreorder = () => {
             <div className="send-preorder-container">
                 <div className="send-preorder-box">
                     <h2 className="send-preorder-header">Preorder Details</h2>
+                    {loading && <p>Loading...</p>}
                     <form className="send-preorder-form" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="deliveryMethod">Delivery Method:</label>
@@ -114,14 +181,16 @@ const SendPreorder = () => {
 
                                 {addressType === "existing" && (
                                     <div className="existing-addresses">
-                                        {addresses.map((address, index) => (
-                                            <div key={index} className="address-option">
+                                        {addresses.map((addressItem) => (
+                                            <div key={addressItem.id} className="address-option">
                                                 <input
-                                                    type="checkbox"
-                                                    checked={selectedAddress === address}
-                                                    onChange={() => handleAddressSelect(address)}
+                                                    type="radio"
+                                                    name="address"
+                                                    value={addressItem.id}
+                                                    checked={selectedAddress === addressItem.id}
+                                                    onChange={() => handleAddressSelect(addressItem.id)}
                                                 />
-                                                <label className="address-label">{address}</label>
+                                                <label className="address-label">{addressItem.address}</label>
                                             </div>
                                         ))}
                                     </div>
@@ -149,7 +218,9 @@ const SendPreorder = () => {
                             </>
                         )}
 
-                        <button type="submit" className="send-preorder-button">Submit Preorder</button>
+                        <button type="submit" className="send-preorder-button" disabled={loading}>
+                            Submit Preorder
+                        </button>
                     </form>
                 </div>
             </div>
