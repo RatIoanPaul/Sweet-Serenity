@@ -163,7 +163,7 @@ public class CartServiceImpl implements CartService {
             userCartProductDto.setProductId(product.getId());
             userCartProductDto.setProductCartId(cart.getIdProductCart());
             userCartProductDto.setProductName(product.getName());
-            userCartProductDto.setPhotoFilePath("inca nu avem");
+            userCartProductDto.setPhotoFilePath(product.getProductImgUrl());
             userCartProductDtoList.add(userCartProductDto);
         }
         return userCartProductDtoList;

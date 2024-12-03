@@ -24,28 +24,24 @@ public class CartController {
     }
 
     @PostMapping("/addProductToCart")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> addProductToCart(@RequestBody CartDto cartDto){
         cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(ApiResponse.success("Product added to cart successfully", null));
     }
 
     @PutMapping("/updateProductQuantity/{productCartId}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> updateProductQuantityInCart(@RequestBody CartDto cartDto, @PathVariable Long productCartId) {
         cartService.changeProductQuantityInCart(productCartId, cartDto);
         return ResponseEntity.ok(ApiResponse.success("Product quantity changed successfully", null));
     }
 
     @DeleteMapping("/deleteProductFromCart/{productCartId}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> updateProductFromCart(@PathVariable Long productCartId) {
         cartService.deleteProductFromCart(productCartId);
         return ResponseEntity.ok(ApiResponse.success("Product deleted from cart successfully", null));
     }
 
     @GetMapping("/get_user_cart_products/{userEmail}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> getUserCartProducts(@PathVariable  String userEmail){
         List<CartItem> carts = cartService.getUserProductsCart(userEmail);
         List<UserCartProductDto> userCartProductDto = cartService.createListCartProducts(carts);
@@ -54,8 +50,6 @@ public class CartController {
 
 
     @GetMapping("/verifyCartItemStatus/{cartItemId}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
-
     public ResponseEntity<ApiResponse> verifyCartItemStatus(@PathVariable Long cartItemId){
         boolean availableCartItem = cartService.verifyCartItemStatus(cartItemId);
         return ResponseEntity.ok(ApiResponse.success("Cart product availability checked",availableCartItem));

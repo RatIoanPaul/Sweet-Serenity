@@ -28,7 +28,6 @@ public class OrderController {
     }
 
     @PostMapping("/addOrder/{userEmail}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> AddOrder(@RequestBody OrderDto orderDto, @PathVariable String userEmail){
         Order order = orderService.addNewOrder(orderDto);
         Long orderId = order.getIdOrder();
@@ -49,7 +48,6 @@ public class OrderController {
     }
 
     @PostMapping("/change_order_status/{orderId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> changeOrderStatus(@PathVariable Long orderId,@RequestBody String orderStatus ){
         orderService.changeOrderStatus(orderId, orderStatus);
         return ResponseEntity.ok(ApiResponse.success("Order status changed successfully", null));

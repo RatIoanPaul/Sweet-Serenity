@@ -30,7 +30,6 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> addNewProduct(@RequestBody ProductDto productDto){
         Product product = productService.addNewProduct(productDto);
         if(productDto.getType().equals("STOCK")|| productDto.getType().equals("MIX")){
@@ -40,22 +39,18 @@ public class ProductController {
     }
 
     @PostMapping("/updateProduct/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
         productService.updateProduct(productId, productDto);
         return ResponseEntity.ok(ApiResponse.success("Product updated successfully", null));
     }
 
     @DeleteMapping("/deleteProduct/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
         productService.deleteProduct(productId);
         return ResponseEntity.ok(ApiResponse.success("Product deleted successfully", null));
     }
 
     @GetMapping("/getProduct/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-
     public ResponseEntity<ApiResponse> getProduct(@PathVariable Long productId){
         try{
         Product product = productService.getProduct(productId);
@@ -66,28 +61,24 @@ public class ProductController {
     }
 
     @GetMapping("/getProducts")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> getProducts(){
         List<Product> products = productService.getProducts();
         return ResponseEntity.ok(ApiResponse.success("Get all products successfully", products));
     }
 
     @PutMapping("/archiveProduct/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> archiveProduct(@PathVariable Long productId){
         productService.archiveProduct(productId);
         return ResponseEntity.ok(ApiResponse.success("Product archived successfully", null));
     }
 
     @PutMapping("/activateProduct/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> activateProduct(@PathVariable Long productId){
         productService.activateProduct(productId);
         return ResponseEntity.ok(ApiResponse.success("Product activated successfully", null));
     }
 
     @PutMapping("/changeProductType/{productId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> changeProductType(@PathVariable Long productId, @RequestBody NeqTypeDto newType){
         productService.changeProductType(productId, newType.getNewType());
         return ResponseEntity.ok(ApiResponse.success("Product type changed successfully", null));

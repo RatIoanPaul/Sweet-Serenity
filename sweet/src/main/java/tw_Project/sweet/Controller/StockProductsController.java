@@ -22,7 +22,6 @@ public class StockProductsController {
     }
 
     @GetMapping("/gelAllStockProducts")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> getAllStockProducts(){
         List<Product> allStockProducts = stockProductsService.getAllStockProducts();
         List<StockProductDto> stockProductDtos = stockProductsService.createStockProductDtoList(allStockProducts) ;
@@ -30,7 +29,6 @@ public class StockProductsController {
     }
 
     @PutMapping("/changeProductStock/{stockId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> changeStockProduct(@PathVariable Long stockId, @RequestBody StockQuantityDto newStockQuantity){
         stockProductsService.updateStockQuantity(stockId, newStockQuantity.getQuantity());
         return ResponseEntity.ok(ApiResponse.success("Stock quantity updated successfully", null));

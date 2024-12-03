@@ -30,7 +30,6 @@ public class PreorderController {
     }
 
     @PostMapping("/addPreorder/{userEmail}")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER')")
     public ResponseEntity<ApiResponse> AddPreorder(@RequestBody PreorderDto preorderDto, @PathVariable String userEmail){
         Preorder preorder = preorderService.addNewPreorder(preorderDto);
         Long preorderId = preorder.getIdPreorder();
