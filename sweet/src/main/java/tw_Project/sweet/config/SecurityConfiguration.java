@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/auth/**").permitAll()
 
                             .requestMatchers("/api/in/products/addProduct").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/getProducts").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/getProducts").permitAll()
                             .requestMatchers("/api/in/products/getProduct/**").hasAuthority("ADMIN")
                             .requestMatchers("/api/in/products/deleteProduct/**").hasAuthority("ADMIN")
                             .requestMatchers("/api/in/products/updateProduct/**").hasAuthority("ADMIN")
@@ -61,6 +61,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/in/user/cart/deleteProductFromCart/**").permitAll()
                             .requestMatchers("/api/in/user/cart/get_user_cart_products/**").permitAll()
                             .requestMatchers("/api/in/user/cart/verifyCartItemStatus/**").permitAll()
+
 
                             .requestMatchers("/api/in/stock_products/changeProductStock/**").permitAll()
                             .requestMatchers("/api/in/stock_products/gelAllStockProducts").permitAll()

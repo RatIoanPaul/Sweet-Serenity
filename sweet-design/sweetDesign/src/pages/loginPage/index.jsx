@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './st.css';
-import NavbarLogin from "../../components/navbar-login/index.jsx";
 import { useNavigate } from 'react-router-dom';
+import {parseJwt} from "../../utils/authService.jsx";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
 
     // Funcția de autentificare
     const handleLogIn = async (e) => {
@@ -20,22 +21,28 @@ const SignIn = () => {
                 email: email,
                 password: password
             });
+            console.log(response)
             // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
-            if (response.status===200) {
+            if (response.status === 200) {
                 localStorage.setItem('token', response.data.data.token);
-                navigate('/');
-            } else {
-                setErrorMessage("Login failed. Please check your credentials.");
+                const decodedToken = parseJwt(response.data.data.token);
+                const role = decodedToken.role;
+
+                if (role === "ADMIN") {
+                    navigate('/admin');
+                }
+                else {
+                    navigate('/');
+                }
             }
         } catch (error) {
             console.error("Error during login:", error);
-            setErrorMessage("An error occurred. Please try again.");
+            setErrorMessage(error.message);
         }
     };
 
     return (
         <>
-            <NavbarLogin />
             <div className="sign-in-container">
                 <div className="sign-in-box">
                     <h2 className="sign-in-header">Sign in</h2>
@@ -64,8 +71,20 @@ const SignIn = () => {
                             />
                         </div>
 
+                        <div className="link-container">
+                            <p className="create" onClick={() => navigate('/register')}>
+                            I don't have an account.
+                        </p>
+                            <p className="forgot-password-link" onClick={() => navigate('/forgot-password')}>
+                                I forgot my password.
+                            </p>
+
+                        </div>
+
+
                         <button type="submit" className="sign-in-button">Sign in</button>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
+
                     </form>
                 </div>
             </div>

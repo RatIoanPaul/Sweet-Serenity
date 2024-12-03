@@ -1,11 +1,11 @@
 import React from 'react';
 import './styleTasting.css';
-import NavbarCart from "../../components/navbar-cart/index.jsx";
+import Navbar from "../../components/navbar/index.jsx";
 
 const TastingsPage = () => {
     return (
         <>
-            <NavbarCart />
+            <Navbar/>
             <div className="taste-container">
                 <div className="taste-box">
                     <h2 className="taste-header">Tasting request</h2>

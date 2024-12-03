@@ -33,7 +33,8 @@ public class PreorderItemController {
         return ResponseEntity.ok(ApiResponse.success("Product quantity changed successfully", null));
     }
 
-    @DeleteMapping("/deleteProductFromPreorderList/{productPreorderId}")
+
+    @DeleteMapping("/deleteProductFromPreoderList/{productPreorderId}")
     public ResponseEntity<ApiResponse> deleteProductFromPreorderList(@PathVariable Long productPreorderId) {
         preorderItemService.deleteProductFromPreorderList(productPreorderId);
         return ResponseEntity.ok(ApiResponse.success("Product deleted from preorder list successfully", null));

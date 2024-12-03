@@ -1,6 +1,8 @@
 body {
     font-family: 'Pacifico', cursive;
     background: linear-gradient(to bottom, #f4ebdf, #fae7fc);
+    margin: 0;
+    overflow-x: hidden;
 }
 
 .description-card-container {
@@ -44,7 +46,6 @@ body {
     color: #ebaa6c;
     margin-bottom: 10px;
     text-align: center;
-
 }
 
 .description-card-product-description {
@@ -73,7 +74,9 @@ body {
     margin-left: 5px;
 }
 
-.description-card-add-to-cart-btn {
+.description-card-add-to-cart-btn,
+.description-card-preorder-btn,
+.description-card-book-event-btn {
     background-color: #fdf0e1;
     border: 2px solid #ebaa6c;
     border-radius: 5px;
@@ -82,9 +85,93 @@ body {
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 10px;
 }
 
-.description-card-add-to-cart-btn:hover {
+.description-card-add-to-cart-btn:hover,
+.description-card-preorder-btn:hover,
+.description-card-book-event-btn:hover {
     background-color: #ebaa6c;
     color: #fff;
+}
+
+@media (max-width: 768px) {
+    .description-card-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        width: 200px;
+    }
+
+    .description-card-product-image {
+        width: 180px; 
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+    
+
+    .description-card-image-background {
+        width: 100%;
+        max-width: 170px;
+        margin-bottom: 20px;
+    }
+
+    .description-card-details-section {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .description-card-product-name {
+        font-size: 32px;
+    }
+
+    .description-card-product-description,
+    .description-card-product-ingredients,
+    .description-card-allergy-info,
+    .description-card-product-price {
+        font-size: 16px;
+    }
+
+    .description-card-section-title {
+        font-size: 18px;
+    }
+
+    .description-card-add-to-cart-btn,
+    .description-card-preorder-btn,
+    .description-card-book-event-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .description-card-product-name {
+        font-size: 28px;
+    }
+
+    .description-card-product-image {
+        width: 180px; 
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .description-card-product-description,
+    .description-card-product-ingredients,
+    .description-card-allergy-info,
+    .description-card-product-price {
+        font-size: 14px;
+    }
+
+    .description-card-section-title {
+        font-size: 16px;
+    }
+
+    .description-card-add-to-cart-btn,
+    .description-card-preorder-btn,
+    .description-card-book-event-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
 }

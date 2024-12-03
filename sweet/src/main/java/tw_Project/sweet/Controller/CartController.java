@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("http://localhost:5173")
-@RequestMapping( "api/in/user/cart")
+@RequestMapping( path ="api/in/user/cart")
 public class CartController {
 
     private final CartService cartService;
@@ -24,10 +24,13 @@ public class CartController {
     }
 
     @PostMapping("/addProductToCart")
-    public ResponseEntity<ApiResponse> addProductToCart(@RequestBody CartDto cartDto){
+
+    public ResponseEntity<ApiResponse> addProductToCart(@RequestBody CartDto cartDto) {
+       
         cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(ApiResponse.success("Product added to cart successfully", null));
     }
+
 
     @PutMapping("/updateProductQuantity/{productCartId}")
     public ResponseEntity<ApiResponse> updateProductQuantityInCart(@RequestBody CartDto cartDto, @PathVariable Long productCartId) {
