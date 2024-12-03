@@ -56,9 +56,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/in/user/order/addOrder/**").permitAll()
                             .requestMatchers("/api/in/user/order/change_order_status/**").permitAll()
 
+                            .requestMatchers("/api/in/user/cart/addProductToCart/**").permitAll()
+                            .requestMatchers("/api/in/user/cart/updateProductQuantity/**").permitAll()
+                            .requestMatchers("/api/in/user/cart/deleteProductFromCart/**").permitAll()
+                            .requestMatchers("/api/in/user/cart/get_user_cart_products/**").permitAll()
+                            .requestMatchers("/api/in/user/cart/verifyCartItemStatus/**").permitAll()
+
+
                             .requestMatchers("/api/in/stock_products/changeProductStock/**").permitAll()
                             .requestMatchers("/api/in/stock_products/gelAllStockProducts").permitAll()
 
+                            .requestMatchers("/api/in/tastingRequest/addNewRequest").permitAll()
+                            .requestMatchers("/api/in/tastingRequest/getAllRequests").permitAll()
+                            .requestMatchers("/api/in/tastingRequest/getAllClientRequest/**").permitAll()
+                            .requestMatchers("/api/in/user/favourite/addNewProductToFavourite").permitAll()
+                            .requestMatchers("/api/in/user/favourite/getAllUserFavourite/**").permitAll()
                             .anyRequest().authenticated()
                     )
                     .sessionManagement(sessionManagement ->

@@ -26,21 +26,19 @@ public class CartController {
     @PostMapping("/addProductToCart")
 
     public ResponseEntity<ApiResponse> addProductToCart(@RequestBody CartDto cartDto) {
-        System.out.println("CartDto primit: " + cartDto);
+       
         cartService.addProductToCart(cartDto);
         return ResponseEntity.ok(ApiResponse.success("Product added to cart successfully", null));
     }
 
 
     @PutMapping("/updateProductQuantity/{productCartId}")
-
     public ResponseEntity<ApiResponse> updateProductQuantityInCart(@RequestBody CartDto cartDto, @PathVariable Long productCartId) {
         cartService.changeProductQuantityInCart(productCartId, cartDto);
         return ResponseEntity.ok(ApiResponse.success("Product quantity changed successfully", null));
     }
 
     @DeleteMapping("/deleteProductFromCart/{productCartId}")
-
     public ResponseEntity<ApiResponse> updateProductFromCart(@PathVariable Long productCartId) {
         cartService.deleteProductFromCart(productCartId);
         return ResponseEntity.ok(ApiResponse.success("Product deleted from cart successfully", null));
@@ -55,7 +53,6 @@ public class CartController {
 
 
     @GetMapping("/verifyCartItemStatus/{cartItemId}")
-
     public ResponseEntity<ApiResponse> verifyCartItemStatus(@PathVariable Long cartItemId){
         boolean availableCartItem = cartService.verifyCartItemStatus(cartItemId);
         return ResponseEntity.ok(ApiResponse.success("Cart product availability checked",availableCartItem));

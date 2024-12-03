@@ -48,7 +48,6 @@ public class OrderController {
     }
 
     @PostMapping("/change_order_status/{orderId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<ApiResponse> changeOrderStatus(@PathVariable Long orderId,@RequestBody String orderStatus ){
         orderService.changeOrderStatus(orderId, orderStatus);
         return ResponseEntity.ok(ApiResponse.success("Order status changed successfully", null));
