@@ -12,7 +12,7 @@ const DescriptionCard = ({
                              description,
                              allergy,
                              productId,
-                             isPreorder, // Noua prop pentru a decide între cart și preorder
+                             isPreorder,
                          }) => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
@@ -87,9 +87,9 @@ const DescriptionCard = ({
                 <img src={image} alt={name} className="description-card-product-image" />
                 <button
                     className="description-card-add-to-cart-btn"
-                    onClick={isPreorder ? addToPreorder : addToCart} // Schimbă funcționalitatea butonului
+                    onClick={isPreorder ? addToPreorder : addToCart}
                 >
-                    {isPreorder ? "Add to preorder" : "Add to cart"} {/* Text dinamic */}
+                    {isPreorder ? "Add to preorder" : "Add to cart"}
                 </button>
             </div>
             <div className="description-card-details-section">
