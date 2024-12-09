@@ -37,8 +37,8 @@ const Navbar = () => {
                     <ul className="nav-links">
                         <li className="nav-item active"><a href="#">Orders</a></li>
                         <li className="nav-item"><a href="#">Preorders</a></li>
-                        <li className="nav-item"><a href="#">Products</a></li>
-                        <li className="nav-item"><a href="#">Stock products</a></li>
+                        <li className="nav-item"><a href="/productsAdmin">Products</a></li>
+                        <li className="nav-item"><a href="/stockProducts">Stock products</a></li>
                         <li className="nav-item"><a href="#">Events</a></li>
                         <li className="nav-item"><a href="#">Clients</a></li>
                     </ul>
