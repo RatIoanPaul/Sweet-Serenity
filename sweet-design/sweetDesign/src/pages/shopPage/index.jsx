@@ -82,6 +82,13 @@ const Shop = () => {
         console.log("Produs selectat:", product);
     };
 
+    const getImageUrl = (filePath) => {
+        console.log(filePath)
+        return filePath.startsWith('http')
+            ? filePath  // URL extern, îl folosim direct
+            : `http://localhost:5173/${filePath}`;  // URL local, adaugă domeniul serveruluitău
+    };
+
     return (
         <>
             <Navbar />
@@ -124,7 +131,7 @@ const Shop = () => {
                             {filteredProducts.map((product, index) => (
                                 <ProductCard
                                     key={index}
-                                    image={getImageForCategory(product.productCategory)}
+                                    image={getImageUrl(product.productImgUrl)}
                                     price={product.price}
                                     name={product.name}
                                     ingredients={product.ingredients}

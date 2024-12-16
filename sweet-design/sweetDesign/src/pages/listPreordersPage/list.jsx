@@ -129,7 +129,7 @@ const List = () => {
 
             console.log(`Attempting to delete preorder item with ID: ${preorderItemId}`);
             await axios.delete(
-                `http://localhost:8080/api/in/user/preorder_item/deleteProductFromPreoderList/${preorderItemId}`,
+                `http://localhost:8080/api/in/user/preorder_item/deleteProductFromPreorderList/${preorderItemId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
