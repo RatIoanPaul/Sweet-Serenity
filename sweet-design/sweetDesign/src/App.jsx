@@ -18,6 +18,8 @@ import SendOrder from "./pages/sendOrderPage/sendo.jsx";
 import SendPreorder from "./pages/sendPreorderPage/sendPO.jsx";
 import Products from "./pages/productsAdminPage/productsAdmin.jsx";
 import StockProducts from "./pages/stockProductsAdminPage/stockProducts.jsx";
+import OrdersAdmin from "./pages/ordersAdminPage/ordersAdmin.jsx";
+import PreordersAdmin from "./pages/preordersAdminPage/preordersAdmin.jsx";
 
 const App = () => {
     return (
@@ -40,9 +42,12 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/sendOrder" element={<SendOrder />} />
                 <Route path="/sendPreorder" element={<SendPreorder />} />
-                <Route path="/admin" element={<HomeAdmin />} />
+                <Route path="/admin" element={<OrdersAdmin />} />
                 <Route path="/productsAdmin" element={<Products/>} />
                 <Route path="/stockProducts" element={<StockProducts/>} />
+                <Route path="/ordersAdmin" element={<OrdersAdmin/>} />
+                <Route path="/preordersAdmin" element={<PreordersAdmin/>} />
+
 
 
             </Routes>
