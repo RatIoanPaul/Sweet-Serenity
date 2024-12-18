@@ -9,8 +9,6 @@ body {
     margin: 0 auto;
     padding: 20px;
     text-align: center;
-    max-width: 1200px;  
-    box-sizing: border-box;
 }
 
 .checkout-title {
@@ -22,10 +20,9 @@ body {
 
 .checkout-items {
     display: flex;
-    justify-content: center; 
+    justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
-    flex-wrap: wrap; 
     margin-top: 20px;
 }
 
@@ -33,9 +30,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    align-items: center; 
-    flex: 2;
-    min-height: 60vh; 
+    flex: 2; /* Flexibilitate pentru produse */
+    max-width: 70%;
 }
 
 .checkout-products > * {
@@ -43,49 +39,37 @@ body {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 190px; 
-    box-sizing: border-box;
 }
 
 .total-card {
     max-width: 300px;
     flex: 1;
     margin-right: 40px;
-    width: 100%;
-    box-sizing: border-box;
+    align-self: flex-start; /* Aliniere sus */
 }
-
-.no-items-message {
-    text-align: center;
-    color: #333; 
-    font-size: 1.5em; 
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
-    box-shadow: none;
-}
-
 
 @media (max-width: 768px) {
+    .checkout-container {
+        align-items: center;
+    }
+
     .checkout-title {
         font-size: 1.5rem;
     }
 
     .checkout-items {
-        flex-direction: column; 
+        flex-direction: column; /* Afișează vertical pe ecrane mici */
         align-items: center;
     }
 
     .checkout-products {
         width: 80%;
-        max-width: 500px; 
+        max-width: 500px;
         margin-right: 0;
-        align-items: center;
     }
 
     .checkout-products > * {
-        width: 100%;
+        width: 100%; /* Cardurile ocupă întreaga lățime */
     }
 
     .total-card {
@@ -96,6 +80,7 @@ body {
 }
 
 @media (max-width: 480px) {
+
     .checkout-title {
         font-size: 1.2rem;
     }
@@ -107,5 +92,6 @@ body {
 
     .total-card {
         padding: 10px;
+        max-width: 100%;
     }
 }

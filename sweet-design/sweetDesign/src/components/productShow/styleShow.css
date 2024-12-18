@@ -155,7 +155,7 @@
     .ps-container {
         flex-direction: column;
         align-items: center;
-        width: 150px;
+        width: 250px;
     }
 
     .ps-name {
