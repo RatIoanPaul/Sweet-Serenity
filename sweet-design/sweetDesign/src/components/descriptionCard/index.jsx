@@ -3,6 +3,7 @@ import "./styleDescription.css";
 import Popup from "../popUp/pop.jsx";
 import axios from "axios";
 import { parseJwt } from "../../utils/authService.jsx";
+import { useLocation } from "react-router-dom";
 
 const DescriptionCard = ({
                              image,
@@ -16,6 +17,7 @@ const DescriptionCard = ({
                          }) => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
+    const location = useLocation(); // Detectează pagina curentă
 
     const addToCart = async () => {
         const token = localStorage.getItem("token");
@@ -89,7 +91,11 @@ const DescriptionCard = ({
                     className="description-card-add-to-cart-btn"
                     onClick={isPreorder ? addToPreorder : addToCart}
                 >
-                    {isPreorder ? "Add to preorder" : "Add to cart"}
+                    {location.pathname === "/events"
+                        ? "Add to favourites"
+                        : isPreorder
+                            ? "Add to preorder"
+                            : "Add to cart"}
                 </button>
             </div>
             <div className="description-card-details-section">

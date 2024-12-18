@@ -11,6 +11,7 @@ import profile from "../../images/profile.png";
 const Navbar = () => {
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -29,8 +30,19 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-bottom">
                 <div className="logo">Sweet Serenity</div>
+
+                <button
+                    className="hamburger"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    <span className="bar"></span>
+                    <span className="bar"></span>
+                    <span className="bar"></span>
+                </button>
+
                 {(userRole === "CUSTOMER" || !userRole) && (
-                    <ul className="nav-links">
+                    <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
                         <li className="nav-item active"><a href="/">Home</a></li>
                         <li className="nav-item"><a href="/shop">Shop</a></li>
                         <li className="nav-item"><a href="/command">Preorders</a></li>
@@ -39,13 +51,11 @@ const Navbar = () => {
                 )}
 
                 {userRole === "ADMIN" && (
-                    <ul className="nav-links">
+                    <ul className={`nav-links ${menuOpen ? 'show' : ''}`}>
                         <li className="nav-item active"><a href="/ordersAdmin">Orders</a></li>
                         <li className="nav-item"><a href="/preordersAdmin">Preorders</a></li>
                         <li className="nav-item"><a href="/productsAdmin">Products</a></li>
                         <li className="nav-item"><a href="/stockProducts">Stock products</a></li>
-                        <li className="nav-item"><a href="#">Clients</a></li>
-                        <li className="nav-item"><button className="nav-item" onClick={handleLogout}>Log out</button></li>
                     </ul>
                 )}
 
@@ -63,11 +73,9 @@ const Navbar = () => {
 
                     {userRole === "CUSTOMER" && (
                         <>
-
                             <button className="favourites" onClick={() => navigate('/favourites')}>
                                 <img src={fav} alt="fav"/>
                             </button>
-
 
                             <button className="command-list" onClick={() => navigate('/list')}>
                                 <img src={listIcon} alt="list"/>
@@ -80,14 +88,11 @@ const Navbar = () => {
                             <button className="profile" onClick={() => navigate('/profile')}>
                                 <img src={profile} alt="Profile"/>
                             </button>
-
-
                         </>
-
                     )}
                     {userRole === "ADMIN" && (
-                        <button className="notification" onClick={() => navigate('/notifications')}>
-                        <img src={notificationImage} alt="Notification"/>
+                        <button className="sign-in" onClick={handleLogout}>
+                            Log out
                         </button>
                     )}
                 </div>

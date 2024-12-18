@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './st.css';
 import { useNavigate } from 'react-router-dom';
-import {parseJwt} from "../../utils/authService.jsx";
+import { parseJwt } from "../../utils/authService.jsx";
+import axios from "axios";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+    const [resetEmail, setResetEmail] = useState('');
+    const [resetCode, setResetCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [resetMessage, setResetMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [view, setView] = useState('sign-in');
 
     // Funcția de autentificare
     const handleLogIn = async (e) => {
@@ -41,11 +46,26 @@ const SignIn = () => {
         }
     };
 
+    const handlePasswordReset = async (e) => {
+        e.preventDefault();
+        setResetMessage('');
+        setResetMessage("A reset code has been sent to your email.");
+        setView('reset-code');
+    };
+
+    const handleResetCodeSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Password reset successful");
+        setSuccessMessage("Your password has been successfully reset. Please log in.");
+        setView('sign-in');
+    };
+
     return (
-        <>
-            <div className="sign-in-container">
+        <div className="sign-in-container">
+            {view === 'sign-in' && (
                 <div className="sign-in-box">
                     <h2 className="sign-in-header">Sign in</h2>
+                    {successMessage && <p className="success-message">{successMessage}</p>} {/* Mesaj de succes */}
                     <form className="sign-in-form" onSubmit={handleLogIn}>
                         <div>
                             <label htmlFor="email">Email:</label>
@@ -58,7 +78,6 @@ const SignIn = () => {
                                 required
                             />
                         </div>
-
                         <div>
                             <label htmlFor="password">Password:</label>
                             <input
@@ -70,25 +89,83 @@ const SignIn = () => {
                                 required
                             />
                         </div>
-
                         <div className="link-container">
                             <p className="create" onClick={() => navigate('/register')}>
-                            I don't have an account.
-                        </p>
-                            <p className="forgot-password-link" onClick={() => navigate('/forgot-password')}>
+                                I don't have an account.
+                            </p>
+                            <p
+                                className="forgot-password-link"
+                                onClick={() => setView('forgot-password')}
+                            >
                                 I forgot my password.
                             </p>
-
                         </div>
-
-
                         <button type="submit" className="sign-in-button">Sign in</button>
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
-
                     </form>
                 </div>
-            </div>
-        </>
+            )}
+            {view === 'forgot-password' && (
+                <div className="reset-password-box">
+                    <h2 className="reset-password-header">Reset Password</h2>
+                    <form className="reset-password-form" onSubmit={handlePasswordReset}>
+                        <div>
+                            <label htmlFor="reset-email">Email:</label>
+                            <input
+                                type="email"
+                                id="reset-email"
+                                placeholder="Enter your email"
+                                value={resetEmail}
+                                onChange={(e) => setResetEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="reset-password-button">
+                            Send Reset Code
+                        </button>
+                        {resetMessage && <p className="reset-message">{resetMessage}</p>}
+                    </form>
+                    <p
+                        className="back-to-signin-link"
+                        onClick={() => setView('sign-in')}
+                    >
+                        Back to Sign In
+                    </p>
+                </div>
+            )}
+            {view === 'reset-code' && (
+                <div className="reset-password-box">
+                    <h2 className="reset-password-header">Enter Reset Code</h2>
+                    <form className="reset-password-form" onSubmit={handleResetCodeSubmit}>
+                        <div>
+                            <label htmlFor="reset-code">Reset Code:</label>
+                            <input
+                                type="text"
+                                id="reset-code"
+                                placeholder="Enter the code"
+                                value={resetCode}
+                                onChange={(e) => setResetCode(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="new-password">New Password:</label>
+                            <input
+                                type="password"
+                                id="new-password"
+                                placeholder="Enter new password"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="reset-password-button">
+                            Reset Password
+                        </button>
+                    </form>
+                </div>
+            )}
+        </div>
     );
 };
 
