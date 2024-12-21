@@ -2,6 +2,7 @@ package tw_Project.sweet.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import tw_Project.sweet.Dto.DisplayOrdersDto;
 import tw_Project.sweet.Dto.PreorderDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.Preorder;
@@ -46,5 +47,11 @@ public class PreorderController {
             throw new BadRequestException("The preorder list is empty");
         }
         return ResponseEntity.ok(ApiResponse.success("New preorder added successfully", null));
+    }
+
+    @GetMapping("/get_all_preorders")
+    public ResponseEntity<ApiResponse> getAllOrders(){
+        List<DisplayOrdersDto> displayOrdersDtos = preorderService.getAllPreorders();
+        return ResponseEntity.ok(ApiResponse.success("All preorders", displayOrdersDtos));
     }
 }

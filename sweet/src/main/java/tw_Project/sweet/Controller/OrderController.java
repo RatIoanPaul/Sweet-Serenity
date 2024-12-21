@@ -3,6 +3,7 @@ package tw_Project.sweet.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import tw_Project.sweet.Dto.DisplayOrdersDto;
 import tw_Project.sweet.Dto.OrderDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.CartItem;
@@ -53,4 +54,9 @@ public class OrderController {
         return ResponseEntity.ok(ApiResponse.success("Order status changed successfully", null));
     }
 
+    @GetMapping("/get_all_orders")
+    public ResponseEntity<ApiResponse> getAllOrders(){
+        List<DisplayOrdersDto> displayOrdersDtos = orderService.getAllOrders();
+        return ResponseEntity.ok(ApiResponse.success("All orders", displayOrdersDtos));
+    }
 }

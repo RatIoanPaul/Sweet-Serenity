@@ -2,16 +2,19 @@ package tw_Project.sweet.Service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tw_Project.sweet.Dto.DisplayOrdersDto;
 import tw_Project.sweet.Dto.PreorderDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
-import tw_Project.sweet.Model.Address;
+import tw_Project.sweet.Model.*;
 import tw_Project.sweet.Model.enums.DeliveryMethod;
-import tw_Project.sweet.Model.Preorder;
 import tw_Project.sweet.Repository.AddressRepository;
+import tw_Project.sweet.Repository.PreorderDetailsRepository;
 import tw_Project.sweet.Repository.PreorderRepository;
 import tw_Project.sweet.Repository.UserRepository;
 import tw_Project.sweet.Service.PreorderService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,13 +22,15 @@ public class PreorderServiceImpl implements PreorderService {
     private final PreorderRepository preorderRepository;
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
+    private final PreorderDetailsRepository preorderDetailsRepository;
 
 
     @Autowired
-    public PreorderServiceImpl(PreorderRepository preorderRepository, AddressRepository addressRepository, UserRepository userRepository) {
+    public PreorderServiceImpl(PreorderRepository preorderRepository, AddressRepository addressRepository, UserRepository userRepository, PreorderDetailsRepository preorderDetailsRepository) {
         this.preorderRepository = preorderRepository;
         this.addressRepository = addressRepository;
         this.userRepository = userRepository;
+        this.preorderDetailsRepository = preorderDetailsRepository;
     }
 
     @Override
@@ -57,4 +62,29 @@ public class PreorderServiceImpl implements PreorderService {
             throw new BadRequestException("There is no preorder with this id");
         }
     }
+
+    @Override
+    public List<DisplayOrdersDto> getAllPreorders() {
+        List<Preorder> preorders = preorderRepository.getAll();
+        List<DisplayOrdersDto> displayOrdersDtos = new ArrayList<>();
+        for(Preorder preorder: preorders)
+        {
+            DisplayOrdersDto displayOrdersDto =  new DisplayOrdersDto();
+            displayOrdersDto.setAddressId(preorder.getAddress().getAddressId());
+            displayOrdersDto.setPrice(preorder.getPrice());
+            displayOrdersDto.setDeliveryMethod(preorder.getDeliveryMethod().toString());
+            displayOrdersDto.setDeliveryMessage(preorder.getDeliveryMessage());
+            displayOrdersDto.setDateAndTime(preorder.getDateAndTime());
+            List<Product> orderProducts = new ArrayList<>();
+            List<PreorderDetails> preorderDetails = preorderDetailsRepository.findAllByPreorder(preorder);
+            for(PreorderDetails preorderDetail: preorderDetails){
+                PreorderItemList preorderItemList = preorderDetail.getPreorderItemList();
+                Product product = preorderItemList.getProduct();
+                orderProducts.add(product);
+            }
+            displayOrdersDto.setProducts(orderProducts);
+        }
+        return displayOrdersDtos;
+    }
+
 }
