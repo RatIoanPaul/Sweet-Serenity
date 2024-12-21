@@ -5,10 +5,12 @@ import org.springframework.stereotype.Repository;
 import tw_Project.sweet.Model.Order;
 import tw_Project.sweet.Model.Preorder;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     public Optional<Order> getOrderByIdOrder(Long idOrder);
+    public List<Order> getAll();
 
 }

@@ -39,11 +39,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/in/user/cart/updateProductQuantity/**").permitAll()
                             .requestMatchers("/api/in/user/cart/get_user_cart_products/**").permitAll()
                             .requestMatchers("/api/in/user/cart/verifyCartItemStatus/**").permitAll()
+                            .requestMatchers("/api/in/user/order/get_all_orders").permitAll()
 
                             .requestMatchers("/api/in/user/preorder_item/updateProductQuantity/**").permitAll()
                             .requestMatchers("/api/in/user/preorder_item/add_item_to_preorder_list").permitAll()
                             .requestMatchers("/api/in/user/preorder_item/deleteProductFromPreorderList/**").permitAll()
                             .requestMatchers("/api/in/user/preorder_item/get_user_preorder_products/**").permitAll()
+                            .requestMatchers("/api/in/user/preorder/get_all_preorders").permitAll()
+
 
                             .requestMatchers("/api/in/address/addNewAddress").permitAll()
                             .requestMatchers("/api/in/address/deleteAddress/**").permitAll()
