@@ -1,13 +1,14 @@
-
 .sign-in-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('../../components/background.png');
+    background-image: url('../../images/background.png');
     background-size: cover;
     background-position: center;
     margin-top: 0px;
+    color: #ebaa6c;
+    font-size: 20px;
 }
 
 .sign-in-box {
@@ -20,7 +21,7 @@
     padding: 40px;
     margin: 20px auto;
     border: 2px solid #fdc18b;
-    height: 320px;
+    height: auto;
 }
 
 .app-title {
@@ -30,14 +31,13 @@
     margin-bottom: 10px;
 }
 
-
 .sign-in-header {
     font-family: 'Pacifico', sans-serif;
     font-size: 30px;
     color: #ebaa6c;
     margin-bottom: 20px;
+    margin-top: 5px;
 }
-
 
 .sign-in-form {
     display: flex;
@@ -49,7 +49,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
 }
 
 .sign-in-form label {
@@ -69,12 +69,11 @@
     color: #8a4d15;
 }
 
-
 .sign-in-button {
     background-color: #f4a460;
     color: white;
     font-size: 18px;
-    padding: 10px;
+    padding: 6px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -85,4 +84,91 @@
 
 .sign-in-button:hover {
     background-color: #d2691e;
+}
+
+.link-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password-link, .create {
+    color: #9f693c;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.forgot-password-link:hover, .create:hover {
+    color: #ebaa6c;
+}
+
+@media (max-width: 768px) {
+    .sign-in-box {
+        width: 80%;
+        padding: 30px;
+    }
+
+    .sign-in-form label {
+        font-size: 18px;
+    }
+
+    .sign-in-form input {
+        width: 65%;
+        font-size: 14px;
+    }
+
+    .sign-in-button {
+        width: 200px;
+        font-size: 16px;
+    }
+
+    .sign-in-header {
+        font-size: 26px;
+    }
+
+    .link-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .forgot-password-link, .create {
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .sign-in-box {
+        width: 70%;
+        padding: 20px;
+    }
+
+    .sign-in-form div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sign-in-form label {
+        font-size: 16px;
+        width: 60%;
+        margin-bottom: 5px;
+    }
+
+    .sign-in-form input {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .sign-in-button {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .sign-in-header {
+        font-size: 24px;
+    }
+
+    .link-container {
+        align-items: flex-start;
+    }
 }

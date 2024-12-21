@@ -1,13 +1,14 @@
-/* OTP Verification CSS - Adaptează stilurile din sign-in pentru componenta OTP */
 .otp-verification-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('../../components/background.png');
+    background-image: url('../../images/background.png');
     background-size: cover;
     background-position: center;
     margin-top: 0;
+    color: #ebaa6c;
+    font-size: 20px;
 }
 
 .otp-verification-box {
@@ -20,13 +21,13 @@
     padding: 40px;
     margin: 20px auto;
     border: 2px solid #fdc18b;
-    height: 320px;
+    height: 350px;
 }
 
 .otp-verification-header {
     font-family: 'Pacifico', sans-serif;
-    font-size: 30px;
-    color: #d2691e;
+    font-size: 35px;
+    color: #ebaa6c;
     margin-bottom: 20px;
 }
 
@@ -62,4 +63,25 @@
     margin-top: 20px;
     font-size: 16px;
     color: #8a4d15;
+}
+
+@media (max-width: 480px) {
+    .otp-verification-box {
+        padding: 3rem;
+    }
+
+    .otp-verification-header {
+        font-size: 1.8rem;
+    }
+
+    .otp-input,
+    .verify-otp-button {
+        font-size: 0.9rem;
+        padding: 0.rem; 
+        width: 180px;
+    }
+
+    .otp-message {
+        font-size: 0.9rem;
+    }
 }

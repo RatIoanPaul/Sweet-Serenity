@@ -15,9 +15,13 @@ body {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 40px;
     padding: 20px;
+}
+
+.single-item-center {
+    grid-template-columns: 1fr;
+    justify-items: center;
 }
 
 .services-item {
@@ -28,6 +32,7 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
+
 
 .services-button {
     background: none;
