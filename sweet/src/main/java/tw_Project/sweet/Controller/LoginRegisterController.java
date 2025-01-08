@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import tw_Project.sweet.Dto.EmailDto;
+import tw_Project.sweet.Dto.ForgotPasswordDto;
 import tw_Project.sweet.Dto.LoginDto;
 import tw_Project.sweet.Dto.UserDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
@@ -59,5 +61,16 @@ public class LoginRegisterController {
         return ResponseEntity.ok(ApiResponse.success("Code sent with success", null));
     }
 
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<ApiResponse> forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto)
+    {
+        loginRegisterService.forgotPassword(forgotPasswordDto);
+        return ResponseEntity.ok(ApiResponse.success("The code for password resetting was sent", null));
+    }
 
+    @PostMapping("/forgot-password/send-verification-code")
+    public ResponseEntity<ApiResponse> sendVerificationCode(@RequestBody EmailDto emailDto){
+        loginRegisterService.sendVerificationCodePC(emailDto);
+        return ResponseEntity.ok(ApiResponse.success("The code was sent successfully", null));
+    }
 }

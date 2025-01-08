@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PreorderRepository extends JpaRepository<Preorder, Long> {
     public Optional<Preorder> getPreordersByIdPreorder(Long idPreorder);
-    List<Preorder> getAll();
+    List<Preorder> findAll();
 }
