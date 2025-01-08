@@ -1,37 +1,58 @@
 package tw_Project.sweet.Service.impl;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import tw_Project.sweet.Dto.EmailDto;
+import tw_Project.sweet.Dto.ForgotPasswordDto;
 import tw_Project.sweet.Dto.LoginDto;
 import tw_Project.sweet.Dto.UserDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Exceptions.ResourceNotFoundException;
 import tw_Project.sweet.Model.User;
 import tw_Project.sweet.Model.VerificationAndRegisterData;
+import tw_Project.sweet.Model.VerificationAndResetPasswordData;
+import tw_Project.sweet.Model.VerificationCodePasswordChanging;
 import tw_Project.sweet.Repository.UserRepository;
+import tw_Project.sweet.Repository.VerificationCodeForgetPasswordRepository;
 import tw_Project.sweet.Service.LoginRegisterService;
+import tw_Project.sweet.Service.VerificationCodeForgotPasswordService;
 import tw_Project.sweet.Service.VerificationService;
 import tw_Project.sweet.config.JwtService;
 import tw_Project.sweet.utils.AuthenticationResponse;
 import tw_Project.sweet.Model.enums.UserRole;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class LoginRegisterServiceImpl implements LoginRegisterService {
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Value("$(spring.mail.username)")
+    private String fromMsg;
+
     private final UserRepository userRepository;
     private final VerificationService verificationService;
     private final JwtService jwtService;
+    private final VerificationCodeForgetPasswordRepository verificationCodeForgetPasswordRepository;
+    private final VerificationCodeForgotPasswordService verificationCodeForgotPasswordService;
 
     @Autowired
-    public LoginRegisterServiceImpl(UserRepository userRepository, VerificationService verificationService, JwtService jwtService) {
+    public LoginRegisterServiceImpl(UserRepository userRepository, VerificationService verificationService, JwtService jwtService, VerificationCodeForgetPasswordRepository verificationCodeForgetPasswordRepository, VerificationCodeForgotPasswordService verificationCodeForgotPasswordService) {
         this.userRepository = userRepository;
         this.verificationService = verificationService;
         this.jwtService = jwtService;
+        this.verificationCodeForgetPasswordRepository = verificationCodeForgetPasswordRepository;
+        this.verificationCodeForgotPasswordService = verificationCodeForgotPasswordService;
     }
 
     @Override
@@ -101,5 +122,45 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public void forgotPassword(@RequestBody ForgotPasswordDto forgotPasswordDto){
+        Optional<User> optionalUser = userRepository.getUserByEmail(forgotPasswordDto.getEmail());
+        User user;
+        if(optionalUser.isPresent()) {
+            user = optionalUser.get();
+
+            if (!forgotPasswordDto.getNewPassword().equals(forgotPasswordDto.getRetypeNewPassword()))
+                throw new BadRequestException("The passwords do not match");
+
+            verificationCodeForgotPasswordService.sendVerificationCode(user.getEmail());
+        }
+    }
+
+
+    public void sendVerificationCodePC(@RequestBody EmailDto emailDto){
+        Optional<User> optionalUser = userRepository.getUserByEmail(emailDto.getEmail());
+        User user;
+        if(optionalUser.isPresent()) {
+            user = optionalUser.get();
+            verificationCodeForgotPasswordService.sendVerificationCode(user.getEmail());
+        }
+    }
+
+    @Override
+    public User changePasswordAfterVerification(VerificationAndResetPasswordData verificationAndResetPasswordData){
+        Optional<User> optionalPatient = userRepository.getUserByEmail(verificationAndResetPasswordData.getEmail());
+        System.out.print(verificationAndResetPasswordData.getNewPassword());
+        User user;
+        if(optionalPatient.isPresent()){
+            user = optionalPatient.get();
+            String encryptedPassword = BCrypt.hashpw(verificationAndResetPasswordData.getNewPassword(), BCrypt.gensalt());
+            user.setPassword(encryptedPassword);
+        }
+        else{
+            throw new ResourceNotFoundException("There is no account associated with this email");
+        }
+        return userRepository.save(user);
+
     }
 }

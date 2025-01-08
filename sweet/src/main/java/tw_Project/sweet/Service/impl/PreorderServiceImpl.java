@@ -65,7 +65,7 @@ public class PreorderServiceImpl implements PreorderService {
 
     @Override
     public List<DisplayOrdersDto> getAllPreorders() {
-        List<Preorder> preorders = preorderRepository.getAll();
+        List<Preorder> preorders = preorderRepository.findAll();
         List<DisplayOrdersDto> displayOrdersDtos = new ArrayList<>();
         for(Preorder preorder: preorders)
         {

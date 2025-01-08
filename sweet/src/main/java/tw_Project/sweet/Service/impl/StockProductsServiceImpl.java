@@ -41,7 +41,7 @@ public class StockProductsServiceImpl implements StockProductsService {
     public List<StockProductDto> createStockProductDtoList(List<Product> products) {
         List<StockProductDto> stockProductDtos = new ArrayList<>();
         for(Product product : products){
-            StockProductDto stockProductDto= new StockProductDto();
+            StockProductDto stockProductDto = new StockProductDto();
             stockProductDto.setIngredients(product.getIngredients());
             stockProductDto.setDescriptions(product.getDescriptions());
             stockProductDto.setPrice(product.getPrice());
@@ -51,8 +51,9 @@ public class StockProductsServiceImpl implements StockProductsService {
             stockProductDto.setProductId(product.getId());
             Optional<StockProducts> optionalStockProducts = stockProductsRepository.getStockProductsByProduct(product);
             if(optionalStockProducts.isPresent()){
-                stockProductDto.setAvailableQuantity(optionalStockProducts.get().getRealQuantity());
-                stockProductDto.setStockId(optionalStockProducts.get().getIdProductStock());
+                StockProducts stockProducts = optionalStockProducts.get();
+                stockProductDto.setAvailableQuantity(stockProducts.getRealQuantity());
+                stockProductDto.setStockId(stockProducts.getIdProductStock());
                 stockProductDtos.add(stockProductDto);
             }
             else{
