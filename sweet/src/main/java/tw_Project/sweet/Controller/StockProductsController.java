@@ -11,8 +11,9 @@ import tw_Project.sweet.utils.ApiResponse;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/in/stock_products")
-@CrossOrigin
+
 public class StockProductsController {
 
     private final StockProductsService stockProductsService;
@@ -21,8 +22,9 @@ public class StockProductsController {
         this.stockProductsService = stockProductsService;
     }
 
-    @GetMapping("/gelAllStockProducts")
+    @GetMapping("/getAllStockProducts")
     public ResponseEntity<ApiResponse> getAllStockProducts(){
+
         List<Product> allStockProducts = stockProductsService.getAllStockProducts();
         List<StockProductDto> stockProductDtos = stockProductsService.createStockProductDtoList(allStockProducts) ;
         return ResponseEntity.ok(ApiResponse.success("Those are all stock products", stockProductDtos));
