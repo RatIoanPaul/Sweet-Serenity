@@ -41,11 +41,12 @@ public class ProductController {
     @PostMapping("/updateProduct/{productId}")
     public ResponseEntity<ApiResponse> updateProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
         productService.updateProduct(productId, productDto);
+        System.out.print("CONFIRM");
         return ResponseEntity.ok(ApiResponse.success("Product updated successfully", null));
     }
 
     @DeleteMapping("/deleteProduct/{productId}")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId, @RequestBody ProductDto productDto){
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId){
         productService.deleteProduct(productId);
         return ResponseEntity.ok(ApiResponse.success("Product deleted successfully", null));
     }

@@ -25,14 +25,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                     .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                             .requestMatchers("/api/auth/**").permitAll()
 
-                            .requestMatchers("/api/in/products/addProduct").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/addProduct").permitAll()
                             .requestMatchers("/api/in/products/getProducts").permitAll()
-                            .requestMatchers("/api/in/products/getProduct/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/deleteProduct/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/updateProduct/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/archiveProduct/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/activateProduct/**").hasAuthority("ADMIN")
-                            .requestMatchers("/api/in/products/changeProductType/**").hasAuthority("ADMIN")
+                            .requestMatchers("/api/in/products/getProduct/**").permitAll()
+                            .requestMatchers("/api/in/products/deleteProduct/**").permitAll()
+                            .requestMatchers("/api/in/products/updateProduct/**").permitAll()
+                            .requestMatchers("/api/in/products/archiveProduct/**").permitAll()
+                            .requestMatchers("/api/in/products/activateProduct/**").permitAll()
+                            .requestMatchers("/api/in/products/changeProductType/**").permitAll()
 
                             .requestMatchers("/api/in/user/cart/addProductToCart").permitAll()
                             .requestMatchers("/api/in/user/cart/deleteProductFromCart/**").permitAll()
@@ -64,7 +64,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
                             .requestMatchers("/api/in/stock_products/changeProductStock/**").permitAll()
-                            .requestMatchers("/api/in/stock_products/gelAllStockProducts").permitAll()
+                            .requestMatchers("/api/in/stock_products/getAllStockProducts").permitAll()
 
                             .requestMatchers("/api/in/tastingRequest/addNewRequest").permitAll()
                             .requestMatchers("/api/in/tastingRequest/getAllRequests").permitAll()

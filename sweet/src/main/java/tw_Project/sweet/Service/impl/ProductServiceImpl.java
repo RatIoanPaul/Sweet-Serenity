@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product addNewProduct(ProductDto productDto) {
         Product product = new Product();
-        product.setCalories(productDto.getCalories());
+
         product.setProductCategory(ProductCategory.valueOf(productDto.getCategory()));
         product.setDescriptions(productDto.getDescriptions());
         product.setPrice(productDto.getPrice());
@@ -38,16 +38,27 @@ public class ProductServiceImpl implements ProductService {
         product.setIngredients(productDto.getIngredients());
         product.setProductStatus(ProductStatus.ACTIVE);
         product.setProductType(ProductType.valueOf(productDto.getType()));
-        product.setProductImgUrl(productDto.getProductImgUrl());
+        // product.setProductImgUrl(productDto.getProductImgUrl());
         return productRepository.save(product);
     }
 
     public void updateProduct(Long id, ProductDto productDto){
         Optional<Product> optionalProduct = productRepository.getProductById(id);
         Product product;
+
         if(optionalProduct.isPresent()){
             product = optionalProduct.get();
-            product.setProductCategory(ProductCategory.valueOf(productDto.getCategory()));
+
+            System.out.print(product.getId());
+            System.out.print(productDto.getCategory());
+
+            if(productDto.getCategory().equals("STOCK"))
+                product.setProductType(ProductType.STOCK);
+            else if(productDto.getCategory().equals("MIX"))
+                product.setProductType(ProductType.MIX);
+            else if(productDto.getCategory().equals("PREORDER"))
+                product.setProductType(ProductType.PREORDER);
+
             product.setDescriptions(productDto.getDescriptions());
             product.setPrice(productDto.getPrice());
             product.setCalories(productDto.getCalories());
@@ -151,7 +162,9 @@ public class ProductServiceImpl implements ProductService {
         Product product;
         if(optionalProduct.isPresent()){
             product = optionalProduct.get();
-            productRepository.delete(product);
+            try {
+                productRepository.delete(product);
+            } catch (Exception e) {throw new BadRequestException("This product can't be deleted");}
         }
         else{
             throw new BadRequestException("Product with this id not found");
