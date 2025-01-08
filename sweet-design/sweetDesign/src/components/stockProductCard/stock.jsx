@@ -1,15 +1,48 @@
 import React, { useState } from 'react';
 import './styleStockkk.css';
+import axios from "axios";
 
-const StockProductCard = ({ image, price, name, ingredients, initialStock }) => {
+const StockProductCard = ({ image, price, name, ingredients, initialStock, stockId }) => {
     const [stock, setStock] = useState(initialStock);
 
-    const increaseStock = () => {
-        setStock(prevStock => prevStock + 1);
+    const increaseStock = async () => {
+        const token = localStorage.getItem("token");
+        try {
+            await axios.put(
+                `http://localhost:8080/api/in/stock_products/changeProductStock/${stockId}`,
+                { quantity : stock + 1 },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+
+                }
+            );
+            console.log(`Stock for product ID ${stockId} updated successfully`);
+            window.location.reload();
+        } catch (error) {
+            console.error('Error updating stock:', error);
+        }
     };
 
-    const decreaseStock = () => {
-        setStock(prevStock => (prevStock > 0 ? prevStock - 1 : 0));
+    const decreaseStock = async  () => {
+        const token = localStorage.getItem("token");
+        try {
+            await axios.put(
+                `http://localhost:8080/api/in/stock_products/changeProductStock/${stockId}`,
+                { quantity : stock - 1 },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+
+                }
+            );
+            console.log(`Stock for product ID ${stockId} updated successfully`);
+            window.location.reload();
+        } catch (error) {
+            console.error('Error updating stock:', error);
+        }
     };
 
     const handleInputChange = (e) => {

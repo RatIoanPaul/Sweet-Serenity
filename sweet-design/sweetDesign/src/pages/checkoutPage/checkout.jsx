@@ -23,6 +23,7 @@ const Checkout = () => {
                 }
             });
             setCartItems(response.data.data); // Update cart items with the API data
+            console.log(response.data.data)
         } catch (error) {
             console.error("Error fetching cart items:", error);
             setErrorMessage("Failed to load cart items. Please try again later.");

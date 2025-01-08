@@ -31,27 +31,6 @@ const StockProducts = () => {
         fetchProducts();
     }, []);
 
-    // Funcție pentru actualizarea cantității stocului
-    const updateStock = async (stockId, quantity) => {
-        const token = localStorage.getItem("token");
-        try {
-            await axios.put(
-                `http://localhost:8080/api/in/stock_products/changeProductStock/${stockId}`,
-                { quantity },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-
-                }
-            );
-            console.log(`Stock for product ID ${stockId} updated successfully`);
-            fetchProducts(); // Reîmprospătăm lista de produse
-        } catch (error) {
-            console.error('Error updating stock:', error);
-        }
-    };
-
     return (
         <>
             <Navbar />
@@ -67,12 +46,8 @@ const StockProducts = () => {
                                 price={product.price}
                                 name={product.name}
                                 ingredients={product.ingredients}
-                                initialStock={product.stockQuantity}
-                                onIncrease={() => updateStock(product.id, product.stockQuantity + 1)}
-                                onDecrease={() =>
-                                    product.stockQuantity > 0 &&
-                                    updateStock(product.id, product.stockQuantity - 1)
-                                }
+                                initialStock={product.availableQuantity}
+                                stockId={product.stockId}
                             />
                         ))}
                     </div>

@@ -7,7 +7,6 @@
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 1100px;
     color: #e4964e;
 }
 
@@ -99,6 +98,7 @@
 
 .ps-notes {
     margin-top: 10px;
+    max-width: 300px;
 }
 
 .ps-notes label {
@@ -109,7 +109,7 @@
 }
 
 .ps-notes textarea {
-    width: 800px;
+    width: 500px;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #f9e2d3;
