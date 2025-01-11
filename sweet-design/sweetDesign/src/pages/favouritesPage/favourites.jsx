@@ -49,10 +49,10 @@ const Favourites = () => {
     const incrementQuantity = async (productFav) => {
         try {
             console.log(productFav)
-            const productFavId = productFav.productFavId
+            const productFavId = productFav.productFavouriteId
             const quantity = productFav.quantity + 1
             const response = await axios.put(
-                `http://localhost:8080/api/in/user/cart/updateProductQuantity/${productFavId}`,
+                `http://localhost:8080/api/in/user/favourite/updateProductQuantity/${productFavId}`,
                 { quantity: quantity },
                 {
                     headers: {
@@ -70,11 +70,11 @@ const Favourites = () => {
     // Decrement product quantity
     const decrementQuantity = async (productFav) => {
         try {
-            console.log(productCart)
-            const productCartId = productCart.productCartId
-            const quantity = productCart.quantity - 1
+            console.log(productFav)
+            const productFavId = productFav.productFavouriteId
+            const quantity = productFav.quantity - 1
             const response = await axios.put(
-                `http://localhost:8080/api/in/user/cart/updateProductQuantity/${productCartId}`,
+                `http://localhost:8080/api/in/user/favourite/updateProductQuantity/${productFavId}`,
                 { quantity: quantity },
                 {
                     headers: {
@@ -83,17 +83,17 @@ const Favourites = () => {
                 }
             );
             console.log(response)
-            await fetchCartItems(); // Refresh the cart
+            await fetchFavItems();
         } catch (error) {
             console.error("Error incrementing quantity:", error);
         }
     };
 
     // Delete a product from the cart
-    const deleteProduct = async (productCartId) => {
+    const deleteProduct = async (productFavId) => {
         try {
             await axios.delete(
-                `http://localhost:8080/api/in/user/cart/deleteProductFromCart/${productCartId}`,
+                `http://localhost:8080/api/in/user/favourite/deleteProductFromFavourite/${productFavId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -108,7 +108,7 @@ const Favourites = () => {
 
     // Calculate total cost dynamically
     const calculateTotalCost = () => {
-        const productCost = cartItems.reduce((total, item) => {
+        const productCost = favItems.reduce((total, item) => {
             return total + item.price * item.quantity;
         }, 0).toFixed(2);
         const deliveryCost = 5.00; // Fixed delivery cost
@@ -118,7 +118,7 @@ const Favourites = () => {
         };
     };
 
-    //const { productCost, totalPrice } = calculateTotalCost();
+    const { productCost, totalPrice } = calculateTotalCost();
 
     return (
         <>
@@ -137,22 +137,24 @@ const Favourites = () => {
                                     price={item.price}
                                     image={item.photoFilePath}
                                     quantity={item.quantity}
-                                    onDelete={() => deleteProduct(item.productFavId)}
+                                    onDelete={() => deleteProduct(item.productFavouriteId)}
                                     onIncrement={() => incrementQuantity(item)}
                                     onDecrement={() => decrementQuantity(item)}
                                 />
                             ))
                         ) : (
-                            <p className="no-items-message">No items in your cart.</p>
+                            <p className="no-items-message">No items in your favourite list.</p>
                         )}
                     </div>
-                    <div className="favourites-total">
-                        <Total
-                            productCost="$50"
-                            totalPrice="$55"
-                            page="favourites"
-                        />
-                    </div>
+                    {favItems.length > 0 && (
+                        <div className="list-total">
+                            <Total
+                                productCost={`$${productCost}`}
+                                totalPrice={`$${totalPrice}`}
+                                page="favourites"
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         </>

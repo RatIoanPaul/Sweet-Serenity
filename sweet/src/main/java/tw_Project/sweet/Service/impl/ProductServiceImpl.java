@@ -1,6 +1,8 @@
 package tw_Project.sweet.Service.impl;
 
+import org.hibernate.dialect.SybaseASEDialect;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import tw_Project.sweet.Dto.ProductDto;
 import tw_Project.sweet.Dto.StockProductDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
@@ -13,6 +15,7 @@ import tw_Project.sweet.Repository.ProductRepository;
 import tw_Project.sweet.Repository.StockProductsRepository;
 import tw_Project.sweet.Service.ProductService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,15 +24,19 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final StockProductsRepository stockProductsRepository;
+    private final AzureBlogStorageService azureBlobStorageService;
 
-    public ProductServiceImpl(ProductRepository productRepository, StockProductsRepository stockProductsRepository) {
+
+    public ProductServiceImpl(ProductRepository productRepository, StockProductsRepository stockProductsRepository, AzureBlogStorageService azureBlobStorageService) {
         this.productRepository = productRepository;
         this.stockProductsRepository = stockProductsRepository;
+        this.azureBlobStorageService = azureBlobStorageService;
     }
 
     @Override
-    public Product addNewProduct(ProductDto productDto) {
+    public Product addNewProduct(ProductDto productDto, MultipartFile productImgFile) throws IOException {
         Product product = new Product();
+        String filePath = azureBlobStorageService.uploadFile(productImgFile);
 
         product.setProductCategory(ProductCategory.valueOf(productDto.getCategory()));
         product.setDescriptions(productDto.getDescriptions());
@@ -38,11 +45,11 @@ public class ProductServiceImpl implements ProductService {
         product.setIngredients(productDto.getIngredients());
         product.setProductStatus(ProductStatus.ACTIVE);
         product.setProductType(ProductType.valueOf(productDto.getType()));
-        // product.setProductImgUrl(productDto.getProductImgUrl());
+        product.setProductImgUrl(filePath);
         return productRepository.save(product);
     }
 
-    public void updateProduct(Long id, ProductDto productDto){
+    public void updateProduct(Long id, ProductDto productDto) throws IOException {
         Optional<Product> optionalProduct = productRepository.getProductById(id);
         Product product;
 
@@ -59,12 +66,14 @@ public class ProductServiceImpl implements ProductService {
             else if(productDto.getCategory().equals("PREORDER"))
                 product.setProductType(ProductType.PREORDER);
 
+            //String filePath = azureBlobStorageService.uploadFile(productDto.getProductImgFile());
+            System.out.print("da");
             product.setDescriptions(productDto.getDescriptions());
             product.setPrice(productDto.getPrice());
             product.setCalories(productDto.getCalories());
             product.setName(productDto.getName());
             product.setIngredients(productDto.getIngredients());
-            product.setProductImgUrl(productDto.getProductImgUrl());
+            //product.setProductImgUrl(filePath);
             productRepository.save(product);
         }
         else{

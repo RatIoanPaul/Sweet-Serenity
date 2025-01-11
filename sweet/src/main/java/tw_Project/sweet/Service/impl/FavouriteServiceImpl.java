@@ -7,6 +7,7 @@ import tw_Project.sweet.Dto.FavouriteDto;
 import tw_Project.sweet.Dto.FavouriteItemDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.Favourite;
+import tw_Project.sweet.Model.PreorderItemList;
 import tw_Project.sweet.Model.Product;
 import tw_Project.sweet.Model.User;
 import tw_Project.sweet.Repository.FavouriteRepository;
@@ -42,6 +43,7 @@ public class FavouriteServiceImpl implements FavouriteService {
             Optional<User> user = userRepository.getUserByEmail(favouriteDto.getUserEmail());
             if(user.isPresent()){
                 favourite.setUser(user.get());
+                favourite.setQuantity(1);
                 favouriteRepository.save(favourite);
             }else{
                 throw new BadRequestException("This email does not correspond to any user");
@@ -63,13 +65,41 @@ public class FavouriteServiceImpl implements FavouriteService {
                 favouriteDto.setProductName(product.getName());
                 favouriteDto.setPrice(product.getPrice());
                 favouriteDto.setPhotoFilePath(product.getProductImgUrl());
+                favouriteDto.setQuantity(favourite.getQuantity());
                 favouriteDto.setProductFavouriteId(favourite.getIdProductFavourite());
                 favouriteDtos.add(favouriteDto);
+
             }
         }else{
             throw new BadRequestException("This email does not correspond to any user");
         }
         return favouriteDtos;
+    }
+
+    @Override
+    public void deleteItem(Long id) {
+        Optional<Favourite> optional = favouriteRepository.findById(id);
+        if(optional.isPresent())
+        {
+            favouriteRepository.delete(optional.get());
+        }
+        else{
+            throw new BadRequestException("this item does not exists");
+        }
+    }
+
+    @Override
+    public void changeProductQuantityInFavList(FavouriteDto favouriteDto, Long id) {
+        Favourite favourite;
+        Optional<Favourite> optionalFavourite = favouriteRepository.getFavouriteByIdProductFavourite(id);
+        if(optionalFavourite.isPresent()){
+            favourite = optionalFavourite.get();
+
+            favourite.setQuantity(favouriteDto.getQuantity());
+            favouriteRepository.save(favourite);
+        }else{
+            throw new BadRequestException("There is no product in preorder list with this id");
+        }
     }
 
 }

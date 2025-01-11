@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +17,6 @@ public class ProductDto {
     private String descriptions;
     private String calories;
     private Double price;
-    private String productImgUrl;
     private String category;
     private String type;
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface FavouriteService {
     public void addNewFavouriteItems(FavouriteDto favouriteDto);
     public List<FavouriteItemDto> getAllFavouriteUser(String email);
+    public void deleteItem(Long id);
+    public void changeProductQuantityInFavList(FavouriteDto favouriteDto, Long id);
 }

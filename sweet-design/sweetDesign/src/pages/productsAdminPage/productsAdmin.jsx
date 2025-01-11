@@ -120,6 +120,7 @@ const Products = () => {
     };
 
     const handleImageChange = (e) => {
+
         const file = e.target.files[0];
         setNewImageFile(file);
 
@@ -137,18 +138,30 @@ const Products = () => {
             descriptions: newDescription,
             calories:"432" ,
             price: parseFloat(newPrice),
-            productImgUrl: newImagePreview || cupcakeImage,
+            productImgFile: newImageFile.file,
             category: newCategory,
             type: newType,
         };
-
+        const token = localStorage.getItem("token")
         try {
+            const formData = new FormData();
+            formData.append('name', newName);
+            formData.append('ingredients', newIngredients);
+            formData.append('descriptions', newDescription);
+            formData.append('calories', "432");
+            formData.append('price', parseFloat(newPrice));
+            formData.append('category', newCategory);
+            formData.append('type', newType);
+            formData.append('productImgFile', newImageFile); // Adăugăm fișierul
+
+            console.log(newImageFile)
             const response = await axios.post(
                 'http://localhost:8080/api/in/products/addProduct',
-                newProduct,
+                formData,
                 {
                     headers: {
-                        "Content-Type": "application/json",
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`
                     },
                 }
             );
@@ -224,7 +237,7 @@ const Products = () => {
                     {selectedProduct && !isAddingNewProduct && (
                         <AdminDescriptionCard
                             productId={selectedProduct.id}
-                            image={selectedProduct.productImgUrl || cupcakeImage}
+                            image={selectedProduct.productImgUrl}
                             price={selectedProduct.price}
                             name={selectedProduct.name}
                             ingredients={selectedProduct.ingredients}

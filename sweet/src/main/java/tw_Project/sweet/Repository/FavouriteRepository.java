@@ -6,8 +6,10 @@ import tw_Project.sweet.Model.Favourite;
 import tw_Project.sweet.Model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FavouriteRepository extends JpaRepository<Favourite, Long> {
     public List<Favourite> getAllByUser(User user);
+    public Optional<Favourite>getFavouriteByIdProductFavourite(Long id);
 }

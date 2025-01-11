@@ -5,6 +5,7 @@ import com.azure.spring.cloud.autoconfigure.implementation.aad.configuration.pro
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tw_Project.sweet.Dto.TastingRequestDto;
+import tw_Project.sweet.Dto.TastingResponceDto;
 import tw_Project.sweet.Model.TastingRequest;
 import tw_Project.sweet.Service.TastingRequestService;
 import tw_Project.sweet.utils.ApiResponse;
@@ -37,6 +38,12 @@ public class TastingRequestsController {
     public ResponseEntity<ApiResponse>getAllClientRequests(@PathVariable String clientEmail){
         List<TastingRequest> tastingRequestList = tastingRequestService.getAllUserRequests(clientEmail);
         return ResponseEntity.ok(ApiResponse.success("All client tasting request", tastingRequestList));
+    }
+
+    @PostMapping("/response-request")
+    public ResponseEntity<ApiResponse>acceptClientRequest(@RequestBody TastingResponceDto tastingResponceDto){
+        tastingRequestService.sendResponse(tastingResponceDto);
+        return ResponseEntity.ok(ApiResponse.success("The response was successfully sent to client",null));
     }
 
 }
