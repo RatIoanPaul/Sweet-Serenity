@@ -7,6 +7,8 @@ import notificationImage from "../../images/bell.png";
 import listIcon from "../../images/commandList.png";
 import fav from "../../images/favourites.png";
 import profile from "../../images/profile.png";
+import animation2 from "../../animations/animation2.json";
+import Lottie from "lottie-react";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -29,8 +31,11 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <div className="navbar-bottom">
-                <div className="logo">Sweet Serenity</div>
 
+                <div className="logo-animation-container">
+                    <Lottie animationData={animation2} loop={true} className="navbar-animation"/>
+                </div>
+                <div className="logo">Sweet Serenity</div>
                 <button
                     className="hamburger"
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -91,10 +96,15 @@ const Navbar = () => {
                         </>
                     )}
                     {userRole === "ADMIN" && (
-                        <button className="sign-in" onClick={handleLogout}>
-                            Log out
-                        </button>
-                    )}
+                        <>
+                            <button className="admin-tastings" onClick={() => navigate('/tastingsAdmin')}>
+                                <img src={notificationImage} alt="Tastings Admin"/>
+                            </button>
+                            <button className="sign-in" onClick={handleLogout}>
+                                Log out
+                            </button>
+                        </>
+                )}
                 </div>
             </div>
         </nav>

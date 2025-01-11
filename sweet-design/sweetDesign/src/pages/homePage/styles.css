@@ -176,6 +176,13 @@ body {
     color: #ebaa6c;
 }
 
+.hero-animation {
+    width: 300px;
+    margin-left: 400px;
+    padding-bottom: 20px;
+}
+
+
 .home-section {
     display: flex;
     flex-direction: column;
@@ -267,6 +274,11 @@ body {
         padding-bottom: 100px;
         padding-right: 0;
     }
+    .hero-animation {
+        width: 40%;
+        max-width: 300px;
+        margin-left: 0px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -303,5 +315,11 @@ body {
 
     .footer-details {
         font-size: 0.75rem;
+    }
+
+    .hero-animation {
+        width: 50%;
+        max-width: 250px;
+        margin-left: 0px;
     }
 }

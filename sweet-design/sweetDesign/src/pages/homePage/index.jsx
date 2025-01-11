@@ -9,10 +9,10 @@ import h3 from '../../images/h3.jpeg';
 import h4 from '../../images/h4.jpeg';
 import shop from '../../images/shop.jpeg';
 import preorder from '../../images/preorder.jpeg';
-import f from '../../images/facebook.png';
-import i from '../../images/instagram.png';
 import {isTokenValid, parseJwt} from "../../utils/authService.jsx";
 import c from "../../images/calendar.png";
+import animation1 from '../../animations/animation1.json';
+import Lottie from "lottie-react";
 
 
 const isAuthenticated = () => {
@@ -34,12 +34,18 @@ const Home = () => {
     return (
         <>
             <Navbar/>
-            <div className="home-section"><h1 className="hero-title">Indulge in the Art of Sweetness</h1>
+            <div className="home-section">
+                <h1 className="hero-title">Indulge in the Art of Sweetness</h1>
+
                 <div className="welcome"><p className="hero-text">
                     Welcome to our bakery, where passion meets pastry! We create delightful treats using the finest
                     ingredients and innovative techniques, all while upholding our commitment to quality and
                     sustainability. Savor the love in every bite and celebrate the art of baking with us!
                 </p></div>
+
+                <div className="hero-animation">
+                    <Lottie animationData={animation1} loop={true}/>
+                </div>
             </div>
 
             <div className="history-section">
@@ -123,15 +129,6 @@ const Home = () => {
             </div>
 
 
-            <footer className="footer">
-                <div className="social-icons">
-                    <a href="#"><img src={f} alt="Facebook"/></a>
-                    <a href="#"><img src={i} alt="Instagram"/></a>
-                    </div>
-                    <div className="footer-details">
-                        <p>Visit us or follow us on social media for the latest updates!</p>
-                    </div>
-                </footer>
             </>
 
             );

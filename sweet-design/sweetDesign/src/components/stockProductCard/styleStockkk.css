@@ -21,6 +21,8 @@
     border-radius: 15px;
     overflow: hidden;
     margin-top: 20px;
+    width: 200px;
+    height: 200px;
 }
 
 .stock-card-image {
