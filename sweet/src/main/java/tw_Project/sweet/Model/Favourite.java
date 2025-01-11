@@ -21,6 +21,8 @@ public class Favourite {
     @JoinColumn(name="fk_user_email")
     private User user;
 
+    private int quantity;
+
     @ManyToOne
     @JoinColumn(name="fk_product_id")
     private Product product;

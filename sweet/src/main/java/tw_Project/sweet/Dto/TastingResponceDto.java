@@ -9,8 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class FavouriteDto {
-    private Long productId;
-    private String userEmail;
-    private int quantity;
+public class TastingResponceDto {
+    public String email;
+    public String message;
+    public String response;
+    public Long tastingRequestId;
 }

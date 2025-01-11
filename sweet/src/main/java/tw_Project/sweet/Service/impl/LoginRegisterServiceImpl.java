@@ -130,8 +130,8 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
         if(optionalUser.isPresent()) {
             user = optionalUser.get();
 
-            if (!forgotPasswordDto.getNewPassword().equals(forgotPasswordDto.getRetypeNewPassword()))
-                throw new BadRequestException("The passwords do not match");
+            //if (!forgotPasswordDto.getNewPassword().equals(forgotPasswordDto.getRetypeNewPassword()))
+            //    throw new BadRequestException("The passwords do not match");
 
             verificationCodeForgotPasswordService.sendVerificationCode(user.getEmail());
         }

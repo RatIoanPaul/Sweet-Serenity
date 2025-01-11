@@ -15,4 +15,5 @@ public class FavouriteItemDto {
     private Long productId;
     private Long productFavouriteId;
     private Double price;
+    private int quantity;
 }

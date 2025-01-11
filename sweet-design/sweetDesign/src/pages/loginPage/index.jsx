@@ -48,16 +48,43 @@ const SignIn = () => {
 
     const handlePasswordReset = async (e) => {
         e.preventDefault();
-        setResetMessage('');
-        setResetMessage("A reset code has been sent to your email.");
-        setView('reset-code');
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/forgot-password/send-verification-code', {
+                email: resetEmail,
+            });
+            console.log(response)
+            // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
+            if (response.status === 200) {
+                setResetMessage('');
+                setResetMessage("A reset code has been sent to your email.");
+                setView('reset-code');
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            setErrorMessage(error.message);
+        }
+
     };
 
     const handleResetCodeSubmit = async (e) => {
         e.preventDefault();
-        console.log("Password reset successful");
-        setSuccessMessage("Your password has been successfully reset. Please log in.");
-        setView('sign-in');
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/ver-code', {
+                email: resetEmail,
+                newPassword: newPassword,
+                code: resetCode
+            });
+            console.log(response)
+            // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
+            if (response.status === 200) {
+                console.log("Password reset successful");
+                setSuccessMessage("Your password has been successfully reset. Please log in.");
+                setView('sign-in');
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            setErrorMessage(error.message);
+        }
     };
 
     return (

@@ -72,8 +72,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
                             .requestMatchers("/api/in/tastingRequest/addNewRequest").permitAll()
                             .requestMatchers("/api/in/tastingRequest/getAllRequests").permitAll()
                             .requestMatchers("/api/in/tastingRequest/getAllClientRequest/**").permitAll()
+                            .requestMatchers("/api/in/tastingRequest/response-request").permitAll()
+
                             .requestMatchers("/api/in/user/favourite/addNewProductToFavourite").permitAll()
                             .requestMatchers("/api/in/user/favourite/getAllUserFavourite/**").permitAll()
+                            .requestMatchers("/api/in/user/favourite/deleteProductFromFavourite/**").permitAll()
+                            .requestMatchers("/api/in/user/favourite/updateProductQuantity/**").permitAll()
                             .anyRequest().authenticated()
                     )
                     .sessionManagement(sessionManagement ->
