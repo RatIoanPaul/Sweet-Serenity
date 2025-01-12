@@ -55,6 +55,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
                             .requestMatchers("/api/in/user/preorder/addPreorder").permitAll()
                             .requestMatchers("/api/in/user/preorder/addPreorder/**").permitAll()
+                            .requestMatchers("/api/in/user/preorder/change_preorder_status/**").permitAll()
+
 
                             .requestMatchers("/api/in/user/order/addOrder/**").permitAll()
                             .requestMatchers("/api/in/user/order/change_order_status/**").permitAll()

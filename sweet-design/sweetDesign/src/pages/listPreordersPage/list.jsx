@@ -191,8 +191,8 @@ const List = () => {
                     {preorderItems.length > 0 && (
                         <div className="list-total">
                             <Total
-                                productCost={`$${productCost}`}
-                                totalPrice={`$${totalPrice}`}
+                                productCost={productCost}
+                                totalPrice={totalPrice}
                                 page="list"
                             />
                         </div>

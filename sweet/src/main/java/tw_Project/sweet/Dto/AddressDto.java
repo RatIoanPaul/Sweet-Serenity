@@ -14,4 +14,5 @@ public class AddressDto {
     String address;
     String userEmail;
     String phoneNumber;
+    Long addressId;
 }

@@ -26,9 +26,10 @@ const Total = ({ productCost, totalPrice, page }) => {
 
     const handleButtonClick = () => {
         if (buttonText === "Place preorder") {
-            navigate('/sendPreorder');
+            navigate('/sendPreorder', { state: { price: totalPrice } });
         } else if (buttonText === "Place Order") {
-            navigate('/sendOrder');
+            console.log(totalPrice)
+            navigate('/sendOrder', { state: { price: totalPrice } });
         }
     };
 

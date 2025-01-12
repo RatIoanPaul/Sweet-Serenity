@@ -11,8 +11,9 @@ import lombok.Setter;
 @Setter
 public class OrderDto {
     private Long addressId;
-    Double price;
-    String deliveryMessage;
     String deliveryMethod;
     String dateAndTime;
+    String orderStatus;
+    String phoneNumber;
+    Double price;
 }

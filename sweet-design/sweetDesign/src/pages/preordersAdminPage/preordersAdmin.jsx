@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from "../../components/navbar/index.jsx";
 import PreorderCard from "../../components/preorderCard/preorder.jsx";
 import cakeImage from '../../images/cake-image.jpeg';
@@ -6,6 +6,7 @@ import cupcakeImage from '../../images/cake-image.jpeg';
 import cookieImage from '../../images/cookie-image.jpeg';
 import sweetsImage from '../../images/sweets-image.jpeg';
 import './stylePreordersAdmin.css';
+import axios from "axios";
 
 const initialPreorders = [
     {
@@ -166,13 +167,13 @@ const initialPreorders = [
 ];
 
 const PreordersAdmin = () => {
-    const [preordersData, setPreordersData] = useState(initialPreorders);
-    const [currentSection, setCurrentSection] = useState('placed');
+    const [preordersData, setPreordersData] = useState([]);
+    const [currentSection, setCurrentSection] = useState('ARRIVED');
     const [currentPreorderIndex, setCurrentPreorderIndex] = useState(0);
 
     const filteredPreorders = preordersData
-        .filter(o => o.status === currentSection)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
+        .filter(o => o.orderStatus === currentSection)
+        .sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
 
     const handlePrev = () => {
         if (filteredPreorders.length === 0) return;
@@ -194,28 +195,53 @@ const PreordersAdmin = () => {
 
     const currentPreorder = filteredPreorders[currentPreorderIndex];
 
-    const changePreorderStatus = (newStatus) => {
+    const changePreorderStatus = async (newStatus) => {
         if (!currentPreorder) return;
-        const movedPreorderId = currentPreorder.id;
+        const movedPreorderId = currentPreorder.orderId;
 
-        const updatedPreorders = preordersData.map(preorder => {
-            if (preorder.id === movedPreorderId) {
-                return { ...preorder, status: newStatus };
+        try{
+            console.log(newStatus)
+            const response = await axios.post(`http://localhost:8080/api/in/user/preorder/change_preorder_status/${movedPreorderId}/${newStatus}`,
+                {
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+            if(response.status===200)
+            {
+                getAllPreorders()
+                setCurrentSection(newStatus);
+                const newFilteredPreorders = preordersData
+                    .filter(o => o.orderStatus === newStatus)
+                    .sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
+
+                const newIndex = newFilteredPreorders.findIndex(o => o.orderId === movedPreorderId);
+
+                setCurrentPreorderIndex(newIndex !== -1 ? newIndex : 0);
+                }
             }
-            return preorder;
-        });
-        setPreordersData(updatedPreorders);
-
-        setCurrentSection(newStatus);
-
-        const newFilteredPreorders = updatedPreorders
-            .filter(o => o.status === newStatus)
-            .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        const newIndex = newFilteredPreorders.findIndex(o => o.id === movedPreorderId);
-
-        setCurrentPreorderIndex(newIndex !== -1 ? newIndex : 0);
+            catch (error) {
+                console.error('Error fetching products:', error);
+            }
+        };
+    const getAllPreorders = async () =>{
+        try {
+            const response = await axios.get(`http://localhost:8080/api/in/user/preorder/get_all_preorders`);
+            console.log("Produse obținute de la API:", response.data.data);
+            setPreordersData(response.data.data); // Stocăm toate produsele
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
     };
+
+
+
+
+    useEffect(() => {
+        getAllPreorders();
+    }, []);
 
     return (
         <>
@@ -224,20 +250,20 @@ const PreordersAdmin = () => {
                 <h1 className="preorders-page-title">Preorders Management</h1>
                 <div className="preorders-section-buttons">
                     <button
-                        className={`section-button ${currentSection === 'placed' ? 'active' : ''}`}
-                        onClick={() => { setCurrentSection('placed'); setCurrentPreorderIndex(0); }}
+                        className={`section-button ${currentSection === 'ARRIVED' ? 'active' : ''}`}
+                        onClick={() => { setCurrentSection('ARRIVED'); setCurrentPreorderIndex(0); }}
                     >
                         Placed Preorders
                     </button>
                     <button
-                        className={`section-button ${currentSection === 'finished' ? 'active' : ''}`}
-                        onClick={() => { setCurrentSection('finished'); setCurrentPreorderIndex(0); }}
+                        className={`section-button ${currentSection === 'READY' ? 'active' : ''}`}
+                        onClick={() => { setCurrentSection('READY'); setCurrentPreorderIndex(0); }}
                     >
                         Finished Preorders
                     </button>
                     <button
-                        className={`section-button ${currentSection === 'history' ? 'active' : ''}`}
-                        onClick={() => { setCurrentSection('history'); setCurrentPreorderIndex(0); }}
+                        className={`section-button ${currentSection === 'SHIPPED' ? 'active' : ''}`}
+                        onClick={() => { setCurrentSection('SHIPPED'); setCurrentPreorderIndex(0); }}
                     >
                         Preorder History
                     </button>
@@ -254,18 +280,18 @@ const PreordersAdmin = () => {
                         {filteredPreorders.length > 0 ? (
                             <div className="preorder-card-actions">
                                 <PreorderCard preorder={currentPreorder} />
-                                {currentSection === 'placed' && (
+                                {currentSection === 'ARRIVED' && (
                                     <button
                                         className="preorders-admin-status-button"
-                                        onClick={() => changePreorderStatus('finished')}
+                                        onClick={() => changePreorderStatus('READY')}
                                     >
                                         Move to Finished
                                     </button>
                                 )}
-                                {currentSection === 'finished' && (
+                                {currentSection === 'READY' && (
                                     <button
                                         className="preorders-admin-status-button"
-                                        onClick={() => changePreorderStatus('history')}
+                                        onClick={() => changePreorderStatus('SHIPPED')}
                                     >
                                         Move to History
                                     </button>

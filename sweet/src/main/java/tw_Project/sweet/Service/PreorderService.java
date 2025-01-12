@@ -16,5 +16,6 @@ public interface PreorderService {
    public Preorder addNewPreorder(@RequestBody PreorderDto preorderDto);
    public void deletePreorder(Long preorderId);
 
+   public void changeOrderStatus(Long preorderId, String newStatus);
    public List<DisplayOrdersDto> getAllPreorders();
 }

@@ -13,10 +13,13 @@ import java.util.List;
 @Getter
 @Setter
 public class DisplayOrdersDto {
+    Long orderId;
     private Long addressId;
     Double price;
-    String deliveryMessage;
+    String orderStatus;
+    String phoneNumber;
     String deliveryMethod;
     String dateAndTime;
-    List<Product> products;
+    String addressVal;
+    List<ProductOrderDto> products;
 }

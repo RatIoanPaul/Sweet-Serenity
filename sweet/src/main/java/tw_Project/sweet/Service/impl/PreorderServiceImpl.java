@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tw_Project.sweet.Dto.DisplayOrdersDto;
 import tw_Project.sweet.Dto.PreorderDto;
+import tw_Project.sweet.Dto.ProductOrderDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.*;
 import tw_Project.sweet.Model.enums.DeliveryMethod;
+import tw_Project.sweet.Model.enums.OrderStatus;
 import tw_Project.sweet.Repository.AddressRepository;
 import tw_Project.sweet.Repository.PreorderDetailsRepository;
 import tw_Project.sweet.Repository.PreorderRepository;
@@ -36,18 +38,31 @@ public class PreorderServiceImpl implements PreorderService {
     @Override
     public Preorder addNewPreorder(PreorderDto preorderDto) {
         Preorder preorder = new Preorder();
-        Optional<Address> optionalAddress = addressRepository.getAddressesByAddressId(preorderDto.getAddressId());
+
+        if(preorderDto.getDeliveryMethod().equals("COURIER"))
+        {Optional<Address> optionalAddress = addressRepository.getAddressesByAddressId(preorderDto.getAddressId());
         if(optionalAddress.isPresent()){
             Address address = optionalAddress.get();
             preorder.setAddress(address);
             preorder.setDateAndTime(preorderDto.getDateAndTime());
             preorder.setDeliveryMethod(DeliveryMethod.valueOf(preorderDto.getDeliveryMethod()));
-            preorder.setDeliveryMessage(preorderDto.getDeliveryMessage());
+            preorder.setDeliveryMessage(preorderDto.getPhoneNumber());
             preorder.setPrice(preorderDto.getPrice());
+            preorder.setOrderStatus(OrderStatus.ARRIVED);
             return preorderRepository.save(preorder);
         }
         else{
             throw new BadRequestException("There is no address with this id");
+        }
+        }
+        else{
+            preorder.setDateAndTime(preorderDto.getDateAndTime());
+            preorder.setDeliveryMethod(DeliveryMethod.valueOf(preorderDto.getDeliveryMethod()));
+            preorder.setDeliveryMessage(preorderDto.getPhoneNumber());
+            preorder.setPrice(preorderDto.getPrice());
+            preorder.setOrderStatus(OrderStatus.ARRIVED);
+
+            return preorderRepository.save(preorder);
         }
     }
 
@@ -64,25 +79,63 @@ public class PreorderServiceImpl implements PreorderService {
     }
 
     @Override
+    public void changeOrderStatus(Long preorderId, String newStatus) {
+        Optional<Preorder> optionalOrder = preorderRepository.getPreordersByIdPreorder(preorderId);
+        if(optionalOrder.isPresent()){
+            Preorder preorder = optionalOrder.get();
+            preorder.setOrderStatus(OrderStatus.valueOf(newStatus));
+            preorderRepository.save(preorder);
+        }
+        else{
+            throw new BadRequestException("There is no order with this id");
+        }
+    }
+
+    @Override
     public List<DisplayOrdersDto> getAllPreorders() {
         List<Preorder> preorders = preorderRepository.findAll();
         List<DisplayOrdersDto> displayOrdersDtos = new ArrayList<>();
         for(Preorder preorder: preorders)
         {
             DisplayOrdersDto displayOrdersDto =  new DisplayOrdersDto();
-            displayOrdersDto.setAddressId(preorder.getAddress().getAddressId());
+            if(preorder.getDeliveryMethod().equals(DeliveryMethod.COURIER))
+            {
+                Optional<Address> address = addressRepository.getAddressesByAddressId(preorder.getAddress().getAddressId());
+                if(address.isPresent())
+                {
+                    displayOrdersDto.setAddressVal(address.get().getAddress());
+                    displayOrdersDto.setAddressId(address.get().getAddressId());
+                }
+            }
+
             displayOrdersDto.setPrice(preorder.getPrice());
+            displayOrdersDto.setOrderId(preorder.getIdPreorder());
+            displayOrdersDto.setPhoneNumber(preorder.getDeliveryMessage());
             displayOrdersDto.setDeliveryMethod(preorder.getDeliveryMethod().toString());
-            displayOrdersDto.setDeliveryMessage(preorder.getDeliveryMessage());
             displayOrdersDto.setDateAndTime(preorder.getDateAndTime());
-            List<Product> orderProducts = new ArrayList<>();
+            displayOrdersDto.setOrderStatus(String.valueOf(preorder.getOrderStatus()));
+
+            List<ProductOrderDto> orderProducts = new ArrayList<>();
             List<PreorderDetails> preorderDetails = preorderDetailsRepository.findAllByPreorder(preorder);
+
             for(PreorderDetails preorderDetail: preorderDetails){
                 PreorderItemList preorderItemList = preorderDetail.getPreorderItemList();
                 Product product = preorderItemList.getProduct();
-                orderProducts.add(product);
+
+                ProductOrderDto productOrderDto = new ProductOrderDto();
+                productOrderDto.setId(product.getId());
+                productOrderDto.setName(product.getName());
+                productOrderDto.setDescriptions(product.getDescriptions());
+                productOrderDto.setProductCategory(product.getProductCategory());
+                productOrderDto.setProductImgUrl(product.getProductImgUrl());
+                productOrderDto.setQuantity(preorderItemList.getQuantity());
+                productOrderDto.setPrice(product.getPrice());
+
+                orderProducts.add(productOrderDto);
             }
             displayOrdersDto.setProducts(orderProducts);
+            displayOrdersDtos.add(displayOrdersDto);
+
         }
         return displayOrdersDtos;
     }

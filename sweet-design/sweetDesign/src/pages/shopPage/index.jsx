@@ -151,7 +151,7 @@ const Shop = () => {
                     {/* Afișează detaliile produsului selectat */}
                     {selectedProduct && (
                         <DescriptionCard
-                            image={getImageForCategory(selectedProduct.productCategory)}
+                            image={selectedProduct.productImgUrl}
                             productId={selectedProduct.id}
                             productName={selectedProduct.name}
                             description={selectedProduct.descriptions}

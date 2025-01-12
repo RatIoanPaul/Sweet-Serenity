@@ -36,6 +36,7 @@ import pr8 from '../../images/pr8.jpeg';
 import Navbar from "../../components/navbar/index.jsx";
 import ProductCard from "../../components/productCard/index.jsx";
 import DescriptionCard from "../../components/descriptionCard/index.jsx";
+import axios from "axios";
 
 const eventProducts = {
     wedding: [
@@ -123,6 +124,8 @@ const Events = () => {
     const [currentEvent, setCurrentEvent] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showAvailableProducts, setShowAvailableProducts] = useState(false);
+    const [allProducts, setAllProducts] = useState([]);
+
 
     const events = [
         { name: 'Wedding', value: 'wedding', imgSrc: wed },
@@ -164,20 +167,33 @@ const Events = () => {
                     </button>
                 </div>
                 <DescriptionCard
-                    image={selectedProduct.imgSrc}
+                    image={selectedProduct.productImgUrl}
                     productName={selectedProduct.name}
-                    description={selectedProduct.description}
+                    description={selectedProduct.descriptions}
                     ingredients={selectedProduct.ingredients}
                     price={selectedProduct.price}
+                    isFavourite={true}
+                    productId={selectedProduct.id}
                     allergy="Contains gluten and dairy"
                 />
             </>
         );
     }
 
-    if (showAvailableProducts) {
-        const allProducts = Object.values(eventProducts).flat();
+    const fetchProducts = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/in/products/getProducts');
+            const allProducts1 = response.data.data || [];
+            setAllProducts(allProducts1.filter(product => product.productStatus === 'ACTIVE'));
+            console.log(response.data.data)
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
+    if (showAvailableProducts) {
+        //const allProducts = Object.values(eventProducts).flat();
+        fetchProducts()
         return (
             <>
                 <Navbar />
@@ -200,7 +216,7 @@ const Events = () => {
                             {allProducts.map((product, index) => (
                                 <ProductCard
                                     key={index}
-                                    image={product.imgSrc}
+                                    image={product.productImgUrl}
                                     price={product.price}
                                     name={product.name}
                                     ingredients={product.ingredients}

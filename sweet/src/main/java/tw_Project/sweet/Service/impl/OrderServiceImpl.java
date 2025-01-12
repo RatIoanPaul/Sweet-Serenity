@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tw_Project.sweet.Dto.DisplayOrdersDto;
 import tw_Project.sweet.Dto.OrderDto;
+import tw_Project.sweet.Dto.ProductOrderDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.*;
 import tw_Project.sweet.Model.enums.DeliveryMethod;
@@ -35,19 +36,32 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order addNewOrder(OrderDto orderDto) {
         Order order = new Order();
-        Optional<Address> optionalAddress = addressRepository.getAddressesByAddressId(orderDto.getAddressId());
-        if(optionalAddress.isPresent()){
-            Address address = optionalAddress.get();
-            order.setAddress(address);
+        System.out.print(orderDto.getPhoneNumber());
+        if(orderDto.getDeliveryMethod().equals(String.valueOf(DeliveryMethod.COURIER)))
+            {
+                Optional<Address> optionalAddress = addressRepository.getAddressesByAddressId(orderDto.getAddressId());
+                if(optionalAddress.isPresent()){
+                    Address address = optionalAddress.get();
+                    order.setAddress(address);
+
+                    order.setDeliveryMessage(orderDto.getPhoneNumber());
+                    order.setDateAndTime(orderDto.getDateAndTime());
+                    order.setPrice(orderDto.getPrice());
+                    order.setDeliveryMethod(DeliveryMethod.valueOf(orderDto.getDeliveryMethod()));
+                    order.setOrderStatus(OrderStatus.ARRIVED);
+                    return orderRepository.save(order);
+                }
+                else{
+                    throw new BadRequestException("There is no address with this id");
+                }
+            }
+        else{
             order.setDateAndTime(orderDto.getDateAndTime());
             order.setDeliveryMethod(DeliveryMethod.valueOf(orderDto.getDeliveryMethod()));
-            order.setDeliveryMessage(orderDto.getDeliveryMessage());
-            order.setPrice(orderDto.getPrice());
             order.setOrderStatus(OrderStatus.ARRIVED);
+            order.setDeliveryMessage(orderDto.getPhoneNumber());
+            order.setPrice(orderDto.getPrice());
             return orderRepository.save(order);
-        }
-        else{
-            throw new BadRequestException("There is no address with this id");
         }
     }
 
@@ -69,6 +83,7 @@ public class OrderServiceImpl implements OrderService {
         if(optionalOrder.isPresent()){
             Order order = optionalOrder.get();
             order.setOrderStatus(OrderStatus.valueOf(newOrderStatus));
+            orderRepository.save(order);
         }
         else{
             throw new BadRequestException("There is no order with this id");
@@ -78,23 +93,50 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<DisplayOrdersDto> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
+
         List<DisplayOrdersDto> displayOrdersDtos = new ArrayList<>();
         for(Order order: orders)
         {
+
             DisplayOrdersDto displayOrdersDto =  new DisplayOrdersDto();
-            displayOrdersDto.setAddressId(order.getAddress().getAddressId());
+            if(order.getDeliveryMethod().equals(DeliveryMethod.COURIER))
+            {
+                Optional<Address> address = addressRepository.getAddressesByAddressId(order.getAddress().getAddressId());
+                if(address.isPresent())
+                {
+                    displayOrdersDto.setAddressVal(address.get().getAddress());
+                    displayOrdersDto.setAddressId(address.get().getAddressId());
+                }
+
+            }
+
             displayOrdersDto.setPrice(order.getPrice());
+            displayOrdersDto.setOrderId(order.getIdOrder());
+            displayOrdersDto.setOrderStatus(String.valueOf(order.getOrderStatus()));
+            displayOrdersDto.setPhoneNumber(order.getDeliveryMessage());
             displayOrdersDto.setDeliveryMethod(order.getDeliveryMethod().toString());
-            displayOrdersDto.setDeliveryMessage(order.getDeliveryMessage());
             displayOrdersDto.setDateAndTime(order.getDateAndTime());
-            List<Product> orderProducts = new ArrayList<>();
+
+            List<ProductOrderDto> orderProducts = new ArrayList<>();
             List<OrderDetails> orderDetails = orderDetailsRepository.findAllByOrder(order);
+
             for(OrderDetails orderDetail: orderDetails){
                 CartItem cartItem = orderDetail.getCartItem();
                 Product product = cartItem.getProduct();
-                orderProducts.add(product);
+
+                ProductOrderDto productOrderDto = new ProductOrderDto();
+                productOrderDto.setId(product.getId());
+                productOrderDto.setName(product.getName());
+                productOrderDto.setDescriptions(product.getDescriptions());
+                productOrderDto.setProductCategory(product.getProductCategory());
+                productOrderDto.setProductImgUrl(product.getProductImgUrl());
+                productOrderDto.setQuantity(cartItem.getQuantity());
+                productOrderDto.setPrice(product.getPrice());
+
+                orderProducts.add(productOrderDto);
             }
             displayOrdersDto.setProducts(orderProducts);
+            displayOrdersDtos.add(displayOrdersDto);
         }
         return displayOrdersDtos;
     }
