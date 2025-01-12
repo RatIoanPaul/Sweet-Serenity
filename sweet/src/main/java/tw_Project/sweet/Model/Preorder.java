@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tw_Project.sweet.Model.enums.DeliveryMethod;
+import tw_Project.sweet.Model.enums.OrderStatus;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,4 +28,6 @@ public class Preorder {
     @Enumerated(EnumType.STRING)
     DeliveryMethod deliveryMethod;
     String dateAndTime;
+    @Enumerated(EnumType.STRING)
+    OrderStatus orderStatus;
 }

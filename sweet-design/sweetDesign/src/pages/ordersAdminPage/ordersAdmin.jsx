@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from "../../components/navbar/index.jsx";
 import OrderCard from "../../components/orderCard/order.jsx";
 import cakeImage from '../../images/cake-image.jpeg';
@@ -6,6 +6,7 @@ import cupcakeImage from '../../images/cake-image.jpeg';
 import cookieImage from '../../images/cookie-image.jpeg';
 import sweetsImage from '../../images/sweets-image.jpeg';
 import './styleOrdersAdmin.css';
+import axios from "axios";
 
 const initialOrders = [
     {
@@ -166,13 +167,13 @@ const initialOrders = [
 ];
 
 const OrdersAdmin = () => {
-    const [ordersData, setOrdersData] = useState(initialOrders);
-    const [currentSection, setCurrentSection] = useState('placed');
+    const [ordersData, setOrdersData] = useState([]);
+    const [currentSection, setCurrentSection] = useState('ARRIVED');
     const [currentOrderIndex, setCurrentOrderIndex] = useState(0);
 
     const filteredOrders = ordersData
-        .filter(o => o.status === currentSection)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
+        .filter(o => o.orderStatus === currentSection)
+        .sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
 
     const handlePrev = () => {
         if (filteredOrders.length === 0) return;
@@ -180,6 +181,16 @@ const OrdersAdmin = () => {
             setCurrentOrderIndex(filteredOrders.length - 1);
         } else {
             setCurrentOrderIndex(currentOrderIndex - 1);
+        }
+    };
+
+    const getAllOrders = async () =>{
+        try {
+            const response = await axios.get(`http://localhost:8080/api/in/user/order/get_all_orders`);
+            console.log("Produse obținute de la API:", response.data.data);
+            setOrdersData(response.data.data); // Stocăm toate produsele
+        } catch (error) {
+            console.error('Error fetching products:', error);
         }
     };
 
@@ -194,30 +205,43 @@ const OrdersAdmin = () => {
 
     const currentOrder = filteredOrders[currentOrderIndex];
 
-    const changeOrderStatus = (newStatus) => {
+    const changeOrderStatus = async (newStatus) => {
+
         if (!currentOrder) return;
-        const movedOrderId = currentOrder.id;
+        const movedOrderId = currentOrder.orderId;
+        console.log(currentOrder)
+        try{
+            console.log(newStatus)
+            const response = await axios.post(`http://localhost:8080/api/in/user/order/change_order_status/${movedOrderId}/${newStatus}`,
+                {
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                });
+            if(response.status===200){
+                console.log(response)
+                setCurrentSection(newStatus);
+                getAllOrders()
+                const newFilteredOrders = ordersData
+                    .filter(o => o.status === newStatus)
+                    .sort((a, b) => new Date(a.dateAndTime) - new Date(b.dateAndTime));
 
-        const updatedOrders = ordersData.map(order => {
-            if (order.id === movedOrderId) {
-                return { ...order, status: newStatus };
+                const newIndex = newFilteredOrders.findIndex(o => o.id === movedOrderId);
+
+                setCurrentOrderIndex(newIndex !== -1 ? newIndex : 0);
             }
-            return order;
-        });
-        setOrdersData(updatedOrders);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
 
-        setCurrentSection(newStatus);
 
-        const newFilteredOrders = updatedOrders
-            .filter(o => o.status === newStatus)
-            .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        const newIndex = newFilteredOrders.findIndex(o => o.id === movedOrderId);
-
-        setCurrentOrderIndex(newIndex !== -1 ? newIndex : 0);
     };
 
-
+    useEffect(() => {
+        getAllOrders();
+    }, []);
 
     return (
         <>
@@ -226,20 +250,20 @@ const OrdersAdmin = () => {
                 <h1 className="orders-page-title">Orders Management</h1>
                 <div className="orders-section-buttons">
                     <button
-                        className={`section-button ${currentSection === 'placed' ? 'active' : ''}`}
-                        onClick={() => { setCurrentSection('placed'); setCurrentOrderIndex(0); }}
+                        className={`section-button ${currentSection === 'ARRIVED' ? 'active' : ''}`}
+                        onClick={() => { setCurrentSection('ARRIVED'); setCurrentOrderIndex(0); }}
                     >
                         Placed Orders
                     </button>
                     <button
-                        className={`section-button ${currentSection === 'finished' ? 'active' : ''}`}
-                        onClick={() => { setCurrentSection('finished'); setCurrentOrderIndex(0); }}
+                        className={`section-button ${currentSection === 'READY' ? 'active' : ''}`}
+                        onClick={() => { setCurrentSection('READY'); setCurrentOrderIndex(0); }}
                     >
                         Finished Orders
                     </button>
                     <button
-                        className={`section-button ${currentSection === 'history' ? 'active' : ''}`}
-                        onClick={() => { setCurrentSection('history'); setCurrentOrderIndex(0); }}
+                        className={`section-button ${currentSection === 'SHIPPED' ? 'active' : ''}`}
+                        onClick={() => { setCurrentSection('SHIPPED'); setCurrentOrderIndex(0); }}
                     >
                         Order History
                     </button>
@@ -256,18 +280,18 @@ const OrdersAdmin = () => {
                         {filteredOrders.length > 0 ? (
                             <div className="order-card-actions">
                                 <OrderCard order={currentOrder} />
-                                {currentSection === 'placed' && (
+                                {currentSection === 'ARRIVED' && (
                                     <button
                                         className="orders-admin-status-button"
-                                        onClick={() => changeOrderStatus('finished')}
+                                        onClick={() => changeOrderStatus('READY')}
                                     >
                                         Move to Finished
                                     </button>
                                 )}
-                                {currentSection === 'finished' && (
+                                {currentSection === 'READY' && (
                                     <button
                                         className="orders-admin-status-button"
-                                        onClick={() => changeOrderStatus('history')}
+                                        onClick={() => changeOrderStatus('SHIPPED')}
                                     >
                                         Move to History
                                     </button>

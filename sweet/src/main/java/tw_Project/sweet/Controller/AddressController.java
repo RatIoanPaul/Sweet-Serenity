@@ -30,6 +30,7 @@ public class AddressController {
             addressDto.setAddress(address.getAddress());
             addressDto.setUserEmail(address.getUser().getEmail());
             addressDto.setPhoneNumber(address.getPhoneNumber());
+            addressDto.setAddressId(address.getAddressId());
             addressDtoList.add(addressDto);
         }
         return ResponseEntity.ok(ApiResponse.success("All client addresses are successfully extracted", addressDtoList));

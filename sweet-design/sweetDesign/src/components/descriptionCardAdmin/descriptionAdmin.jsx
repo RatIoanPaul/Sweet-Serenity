@@ -105,7 +105,6 @@ const AdminDescriptionCard = ({
         setEditedDescription(description || "");
         setEditedType(type || "STOCK");
         setEditedIngredients(ingredients || "");
-        setEditedAllergy(allergy || "");
         setEditedPrice(price || "");
         setIsEditing(false);
     };
@@ -185,8 +184,6 @@ const AdminDescriptionCard = ({
                         <p>{editedType || "No type specified."}</p>
                         <h4>Ingredients:</h4>
                         <p>{editedIngredients || "No ingredients listed."}</p>
-                        <h4>Allergy Information:</h4>
-                        <p>{editedAllergy || "No allergy information available."}</p>
                         <h4>Pricing: {editedPrice || "N/A"}</h4>
                     </>
                 ) : (
@@ -224,14 +221,6 @@ const AdminDescriptionCard = ({
                                 type="text"
                                 value={editedIngredients}
                                 onChange={(e) => setEditedIngredients(e.target.value)}
-                            />
-                        </label>
-                        <label>
-                            Allergy Information:
-                            <input
-                                type="text"
-                                value={editedAllergy}
-                                onChange={(e) => setEditedAllergy(e.target.value)}
                             />
                         </label>
                         <label>

@@ -123,7 +123,7 @@ const Preorder = () => {
                             {filteredProducts.map((product, index) => (
                                 <ProductCard
                                     key={index}
-                                    image={getImageForCategory(product.productCategory)}
+                                    image={product.productImgUrl}
                                     price={product.price}
                                     name={product.name}
                                     ingredients={product.ingredients}
@@ -143,12 +143,12 @@ const Preorder = () => {
                     {/* Afișează detaliile produsului selectat */}
                     {selectedProduct && (
                         <DescriptionCard
-                            image={getImageForCategory(selectedProduct.productCategory)}
+                            image={selectedProduct.productImgUrl}
                             productId={selectedProduct.id}
                             productName={selectedProduct.name}
-                            description={selectedProduct.description || "No description available"}
-                            ingredients={selectedProduct.ingredients || "No ingredients listed"}
-                            price={selectedProduct.price || "N/A"}
+                            description={selectedProduct.descriptions }
+                            ingredients={selectedProduct.ingredients}
+                            price={selectedProduct.price}
                             allergy="Contains gluten and dairy"
                             isPreorder={true} // Context specific pentru preorder
                         />

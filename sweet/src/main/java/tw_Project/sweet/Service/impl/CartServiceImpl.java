@@ -59,8 +59,18 @@ public class CartServiceImpl implements CartService {
                         Optional<CartItem> optionalExistingProductInCart = cartRepository.getCartByProductAndUser(product, user);
                         if(optionalExistingProductInCart.isPresent()){
                             CartItem existingProductInCart = optionalExistingProductInCart.get();
-                            existingProductInCart.setQuantity(existingProductInCart.getQuantity()+1);
-                            cartRepository.save(existingProductInCart);
+                            if(existingProductInCart.getProductCartStatus().equals(ProductCartStatus.CART))
+                            {
+                                existingProductInCart.setQuantity(existingProductInCart.getQuantity()+1);
+                                cartRepository.save(existingProductInCart);
+                            }
+                            else{
+                                cart.setProduct(product);
+                                cart.setUser(user);
+                                cart.setQuantity(1);
+                                cart.setProductCartStatus(ProductCartStatus.CART);
+                                cartRepository.save(cart);
+                            }
                         }
                         else{
                             cart.setProduct(product);
@@ -142,7 +152,7 @@ public class CartServiceImpl implements CartService {
         Optional<User> userOptional = userRepository.getUserByEmail(userEmail);
         if(userOptional.isPresent()){
             user = userOptional.get();
-            cartProducts = cartRepository.getAllByUser(user);
+            cartProducts = cartRepository.getAllByUserAndProductCartStatus(user, ProductCartStatus.CART);
             return cartProducts;
         }
         else{

@@ -35,6 +35,7 @@ const Checkout = () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/in/user/cart/get_user_cart_products/${userEmail}`);
                 console.log("Produse obținute de la API:", response.data.data);
+                const allCartItems = response.data.data
                 setCartItems(response.data.data); // Stocăm toate produsele
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -112,7 +113,7 @@ const Checkout = () => {
         const deliveryCost = 5.00; // Fixed delivery cost
         return {
             productCost,
-            totalPrice: (parseFloat(productCost) + deliveryCost).toFixed(2)
+            totalPrice: (parseFloat(productCost)).toFixed(2)
         };
     };
 
@@ -148,8 +149,8 @@ const Checkout = () => {
                     {cartItems.length > 0 && (
                         <div className="total-card">
                             <Total
-                                productCost={`$${productCost}`}
-                                totalPrice={`$${totalPrice}`}
+                                productCost={productCost}
+                                totalPrice={totalPrice}
                                 page="checkout"
                             />
                         </div>

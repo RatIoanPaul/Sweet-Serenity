@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './styleOrder.css';
 
 const OrderCard = ({ order }) => {
-    const { id, date, deadline, deliveryMethod, totalPrice, products, phoneNumber, address } = order;
+    const { orderId, dateAndTime, deliveryMethod, price, products, phoneNumber, addressVal } = order;
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const handleProductClick = (product) => {
@@ -18,18 +18,17 @@ const OrderCard = ({ order }) => {
     return (
         <div className="admin-order-card-container">
             <div className="admin-order-card-header">
-                <h2 className="admin-order-card-id">Order #{id}</h2>
+                <h2 className="admin-order-card-id">Order #{orderId}</h2>
             </div>
             <div className="admin-order-card-details-section">
                 <div className="admin-order-card-info">
-                    <p><strong> Order Date:</strong> {date}</p>
-                    <p><strong> Deadline:</strong> {deadline}</p>
+                    <p><strong> Order Date:</strong> {dateAndTime}</p>
                     <p><strong> Phone:</strong> {phoneNumber}</p>
                     <p><strong> Delivery:</strong> {deliveryMethod}</p>
                     {isCourier && (
-                        <p><strong> Address:</strong> {address}</p>
+                        <p><strong> Address:</strong> {addressVal}</p>
                     )}
-                    <p><strong> Total Price:</strong> {totalPrice} $</p>
+                    <p><strong> Total Price:</strong> {price} $</p>
                 </div>
 
                 <h3 className="admin-order-card-section-title">Ordered Products</h3>
@@ -53,13 +52,13 @@ const OrderCard = ({ order }) => {
                     <div className="admin-order-card-modal-content">
                         <h4 className="admin-order-card-modal-title">Product Details</h4>
                         <img
-                            src={selectedProduct.image}
+                            src={selectedProduct.productImgUrl}
                             alt={selectedProduct.name}
                             className="admin-order-card-modal-image"
                         />
                         <p><strong>Name:</strong> {selectedProduct.name}</p>
                         <p><strong>Price:</strong> {selectedProduct.price} $</p>
-                        <p><strong>Category:</strong> {selectedProduct.category}</p>
+                        <p><strong>Category:</strong> {selectedProduct.productCategory}</p>
                         <p><strong>Quantity:</strong> {selectedProduct.quantity}</p>
                         {selectedProduct.ingredients && (
                             <p><strong>Ingredients:</strong> {selectedProduct.ingredients}</p>

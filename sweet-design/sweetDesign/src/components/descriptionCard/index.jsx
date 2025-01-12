@@ -14,6 +14,7 @@ const DescriptionCard = ({
                              allergy,
                              productId,
                              isPreorder,
+                            isFavourite
                          }) => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
@@ -79,6 +80,36 @@ const DescriptionCard = ({
         setIsPopupVisible(true);
     };
 
+    const addToFavourite = async ()=>{
+        const token = localStorage.getItem("token");
+        const decodeToken = parseJwt(token);
+        const userEmail = decodeToken.email;
+
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/api/in/user/favourite/addNewProductToFavourite",
+                {
+                    productId: productId,
+                    quantity: 1,
+                    userEmail: userEmail,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                }
+            );
+            console.log("Response:", response.data);
+            if (response.status === 200) setPopupMessage("Product added to favourite successfully!");
+        } catch (error) {
+            setPopupMessage("Failed to add product to favourite. Please try again.");
+        }
+        setIsPopupVisible(true);
+
+    }
+
     const handleClosePopup = () => {
         setIsPopupVisible(false);
     };
@@ -89,9 +120,9 @@ const DescriptionCard = ({
                 <img src={image} alt={name} className="description-card-product-image" />
                 <button
                     className="description-card-add-to-cart-btn"
-                    onClick={isPreorder ? addToPreorder : addToCart}
+                    onClick = {isFavourite ? addToFavourite : isPreorder ? addToPreorder : addToCart}
                 >
-                    {location.pathname === "/events"
+                    {isFavourite
                         ? "Add to favourites"
                         : isPreorder
                             ? "Add to preorder"

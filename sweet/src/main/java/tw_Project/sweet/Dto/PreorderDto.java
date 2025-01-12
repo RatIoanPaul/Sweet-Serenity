@@ -14,4 +14,5 @@ public class PreorderDto {
     String deliveryMessage;
     String deliveryMethod;
     String dateAndTime;
+    String phoneNumber;
 }

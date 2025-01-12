@@ -22,7 +22,6 @@ const Products = () => {
     const [newType, setNewType] = useState('STOCK');
     const [newCategory, setNewCategory] = useState('GENERAL');
     const [newIngredients, setNewIngredients] = useState('');
-    const [newAllergy, setNewAllergy] = useState('');
     const [newPrice, setNewPrice] = useState('');
     const [newImageFile, setNewImageFile] = useState(null);
     const [newImagePreview, setNewImagePreview] = useState(null);
@@ -112,7 +111,6 @@ const Products = () => {
         setNewDescription('');
         setNewType('STOCK');
         setNewIngredients('');
-        setNewAllergy('');
         setNewPrice('');
         setNewImageFile(null);
         setNewImagePreview(null);
@@ -173,7 +171,6 @@ const Products = () => {
                 setNewDescription('');
                 setNewType('STOCK');
                 setNewIngredients('');
-                setNewAllergy('');
                 setNewPrice('');
                 setNewImageFile(null);
                 setNewImagePreview(null);
@@ -241,8 +238,7 @@ const Products = () => {
                             price={selectedProduct.price}
                             name={selectedProduct.name}
                             ingredients={selectedProduct.ingredients}
-                            description={selectedProduct.description}
-                            allergy={selectedProduct.allergy || "Contains gluten and dairy"}
+                            description={selectedProduct.descriptions}
                             type={selectedProduct.type}
                             onDeleteProduct={(id) => {
                                 setProducts(products.filter((product) => product.id !== id));
@@ -300,14 +296,7 @@ const Products = () => {
                                     onChange={(e) => setNewIngredients(e.target.value)}
                                 />
                             </label>
-                            <label>
-                                Allergy Information:
-                                <input
-                                    type="text"
-                                    value={newAllergy}
-                                    onChange={(e) => setNewAllergy(e.target.value)}
-                                />
-                            </label>
+
                             <label>
                                 Pricing:
                                 <input

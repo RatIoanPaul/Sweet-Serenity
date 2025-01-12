@@ -49,6 +49,7 @@ public class StockProductsServiceImpl implements StockProductsService {
             stockProductDto.setName(product.getName());
             stockProductDto.setCategory(String.valueOf(product.getProductCategory()));
             stockProductDto.setProductId(product.getId());
+            stockProductDto.setProductImgUrl(product.getProductImgUrl());
             Optional<StockProducts> optionalStockProducts = stockProductsRepository.getStockProductsByProduct(product);
             if(optionalStockProducts.isPresent()){
                 StockProducts stockProducts = optionalStockProducts.get();

@@ -48,8 +48,8 @@ public class OrderController {
         return ResponseEntity.ok(ApiResponse.success("New order added successfully", null));
     }
 
-    @PostMapping("/change_order_status/{orderId}")
-    public ResponseEntity<ApiResponse> changeOrderStatus(@PathVariable Long orderId,@RequestBody String orderStatus ){
+    @PostMapping("/change_order_status/{orderId}/{orderStatus}")
+    public ResponseEntity<ApiResponse> changeOrderStatus(@PathVariable Long orderId,@PathVariable String orderStatus ){
         orderService.changeOrderStatus(orderId, orderStatus);
         return ResponseEntity.ok(ApiResponse.success("Order status changed successfully", null));
     }

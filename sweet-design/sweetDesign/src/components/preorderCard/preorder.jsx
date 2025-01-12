@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './stylePreorder.css';
 
 const PreorderCard = ({ preorder }) => {
-    const { id, date, deadline, deliveryMethod, totalPrice, products, phoneNumber, address } = preorder;
+    const { orderId, dateAndTime, deliveryMethod, price, products, phoneNumber, addressVal } = preorder;
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const handleProductClick = (product) => {
@@ -18,18 +18,17 @@ const PreorderCard = ({ preorder }) => {
     return (
         <div className="admin-preorder-card-container">
             <div className="admin-preorder-card-header">
-                <h2 className="admin-preorder-card-id">Preorder #{id}</h2>
+                <h2 className="admin-preorder-card-id">Preorder #{orderId}</h2>
             </div>
             <div className="admin-preorder-card-details-section">
                 <div className="admin-preorder-card-info">
-                    <p><strong> Preorder Date:</strong> {date}</p>
-                    <p><strong> Deadline:</strong> {deadline}</p>
+                    <p><strong> Deadline:</strong> {dateAndTime}</p>
                     <p><strong> Phone:</strong> {phoneNumber}</p>
                     <p><strong> Delivery:</strong> {deliveryMethod}</p>
                     {isCourier && (
-                        <p><strong> Address:</strong> {address}</p>
+                        <p><strong> Address:</strong> {addressVal}</p>
                     )}
-                    <p><strong> Total Price:</strong> {totalPrice} $</p>
+                    <p><strong> Total Price:</strong> {price} $</p>
                 </div>
 
                 <h3 className="admin-preorder-card-section-title">Preordered Products</h3>
@@ -53,13 +52,13 @@ const PreorderCard = ({ preorder }) => {
                     <div className="admin-preorder-card-modal-content">
                         <h4 className="admin-preorder-card-modal-title">Product Details</h4>
                         <img
-                            src={selectedProduct.image}
+                            src={selectedProduct.productImgUrl}
                             alt={selectedProduct.name}
                             className="admin-preorder-card-modal-image"
                         />
                         <p><strong>Name:</strong> {selectedProduct.name}</p>
                         <p><strong>Price:</strong> {selectedProduct.price} $</p>
-                        <p><strong>Category:</strong> {selectedProduct.category}</p>
+                        <p><strong>Category:</strong> {selectedProduct.productCategory}</p>
                         <p><strong>Quantity:</strong> {selectedProduct.quantity}</p>
                         {selectedProduct.ingredients && (
                             <p><strong>Ingredients:</strong> {selectedProduct.ingredients}</p>

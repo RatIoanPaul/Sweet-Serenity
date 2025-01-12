@@ -33,7 +33,9 @@ public class PreorderController {
     @PostMapping("/addPreorder/{userEmail}")
     public ResponseEntity<ApiResponse> AddPreorder(@RequestBody PreorderDto preorderDto, @PathVariable String userEmail){
         Preorder preorder = preorderService.addNewPreorder(preorderDto);
+
         Long preorderId = preorder.getIdPreorder();
+
         boolean existing_intems = false;
         List<PreorderItemList> preorderItemLists = preorderItemService.getUserProductsPreorderList(userEmail);
         for(PreorderItemList preorderItemList: preorderItemLists) {
@@ -47,6 +49,12 @@ public class PreorderController {
             throw new BadRequestException("The preorder list is empty");
         }
         return ResponseEntity.ok(ApiResponse.success("New preorder added successfully", null));
+    }
+
+    @PostMapping("/change_preorder_status/{preorderId}/{orderStatus}")
+    public ResponseEntity<ApiResponse> changePreorderStatus(@PathVariable Long preorderId,@PathVariable String orderStatus ){
+        preorderService.changeOrderStatus(preorderId, orderStatus);
+        return ResponseEntity.ok(ApiResponse.success("Order status changed successfully", null));
     }
 
     @GetMapping("/get_all_preorders")

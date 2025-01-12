@@ -7,6 +7,7 @@ import tw_Project.sweet.Dto.UserCartProductDto;
 import tw_Project.sweet.Dto.UserPreorderItemInListDto;
 import tw_Project.sweet.Exceptions.BadRequestException;
 import tw_Project.sweet.Model.*;
+import tw_Project.sweet.Model.enums.PreorderItemStatus;
 import tw_Project.sweet.Repository.PreorderItemRepository;
 import tw_Project.sweet.Repository.ProductRepository;
 import tw_Project.sweet.Repository.UserRepository;
@@ -47,14 +48,26 @@ public class PreorderItemServiceImpl implements PreorderItemService {
                 PreorderItemList existingProductInCart;
                 if(optionalExistingProductInPreorderList.isPresent()){
                     existingProductInCart = optionalExistingProductInPreorderList.get();
-                    existingProductInCart.setQuantity(existingProductInCart.getQuantity()+1);
-                    preorderItemRepository.save(existingProductInCart);
+                    if(existingProductInCart.getPreorderItemStatus().equals(PreorderItemStatus.LIST))
+                    {
+                        existingProductInCart.setQuantity(existingProductInCart.getQuantity()+1);
+                        preorderItemRepository.save(existingProductInCart);
+                    }
+                    else{
+                        preorderItemList.setProduct(product);
+                        preorderItemList.setUser(user);
+                        preorderItemList.setObservations(preorderItemDto.getObservations());
+                        preorderItemList.setQuantity(1);
+                        preorderItemList.setPreorderItemStatus(PreorderItemStatus.LIST);
+                        preorderItemRepository.save(preorderItemList);
+                    }
                 }
                 else{
                     preorderItemList.setProduct(product);
                     preorderItemList.setUser(user);
                     preorderItemList.setObservations(preorderItemDto.getObservations());
                     preorderItemList.setQuantity(1);
+                    preorderItemList.setPreorderItemStatus(PreorderItemStatus.LIST);
                     preorderItemRepository.save(preorderItemList);
                 }
             }
@@ -100,7 +113,7 @@ public class PreorderItemServiceImpl implements PreorderItemService {
         Optional<User> userOptional = userRepository.getUserByEmail(userEmail);
         if(userOptional.isPresent()){
             user = userOptional.get();
-            preorderItemLists = preorderItemRepository.getAllByUser(user);
+            preorderItemLists = preorderItemRepository.getAllByUserAndPreorderItemStatus(user, PreorderItemStatus.LIST);
             return preorderItemLists;
         }
         else{
@@ -121,7 +134,7 @@ public class PreorderItemServiceImpl implements PreorderItemService {
             preorderItemDto.setProductId(product.getId());
             preorderItemDto.setProductCartId(preorderItemList.getIdPreorder());
             preorderItemDto.setProductName(product.getName());
-            preorderItemDto.setPhotoFilePath("inca nu avem");
+            preorderItemDto.setPhotoFilePath(product.getProductImgUrl());
             userPreorderProductsDtoList.add(preorderItemDto);
         }
         return userPreorderProductsDtoList;

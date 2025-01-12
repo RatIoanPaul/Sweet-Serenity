@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './styleSendO.css';
 import Navbar from "../../components/navbar/index.jsx";
-import { useNavigate } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {parseJwt} from "../../utils/authService.jsx";
 import axios from "axios";
 
 
+
 const SendOrder = () => {
-    const [deliveryMethod, setDeliveryMethod] = useState("pickup");
+    const [deliveryMethod, setDeliveryMethod] = useState("PERSONAL");
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [addressType, setAddressType] = useState("existing");
-    const [selectedAddress, setSelectedAddress] = useState("");
+    const [selectedAddressId, setSelectedAddressId] = useState("");
     const [newAddress, setNewAddress] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const location = useLocation();
+    const { price } = location.state || {};
 
     const navigate = useNavigate();
 
@@ -33,11 +37,8 @@ const SendOrder = () => {
             );
 
             if (response.status === 200) {
-                // Extrage adresele din răspunsul API
-                const addressList = response.data.data.map((item) => ({
-                    id: item.id,
-                    address: item.address,
-                }));
+                const addressList = response.data.data
+                console.log(addressList)
                 setAddresses(addressList);
             }
         } catch (error) {
@@ -45,23 +46,22 @@ const SendOrder = () => {
         }
     };
 
-    // ======= API: GET ADDRESSES =======
+
     useEffect(() => {
         fetchAdresses()
-
     }, []);
 
     const handleDeliveryMethodChange = (event) => {
         const method = event.target.value;
         setDeliveryMethod(method);
-        setDeliveryCost(method === "delivery" ? 10 : 0);
+        setDeliveryCost(method === "COURIER" ? 10 : 0);
     };
 
     const handleAddressSelect = (address) => {
-        setSelectedAddress(address);
+        setSelectedAddressId(address);
     };
 
-    // ======= API: POST NEW ADDRESS =======
+
     const fetchAddNewAdress = async () => {
         try {
             const response = await axios.post(
@@ -92,23 +92,17 @@ const SendOrder = () => {
     // ======= API: POST ORDER =======
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(price)
 
-        const orderData = {
-            deliveryMethod,
-            deliveryCost,
-            address: addressType === "new" ? newAddress : selectedAddress,
-            phoneNumber,
-        };
-
-        setLoading(true);
-        try {
+        const dateTime = new Date(Date.now());
+        const dateOnly = dateTime.toISOString().split('T')[0];        try {
             const response = await axios.post(
-
                 `http://localhost:8080/api/in/user/order/addOrder/${clientEmail}`, {
-                     addressId: 7,
-                     deliveryMessage: "",
-                     deliveryMethod: "COURIER",
-                     dateAndTime: ""
+                     addressId: selectedAddressId,
+                     deliveryMethod: deliveryMethod,
+                     dateAndTime: dateOnly,
+                     price:price,
+                     phoneNumber: phoneNumber
                 },
                 {
                     headers: {
@@ -119,6 +113,7 @@ const SendOrder = () => {
 
             if (response.status === 200) {
                 alert("Your order was sent!")
+                navigate("/")
             }
         } catch (error) {
             console.error("Error fetching addresses:", error);
@@ -140,12 +135,12 @@ const SendOrder = () => {
                                 value={deliveryMethod}
                                 onChange={handleDeliveryMethodChange}
                             >
-                                <option value="pickup">Pickup</option>
-                                <option value="delivery">Home Delivery</option>
+                                <option value="PERSONAL">Pickup</option>
+                                <option value="COURIER">Home Delivery</option>
                             </select>
                         </div>
 
-                        {deliveryMethod === "delivery" && (
+                        {deliveryMethod === "COURIER" && (
                             <p className="order-delivery-cost">Delivery Cost: ${deliveryCost}</p>
                         )}
 
@@ -160,7 +155,7 @@ const SendOrder = () => {
                             />
                         </div>
 
-                        {deliveryMethod === "delivery" && (
+                        {deliveryMethod === "COURIER" && (
                             <>
                                 <div className="order-form-group">
                                     <label>Address:</label>
@@ -176,13 +171,13 @@ const SendOrder = () => {
                                 {addressType === "existing" && (
                                     <div className="order-existing-addresses">
                                         {addresses.map((addressItem) => (
-                                            <div key={addressItem.id} className="order-address-option">
+                                            <div key={addressItem.addressId} className="order-address-option">
                                                 <input
                                                     type="radio"
                                                     name="address"
-                                                    value={addressItem.id}
-                                                    checked={selectedAddress === addressItem.id}
-                                                    onChange={() => handleAddressSelect(addressItem.id)}
+                                                    value={addressItem.addressId}
+                                                    checked={selectedAddressId === addressItem.addressId}
+                                                    onChange={() => handleAddressSelect(addressItem.addressId)}
                                                 />
                                                 <label className="order-address-label">{addressItem.address}</label>
                                             </div>
