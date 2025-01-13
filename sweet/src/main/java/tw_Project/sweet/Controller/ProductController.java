@@ -43,6 +43,7 @@ public class ProductController {
               @RequestParam("productImgFile") MultipartFile productImgFile){
         try {
             ProductDto productDto = new ProductDto();
+            productDto.setName(name);
             productDto.setCalories(calories);
             productDto.setType(type);
             productDto.setCategory(category);

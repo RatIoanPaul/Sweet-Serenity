@@ -26,7 +26,6 @@ const ProductShow = ({
             </div>
             <div className="ps-details">
                 <h2 className="ps-name">{name}</h2>
-                <p className="ps-description">{description || "No description available"}</p>
                 {location.pathname !== "/favourites" && (
                     <div className="ps-notes">
                         <textarea

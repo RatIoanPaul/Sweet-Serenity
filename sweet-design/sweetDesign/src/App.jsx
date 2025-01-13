@@ -21,6 +21,7 @@ import StockProducts from "./pages/stockProductsAdminPage/stockProducts.jsx";
 import OrdersAdmin from "./pages/ordersAdminPage/ordersAdmin.jsx";
 import PreordersAdmin from "./pages/preordersAdminPage/preordersAdmin.jsx";
 import RequestAdmin from "./pages/tastingRequestAdmin/requestAdmin.jsx";
+import ApplicationDocumentation from './pages/documentation/ApplicationDocumentation';
 
 const App = () => {
     return (
@@ -49,7 +50,7 @@ const App = () => {
                 <Route path="/ordersAdmin" element={<OrdersAdmin/>} />
                 <Route path="/preordersAdmin" element={<PreordersAdmin/>} />
                 <Route path="/tastingsAdmin" element={<RequestAdmin/>} />
-
+                <Route path="/documentation" element={<ApplicationDocumentation/>} />
 
 
             </Routes>

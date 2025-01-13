@@ -152,7 +152,7 @@ const Products = () => {
             formData.append('type', newType);
             formData.append('productImgFile', newImageFile); // Adăugăm fișierul
 
-            console.log(newImageFile)
+            console.log(newName)
             const response = await axios.post(
                 'http://localhost:8080/api/in/products/addProduct',
                 formData,

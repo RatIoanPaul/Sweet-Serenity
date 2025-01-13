@@ -133,7 +133,7 @@ const Checkout = () => {
                                     key={item.productCart}
                                     productCart={item}
                                     name={item.productName}
-                                    description={item.description}
+                                    description={item.descriptions}
                                     price={item.price}
                                     image={item.photoFilePath}
                                     quantity={item.quantity}

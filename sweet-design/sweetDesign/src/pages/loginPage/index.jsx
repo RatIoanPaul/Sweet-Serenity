@@ -26,8 +26,8 @@ const SignIn = () => {
                 email: email,
                 password: password
             });
-            console.log(response)
-            // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
+            console.log(response);
+
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.data.token);
                 const decodedToken = parseJwt(response.data.data.token);
@@ -35,14 +35,20 @@ const SignIn = () => {
 
                 if (role === "ADMIN") {
                     navigate('/admin');
-                }
-                else {
+                } else {
                     navigate('/');
                 }
             }
         } catch (error) {
             console.error("Error during login:", error);
-            setErrorMessage(error.message);
+
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message);
+            } else if (error.response) {
+                setErrorMessage('An error occurred: ' + error.response.statusText);
+            } else {
+                setErrorMessage('Network error. Please check your connection and try again.');
+            }
         }
     };
 
@@ -52,18 +58,20 @@ const SignIn = () => {
             const response = await axios.post('http://localhost:8080/api/auth/forgot-password/send-verification-code', {
                 email: resetEmail,
             });
-            console.log(response)
-            // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
+            console.log(response);
+
             if (response.status === 200) {
-                setResetMessage('');
-                setResetMessage("A reset code has been sent to your email.");
+                setResetMessage('A reset code has been sent to your email.');
                 setView('reset-code');
             }
         } catch (error) {
-            console.error("Error during login:", error);
-            setErrorMessage(error.message);
+            console.error("Error during password reset:", error);
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message);
+            } else {
+                setErrorMessage('Network error. Please check your connection and try again.');
+            }
         }
-
     };
 
     const handleResetCodeSubmit = async (e) => {
@@ -74,16 +82,19 @@ const SignIn = () => {
                 newPassword: newPassword,
                 code: resetCode
             });
-            console.log(response)
-            // Dacă autentificarea este reușită, salvează token-ul JWT și redirecționează
+            console.log(response);
+
             if (response.status === 200) {
-                console.log("Password reset successful");
                 setSuccessMessage("Your password has been successfully reset. Please log in.");
                 setView('sign-in');
             }
         } catch (error) {
-            console.error("Error during login:", error);
-            setErrorMessage(error.message);
+            console.error("Error during password reset code verification:", error);
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrorMessage(error.response.data.message);
+            } else {
+                setErrorMessage('Network error. Please check your connection and try again.');
+            }
         }
     };
 
@@ -92,7 +103,7 @@ const SignIn = () => {
             {view === 'sign-in' && (
                 <div className="sign-in-box">
                     <h2 className="sign-in-header">Sign in</h2>
-                    {successMessage && <p className="success-message">{successMessage}</p>} {/* Mesaj de succes */}
+                    {successMessage && <p className="success-message">{successMessage}</p>}
                     <form className="sign-in-form" onSubmit={handleLogIn}>
                         <div>
                             <label htmlFor="email">Email:</label>

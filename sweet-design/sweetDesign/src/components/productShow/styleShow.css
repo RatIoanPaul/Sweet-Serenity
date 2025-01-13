@@ -109,7 +109,7 @@
 }
 
 .ps-notes textarea {
-    width: 500px;
+    width: 100%;
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #f9e2d3;

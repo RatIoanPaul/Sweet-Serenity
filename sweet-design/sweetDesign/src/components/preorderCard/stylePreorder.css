@@ -160,6 +160,41 @@ body {
     color: #fff;
 }
 
+@media (max-width: 900px) {
+    .admin-preorder-card-container {
+        width: 500px;
+    }
+
+    .admin-preorder-card-id {
+        font-size: 20px;
+    }
+
+    .admin-preorder-card-info p {
+        font-size: 14px;
+    }
+
+    .admin-preorder-card-section-title {
+        font-size: 18px;
+    }
+
+    .admin-preorder-card-product-name {
+        font-size: 14px;
+    }
+
+    .admin-preorder-card-modal-title {
+        font-size: 18px;
+    }
+
+    .admin-preorder-card-modal-image {
+        width: 80px;
+    }
+
+    .admin-preorder-card-close-btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
 @media (max-width: 768px) {
     .admin-preorder-card-container {
         width: 600px;
@@ -192,6 +227,30 @@ body {
     .admin-preorder-card-close-btn {
         font-size: 12px;
         padding: 5px 10px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .admin-preorder-card-container {
+        width: 250px;
+    }
+    .admin-preorder-card-id {
+        font-size: 18px;
+    }
+
+    .admin-preorder-card-info p,
+    .admin-preorder-card-product-name {
+        font-size: 13px;
+    }
+
+    .admin-preorder-card-modal-title {
+        font-size: 16px;
+    }
+
+    .admin-preorder-card-close-btn {
+        font-size: 12px;
+        padding: 4px 8px;
     }
 }
 

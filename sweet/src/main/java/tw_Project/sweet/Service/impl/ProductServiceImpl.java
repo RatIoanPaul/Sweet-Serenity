@@ -36,16 +36,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product addNewProduct(ProductDto productDto, MultipartFile productImgFile) throws IOException {
         Product product = new Product();
-        String filePath = azureBlobStorageService.uploadFile(productImgFile);
+        //  String filePath = azureBlobStorageService.uploadFile(productImgFile);
 
         product.setProductCategory(ProductCategory.valueOf(productDto.getCategory()));
         product.setDescriptions(productDto.getDescriptions());
         product.setPrice(productDto.getPrice());
         product.setName(productDto.getName());
+        System.out.print(productDto.getName());
         product.setIngredients(productDto.getIngredients());
         product.setProductStatus(ProductStatus.ACTIVE);
         product.setProductType(ProductType.valueOf(productDto.getType()));
-        product.setProductImgUrl(filePath);
+        product.setProductImgUrl("https://sweetsphotos.blob.core.windows.net/photos/40.webp");
         return productRepository.save(product);
     }
 
